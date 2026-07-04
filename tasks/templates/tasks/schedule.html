@@ -1,0 +1,18 @@
+<table>
+    <thead>
+        <tr>
+            <th>工程名</th>
+            <th>所要時間</th>
+            <th>作業タイプ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.duration_minutes }}分</td>
+            <td>{{ task.work_type }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
