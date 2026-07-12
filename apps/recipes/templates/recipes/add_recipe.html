@@ -1,0 +1,12 @@
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <h3>工程</h3>
+    {{ formset.management_form }}
+    {% for step_form in formset %}
+        {{ step_form.as_p }}
+    {% endfor %}
+    
+    <button type="submit">保存する</button>
+</form>

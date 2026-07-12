@@ -5,4 +5,5 @@ app_name = 'recipes'
 
 urlpatterns = [
     path('', views.list_view, name='list'),
+    path('add/', views.add_recipe, name='add'),
 ]
