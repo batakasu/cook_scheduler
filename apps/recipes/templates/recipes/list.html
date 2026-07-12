@@ -2,9 +2,49 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>recipes</title>
+    <title>レシピ一覧</title>
+    <style>
+        /* 折りたたみ機能のデザイン */
+        details {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+        }
+        summary {
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+        }
+        summary:hover {
+            color: #007bff;
+        }
+        .step-content {
+            margin-top: 10px;
+            padding-left: 20px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>list</h1>
+    <h1>レシピ一覧</h1>
+
+    {% for recipe in recipes %}
+        <h2>{{ recipe.title }}</h2>
+        
+        <h3>工程</h3>
+        {% for step in recipe.steps.all %}
+            <details>
+                <summary>{{ step.order }}. {{ step.description|truncatechars:20 }}</summary>
+                <div class="step-content">
+                    <p>{{ step.description }}</p>
+                </div>
+            </details>
+        {% empty %}
+            <p>まだ工程が登録されていません。</p>
+        {% endfor %}
+        <hr>
+    {% endfor %}
 </body>
 </html>
