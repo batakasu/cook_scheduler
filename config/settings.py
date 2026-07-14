@@ -124,3 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+
+LOGIN_REDIRECT_URL = '/'  # ホーム画面つくったら変更してください
+LOGOUT_REDIRECT_URL = '/'
