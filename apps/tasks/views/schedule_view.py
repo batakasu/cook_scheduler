@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Task
+from apps.tasks.models import Task
 
 # Create your views here.
 def schedule_view(request):

@@ -1,12 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Recipe
-from .forms import RecipeForm, StepFormSet
+from apps.recipes.forms import RecipeForm, StepFormSet
 
 # Create your views here.
-def list_view(request):
-    recipes = Recipe.objects.all()
-    return render(request, 'recipes/list.html', {'recipes': recipes})
-
 def add_recipe(request):
     if request.method == "POST":
         form = RecipeForm(request.POST)

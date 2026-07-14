@@ -36,4 +36,3 @@ class Task(models.Model):
     class Meta:
         verbose_name = "工程"
         verbose_name_plural = "工程一覧"
-        
