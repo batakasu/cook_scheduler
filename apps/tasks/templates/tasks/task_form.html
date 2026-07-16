@@ -1,0 +1,7 @@
+<h2>工程を追加</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">保存する</button>
+</form>
+<a href="{% url 'tasks:schedule' %}">キャンセル</a>
