@@ -46,7 +46,6 @@ class TaskCreate(LoginRequiredMixin, CreateView):
                         description=step.description,
                         recipe=step.recipe
                     )
-                print("DEBUG: 展開完了！これからリダイレクトします。")
                 return redirect(self.success_url)
             else:
                 # 通常の保存処理

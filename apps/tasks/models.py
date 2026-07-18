@@ -2,49 +2,35 @@ from django.db import models
 from django.core.exceptions import ValidationError
 
 # Create your models here.
-class Task(models.Model):
-    title = models.CharField(max_length=200, blank=True, verbose_name="工程名")
+class Project(models.Model):
+    title = models.CharField(max_length=30, blank=True, verbose_name="献立名")
+    description = models.TextField(blank=True, verbose_name="備考")
+    scheduled_at = models.DateTimeField(null=True, blank=True, verbose_name="調理予定日時")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="作成日時")
     
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = "工程"
-        verbose_name_plural = "工程一覧"
+        ordering = ["-created_at"]
+        verbose_name = "献立"
+        verbose_name_plural = "献立一覧"
 
-class Step(models.Model):
-    task = models.ForeignKey(Task, related_name='steps', on_delete=models.CASCADE)
-
-    WORK_TYPES = [
-        ('cooking', '料理'),
-        ('prep', '下準備'),
-        ('cleanup', '片付け'),
-        ('other', 'その他'),
-    ]
-    # 作業タイプ（WORK_TYPESを使用）
-    work_type = models.CharField(max_length=10, choices=WORK_TYPES, default='cooking', verbose_name="作業タイプ")
-    # 工程の詳しい内容
-    description = models.TextField(blank=True, verbose_name="説明")
-    start = models.PositiveIntegerField(default=0, verbose_name="開始時間（分）")
+class Task(models.Model):
+    project = models.ForeignKye(Project, on_delete = models.CASCADE, verbose_name = '献立', related_name='tasks')
+    title = models.CharField(max_length=30, blank=True, verbose_name="作業名")
+    description = models.TextField(blank=True, verbose_name="備考")
+    # 順序の管理
+    order = models.PositiveIntegerField(default=0, verbose_name="順番")
+    # 時間の管
+    # プロジェクト開始から「何分後」に開始するか（相対時間）
+    start_offset = models.PositiveIntegerField(default=0, verbose_name="開始オフセット（分）")
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
 
-    # 料理のレシピ
-    recipe = models.ForeignKey(
-            'recipes.Recipe', 
-            on_delete=models.SET_NULL, 
-            null=True, 
-            blank=True, 
-            verbose_name="関連レシピ"
-        )
-
     def __str__(self):
-        return self.work_type
-
-    def save(self, *args, **kwargs):
-        if not self.work_type:
-            # 見つからなければ作業を入れる（作業が入ったらバグってる）
-            type_label = dict(self.WORK_TYPES).get(self.work_type, "作業")
-            self.work_type = type_label
-        
-        super().save(*args, **kwargs)
+            return f"{self.order}: {self.title}"
+    
+    class Meta:
+        ordering = ["order"]
+        verbose_name = "作業"
+        verbose_name_plural = "作業一覧"
