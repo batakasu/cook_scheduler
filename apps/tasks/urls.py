@@ -5,4 +5,5 @@ app_name = 'projects'
 
 urlpatterns = [
     path('add/', views.add_project, name='add'),
+    path('list/', views.list, name='list'),
 ]
