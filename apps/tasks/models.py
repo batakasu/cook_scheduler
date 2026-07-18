@@ -17,7 +17,7 @@ class Project(models.Model):
         verbose_name_plural = "献立一覧"
 
 class Task(models.Model):
-    project = models.ForeignKye(Project, on_delete = models.CASCADE, verbose_name = '献立', related_name='tasks')
+    project = models.ForeignKey(Project, on_delete = models.CASCADE, verbose_name = '献立', related_name='tasks')
     title = models.CharField(max_length=30, blank=True, verbose_name="作業名")
     description = models.TextField(blank=True, verbose_name="備考")
     # 順序の管理
