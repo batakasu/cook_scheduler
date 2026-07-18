@@ -1,24 +1,3 @@
-<table>
-    <thead>
-        <tr>
-            <th>工程名</th>
-            <th>開始時間</th>
-            <th>所要時間</th>
-            <th>作業タイプ</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for task in tasks %}
-        <tr>
-            <td>{{ task.title }}</td>
-            <td>{{ task.start }}分</td>
-            <td>{{ task.duration }}分</td>
-            <td>{{ task.work_type }}</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -50,17 +29,17 @@
 </head>
 <body>
     <h1>工程</h1>
-    {% for recipe in recipes %}
-        <h2>{{ recipe.title }}</h2>
+    {% for task in tasks %}
+        <h2>{{ task.title }}</h2>
         
         <h3>ステップ</h3>
-        {% for step in recipe.steps.all %}
+        {% for step in task.steps.all %}
             <details>
                 <summary>{{ step.order }}. {{ step.description|truncatechars:20 }}</summary>
-                <div class="step-content">
-                    <p>{{ step.description }}</p>
-                </div>
-            </details>
+                    <div class="step-content">
+                        <p>{{ step.description }}</p>
+                    </div>
+                </details>
         {% empty %}
             <p>まだステップが登録されていません。</p>
         {% endfor %}
