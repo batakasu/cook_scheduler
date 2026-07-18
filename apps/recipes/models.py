@@ -6,6 +6,9 @@ class Recipe(models.Model):
     title = models.CharField(max_length=15, blank=True, verbose_name="料理名")
     # 作成日時
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="作成日時")
+    
+    def __str__(self):
+        return self.title
 
 # Recipeと一対多の関係
 class Step(models.Model):
