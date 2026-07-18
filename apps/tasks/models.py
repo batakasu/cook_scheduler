@@ -15,14 +15,12 @@ class Task(models.Model):
 
     # 料理名または工程のタイトル
     title = models.CharField(max_length=200, blank=True, verbose_name="工程名")
-    # 工程の説明
+    # 工程の詳しい内容
     description = models.TextField(blank=True, verbose_name="説明")
-    # 開始時間（分単位）
     start = models.PositiveIntegerField(default=0, verbose_name="開始時間（分）")
-    # 所要時間（分単位）
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
-    # 作成日時
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="作成日時")
+    
     # 料理のレシピ
     recipe = models.ForeignKey(
             'recipes.Recipe', 

@@ -12,21 +12,24 @@ class TaskCreate(LoginRequiredMixin, CreateView):
     template_name = 'tasks/task_form.html'
     success_url = reverse_lazy('tasks:schedule')
 
-def form_valid(self, form):
+    def form_valid(self, form):
         with transaction.atomic():# form.save() は実行せず、データだけ取得する
             recipe = form.cleaned_data.get('recipe')
         
             # もしレシピが選ばれていたら、StepをTaskとして展開
             if recipe:
+                current_start_time = 0
                 steps = recipe.steps.all()
                 for step in steps:
                     Task.objects.create(
-                        user=self.request.user,
                         title=step.description, 
                         work_type='cooking',
                         recipe=recipe,
-                        duration=0 # もしStepに時間があればここに入れる
+                        start=current_start_time,
+                        duration=step.duration
                     )
+                    current_start_time += step.duration
+            
             else:
                 # レシピがない場合は、通常通り1つのタスクとして保存
                 form.instance.user = self.request.user
