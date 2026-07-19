@@ -1,8 +1,10 @@
 from django.db import models
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 # Create your models here.
 class Project(models.Model):
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='projects')
     title = models.CharField(max_length=30, blank=True, verbose_name="献立名")
     description = models.TextField(blank=True, verbose_name="備考")
     scheduled_at = models.DateTimeField(null=True, blank=True, verbose_name="調理予定日時")
