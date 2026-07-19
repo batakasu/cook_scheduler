@@ -4,7 +4,6 @@ from django.conf import settings
 
 # Create your models here.
 class Project(models.Model):
-    members = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='projects')
     title = models.CharField(max_length=30, blank=True, verbose_name="献立名")
     description = models.TextField(blank=True, verbose_name="備考")
     scheduled_at = models.DateTimeField(null=True, blank=True, verbose_name="調理予定日時")
@@ -36,3 +35,17 @@ class Task(models.Model):
         ordering = ["order"]
         verbose_name = "作業"
         verbose_name_plural = "作業一覧"
+
+class Membership(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    guest_name = models.CharField(max_length=100, null=True, blank=True)
+
+    class Meta:
+        constraints = [
+            # 登録ユーザーの場合の重複を防ぐ
+            models.UniqueConstraint(fields=['project', 'user'], name='unique_project_user', condition=models.Q(user__isnull=False)),
+        ]
+
+    def __str__(self):
+        return self.user.username if self.user else self.guest_name
