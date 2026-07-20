@@ -1,0 +1,39 @@
+{% extends 'base.html' %} <!-- もしbase.htmlがあれば -->
+
+{% block content %}
+
+<style>
+.gantt-chart {
+  display: grid;
+  /* 例えば8時間(480分)分＝48グリッド表示する設定 */
+  grid-template-columns: repeat(48, 1fr); 
+  gap: 2px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  padding: 5px;
+}
+
+.task-bar {
+  background-color: #4a90e2;
+  color: white;
+  padding: 4px;
+  border-radius: 4px;
+  font-size: 12px;
+  /* タスクが複数行になってもいいように高さを確保 */
+  min-height: 30px; 
+}
+</style>
+<h2>{{ project.title }} の工程表</h2>
+
+<div class="gantt-chart">
+  {% for task in tasks %}
+    <!-- 
+      モデルに追加した @property のメソッドを呼び出しています
+      grid-column: 開始位置 / 終了位置
+    -->
+    <div class="task-bar" style="grid-column: {{ task.start_grid }} / {{ task.end_grid }};">
+      {{ task.title }}
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
