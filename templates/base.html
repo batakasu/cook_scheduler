@@ -1,17 +1,24 @@
-<!-- templates/base.html -->
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>クックスケジューラー</title>
-    <!-- 全ページ共通のCSSなどはここに書く -->
+    <link rel="stylesheet" href="{% static 'css/common.css' %}">
 </head>
 <body>
-    <header>サイトのタイトルとかメニュー</header>
+    <header>
+        <p> ヘッダー<p>
+    </header>
 
-    <!-- ここにページごとの中身が入る -->
-    {% block content %}
-    {% endblock %}
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
 
-    <footer>サイトのフッター</footer>
+    <footer>
+        <p>&copy; 2026 My Django App</p>
+    </footer>
+
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

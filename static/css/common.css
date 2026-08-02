@@ -1,0 +1,100 @@
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background-color: #eafaff;
+    color: #1b293f;
+    margin: 0;
+    padding: 0;
+    
+/*フッターが必ず一番下に行くように*/
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+img {
+    max-width: 100%;
+    height: auto;
+}
+h2 {
+    font-size: 1.5rem;
+    color: #000000;
+    padding: 1rem;
+    line-height: 1.6;
+}
+
+/*フッターが必ず一番下に行くように*/
+main {
+    flex: 1;
+}
+
+/*ヘッダーの設定*/
+header {
+    width: 100%;
+    background-color: #70bfe4; 
+    color: #fff;
+    margin-bottom: 1rem; 
+    padding: 1rem 2rem 1rem 2rem;
+    box-sizing: border-box;
+}
+header a:link,header a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+header a:hover {
+    color: #ffe679;
+    text-decoration: underline;
+}
+.header-inner {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+.nav-menu {
+    display: flex;
+    gap: 3rem;
+    font-size: 1.5rem;
+}
+.site-logo {
+    height: 7rem;
+}
+
+/*フッターの設定*/
+footer {
+    width: 100%;
+    background-color: #333; 
+    color: #fff;
+    padding: 0.5rem 2rem;
+    box-sizing: border-box;
+}
+.copyright {
+    text-align: center;
+    width: 100%;
+}
+
+/*スマホ版*/
+@media screen and (max-width: 768px) {
+    .header-inner {
+        flex-direction: column; /* 要素を横並びから「縦並び」にする */
+        align-items: center;    /* 中央に寄せる */
+        gap: 1rem;              /* ロゴとメニューの間の隙間を作る */
+    }
+    .nav-menu {
+        flex-wrap: wrap;        /* メニューの文字が多いときに自動で折り返す */
+        text-align: center;      /* 文字自体も中央寄せ */
+        justify-content: center;
+        gap: 0;
+    }
+    .nav-menu a {
+        border-right: 1px solid #ccc; /* 1本の薄いグレーの線（色はお好みで調整） */
+        padding-right: 10px;          /* 線と文字の間の隙間 */
+        padding-left: 10px;           /* 左右のバランスを取るための隙間 */
+    }
+
+    /* 「一番最後のメニュー」の右側にある線は消す */
+    .nav-menu a:last-child {
+        border-right: none;
+    }
+    .site-logo {
+        object-fit: contain; /* ★これが重要！縦横比を維持して枠内に収める */
+        object-position: center; /* 画像を枠の中央に寄せる（初期値） */
+    }
+}
