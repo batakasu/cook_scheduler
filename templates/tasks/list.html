@@ -1,15 +1,23 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}レシピ一覧{% endblock %}
-{% block content %}    
-    <h1>献立一覧</h1>
-    <ul>
-        {% for p in projects %}
-            <li>
-                <a href="{% url 'tasks:project_detail' p.pk %}">
-                    {{ p.title }}
-                </a> - {{ p.scheduled_at }}</li>
-        {% empty %}
-            <li>まだ献立が登録されていません。</li>
-        {% endfor %}
-    </ul>
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <h1>献立一覧</h1>
+
+        <ul class="list">
+            {% for p in projects %}
+                <li class="item">
+                    <a href="{% url 'tasks:project_detail' p.pk %}" class="link">
+                        <span class="title">{{ p.title }}</span>
+                        <span class="date">{{ p.scheduled_at }}</span>
+                    </a>
+            {% empty %}
+                <p class="empty">まだ献立が登録されていません。</p>
+            {% endfor %}
+        </ul>
 {% endblock %}

@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}レシピ一覧{% endblock %}
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
 {% block content %}
     <h1>レシピ一覧</h1>
 
