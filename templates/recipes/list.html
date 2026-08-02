@@ -1,33 +1,6 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <title>レシピ一覧</title>
-    <style>
-        /* 折りたたみ機能のデザイン */
-        details {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 10px;
-            background-color: #f9f9f9;
-        }
-        summary {
-            font-weight: bold;
-            cursor: pointer;
-            outline: none;
-        }
-        summary:hover {
-            color: #007bff;
-        }
-        .step-content {
-            margin-top: 10px;
-            padding-left: 20px;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block title %}レシピ一覧{% endblock %}
+{% block content %}
     <h1>レシピ一覧</h1>
 
     {% for recipe in recipes %}
@@ -46,5 +19,4 @@
         {% endfor %}
         <hr>
     {% endfor %}
-</body>
-</html>
+{% endblock %}
