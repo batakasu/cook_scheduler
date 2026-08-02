@@ -1,6 +1,6 @@
 body {
     font-family: system-ui, -apple-system, sans-serif;
-    background-color: #eafaff;
+    background-color: #fdf5f1;
     color: #1b293f;
     margin: 0;
     padding: 0;
@@ -29,7 +29,7 @@ main {
 /*ヘッダーの設定*/
 header {
     width: 100%;
-    background-color: #70bfe4; 
+    background-color: #f39716; 
     color: #fff;
     margin-bottom: 1rem; 
     padding: 1rem 2rem 1rem 2rem;
@@ -60,7 +60,7 @@ header a:hover {
 /*フッターの設定*/
 footer {
     width: 100%;
-    background-color: #333; 
+    background-color: #3b2e1b; 
     color: #fff;
     padding: 0.5rem 2rem;
     box-sizing: border-box;
