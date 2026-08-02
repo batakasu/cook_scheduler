@@ -4,7 +4,10 @@
     <h1>献立一覧</h1>
     <ul>
         {% for p in projects %}
-            <li>{{ p.title }} - {{ p.scheduled_at }}</li>
+            <li>
+                <a href="{% url 'tasks:project_detail' p.pk %}">
+                    {{ p.title }}
+                </a> - {{ p.scheduled_at }}</li>
         {% empty %}
             <li>まだ献立が登録されていません。</li>
         {% endfor %}
