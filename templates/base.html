@@ -2,12 +2,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>クックスケジューラー</title>
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/common.css' %}">
+    <link rel="icon" href="{% static 'image/favicon.ico' %}" type="image/x-icon">
 </head>
 <body>
     <header>
-        <p> ヘッダー<p>
+        <p> ヘッダー</p>
     </header>
 
     <main>
@@ -16,9 +17,7 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 My Django App</p>
+        <p>&copy; ore</p>
     </footer>
-
-    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
