@@ -2,12 +2,23 @@
 {% load static %}
 
 {% block title %}レシピ一覧{% endblock %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
+
 {% block content %}
     <div class="container">
         <h1>献立一覧</h1>
+
+        <div class="sort-box">
+            <label for="sort-select">並び順: </label>
+            <select id="sort-select" onchange="changeSort(this.value)">
+                <option value="new" {% if current_sort == 'new' %}selected{% endif %}>新しい順</option>
+                <option value="old" {% if current_sort == 'old' %}selected{% endif %}>古い順</option>
+                <option value="title" {% if current_sort == 'title' %}selected{% endif %}>タイトル順</option>
+            </select>
+        </div>
 
         <ul class="list">
             {% for p in projects %}
@@ -16,8 +27,18 @@
                         <span class="title">{{ p.title }}</span>
                         <span class="date">{{ p.scheduled_at }}</span>
                     </a>
+                </li>
             {% empty %}
                 <p class="empty">まだ献立が登録されていません。</p>
             {% endfor %}
         </ul>
+    </div>
+
+    <script>
+    function changeSort(sortValue) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('sort', sortValue);
+        window.location.href = url.toString();
+    }
+    </script>
 {% endblock %}
