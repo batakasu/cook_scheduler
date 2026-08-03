@@ -9,15 +9,17 @@
 
 {% block content %}
     <div class="container">
-        <h1>献立一覧</h1>
+        <div class="top">
+            <h1>献立一覧</h1>
 
-        <div class="sort-box">
-            <label for="sort-select">並び順: </label>
-            <select id="sort-select" onchange="changeSort(this.value)">
-                <option value="new" {% if current_sort == 'new' %}selected{% endif %}>新しい順</option>
-                <option value="old" {% if current_sort == 'old' %}selected{% endif %}>古い順</option>
-                <option value="title" {% if current_sort == 'title' %}selected{% endif %}>タイトル順</option>
-            </select>
+            <div class="sort-box">
+                <label for="sort-select">並び順: </label>
+                <select id="sort-select" onchange="changeSort(this.value)">
+                    <option value="new" {% if current_sort == 'new' %}selected{% endif %}>新しい順</option>
+                    <option value="old" {% if current_sort == 'old' %}selected{% endif %}>古い順</option>
+                    <option value="title" {% if current_sort == 'title' %}selected{% endif %}>タイトル順</option>
+                </select>
+            </div>
         </div>
 
         <ul class="list">

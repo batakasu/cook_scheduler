@@ -8,9 +8,54 @@
 .container h1 {
     font-size: 1.8rem;
     color: #333;
+    margin-bottom: 8px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     margin-bottom: 24px;
-    border-bottom: 2px solid #eaeaea;
     padding-bottom: 8px;
+    border-bottom: 2px solid #eaeaea;
+}
+
+/* セレクトボックスのデザイン */
+.sort-box {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* 「並び順:」とセレクトボックスの間の隙間 */
+    font-size: 14px;
+    color: #555;
+}
+#sort-select {
+    appearance: none;                 /* ブラウザデフォルトのデザインを消す */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    background-color: #fff;           /* 背景色を白に */
+    border: 1px solid #d1d5db;        /* 落ち着いたグレーの枠線 */
+    border-radius: 8px;               /* 角を少し丸くする */
+    padding: 8px 36px 8px 12px;       /* 内部の余白（右側に矢印用のスペースを空ける） */
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;                  /* マウスカーソルを指マークに */
+    
+    /* 自分で右側に「▼」の矢印アイコン（SVG）を配置する */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center; /* 矢印の位置を右側に調整 */
+    background-size: 16px;                  /* 矢印の大きさ */
+    
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+#sort-select:hover {
+    border-color: #9ca3af;
+}
+#sort-select:focus {
+    outline: none;
+    border-color: #3b82f6;           /* 選択中は綺麗な青色に光らせる */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* ふんわりとした影をつける */
 }
 
 /* リスト全体のスタイル */
