@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}レシピ一覧{% endblock %}
+{% block extra_css %}
+  <link href="https://unpkg.com/vis-timeline@latest/styles/vis-timeline-graph2d.min.css" rel="stylesheet" type="text/css" />
+{% endblock %}
 {% block content %}
   <h2>{{ project.title }} の工程表</h2>
 
@@ -10,4 +14,8 @@
       </div>
     {% endfor %}
   </div>
+{% endblock %}
+{% block extra_js %}
+  <script src="https://unpkg.com/vis-timeline@latest/standalone/umd/vis-timeline-graph2d.min.js"></script>
+    <link rel="stylesheet" href="{% static 'js/project_detail.js' %}">
 {% endblock %}
