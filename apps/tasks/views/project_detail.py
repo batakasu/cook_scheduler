@@ -3,7 +3,6 @@ from django.views import generic
 from apps.tasks.models import Project
 from datetime import timedelta
 
-
 class ProjectDetailView(generic.DetailView):
   model = Project
   template_name = 'tasks/project_detail.html'
@@ -17,8 +16,9 @@ class ProjectDetailView(generic.DetailView):
 
     tasks_data = []
     if project.scheduled_at:
+      current_time = project.scheduled_at
       for task in tasks:
-        start_time = project.scheduled_at + timedelta(minutes=task.start_offset)
+        start_time = current_time + timedelta(minutes=task.start_offset)
         end_time = start_time + timedelta(minutes=task.duration)
 
         tasks_data.append({
@@ -27,6 +27,7 @@ class ProjectDetailView(generic.DetailView):
             'start': start_time.isoformat(),
             'end': end_time.isoformat(),
         })
+        current_time = end_time
 
     context['tasks_json'] = json.dumps(tasks_data)
 

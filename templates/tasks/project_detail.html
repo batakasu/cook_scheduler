@@ -17,6 +17,7 @@
       <p style="color: red;">※管理画面からプロジェクトの「調理予定日時」を設定してください。</p>
   {% endif %}
 
+  {{ project.scheduled_at|date:"c"|json_script:"project-start-time" }}
   {{ tasks_json|json_script:"tasks-data" }}
 {% endblock %}
 

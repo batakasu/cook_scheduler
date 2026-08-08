@@ -24,8 +24,8 @@ class Task(models.Model):
     # 順序の管理
     order = models.PositiveIntegerField(default=0, verbose_name="順番")
     # 時間の管
-    # プロジェクト開始から「何分後」に開始するか（相対時間）
-    start_offset = models.PositiveIntegerField(default=0, verbose_name="開始オフセット（分）")
+    # 前のプロジェクトからどれだけ時間を空けるか
+    start_offset = models.PositiveIntegerField(default=0, verbose_name="オフセット（分）")
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
 
     def __str__(self):
