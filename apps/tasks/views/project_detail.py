@@ -6,6 +6,7 @@ from apps.tasks.models import Project, Task
 from datetime import datetime
 
 class ProjectDetailView(generic.DetailView):
+  pk_url_kwarg = 'project_pk'
   model = Project
   template_name = 'tasks/project_detail.html'
   context_object_name = 'project'
