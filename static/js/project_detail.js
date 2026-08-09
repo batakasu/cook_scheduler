@@ -39,6 +39,36 @@ document.addEventListener("DOMContentLoaded", function() {
         orientation:'top',
         editable: true,
         
+        onMove: function(item, callback) {
+            // Django側へデータを送信（Ajax通信）
+            fetch('/tasks/update-task-time/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    id: item.id,
+                    start: item.start,
+                    end: item.end
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    console.log("保存完了！");
+                    callback(item); // 成功したら変更を確定する
+                } else {
+                    console.error("保存失敗");
+                    callback(null); // 失敗した場合は移動を元に戻す
+                }
+            })
+            .catch(error => {
+                console.error("通信エラー", error);
+                callback(null); // エラー時も元に戻す
+            });
+        },
+        
         zoomMin: 1000 * 60 ,    // ミリ秒 * 秒
         zoomMax: 1000 * 60 * 60 * 24 * 2,   // ミリ秒 * 秒 * 分 * 時 * 日
         // 
@@ -49,3 +79,18 @@ document.addEventListener("DOMContentLoaded", function() {
     // 5. タイムラインを描画
     const timeline = new vis.Timeline(container, new vis.DataSet(timelineItems), options);
 }, false);
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}

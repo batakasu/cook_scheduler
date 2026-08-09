@@ -7,4 +7,5 @@ urlpatterns = [
     path('add/', views.add_project, name='add'),
     path('list/', views.list, name='list'),
     path('<int:pk>/', views.ProjectDetailView.as_view(), name='project_detail'),
+    path('update-task-time/', views.update_task_time, name='update_task_time'),
 ]
