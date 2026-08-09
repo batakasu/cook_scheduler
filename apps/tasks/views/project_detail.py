@@ -47,46 +47,29 @@ def update_task_time(request):
                 project = task.project
                 
                 if project and project.scheduled_at:
-                    # 1. JSから送られた日時をパース
+                    # 1. 送られた開始時間をパースしてナイーブなdatetimeにする
                     new_start = datetime.fromisoformat(new_start_str.replace('Z', '+00:00'))
-                    
-                    # タイムゾーンを project.scheduled_at に合わせる
                     if project.scheduled_at.tzinfo is not None:
                         new_start = new_start.astimezone(project.scheduled_at.tzinfo)
-                    else:
-                        new_start = new_start.astimezone().replace(tzinfo=None)
-                    
                     start_naive = new_start.replace(tzinfo=None)
                     
-                    # 2. 【重要】このタスクの「直前の終了時刻（起点）」を計算する
-                    # プロジェクトに属するタスクを順番に取得し、対象タスクの直前までの時間を積算する
-                    current_time = project.scheduled_at.replace(tzinfo=None)
-                    all_tasks = project.tasks.all() # ※リレーション名が異なる場合は合わせてください
+                    # 2. 直前のタスクを取得する（順番が保証されている前提）
+                    tasks = list(project.tasks.order_by('order'))
+                    index = tasks.index(task)
                     
-                    for t in all_tasks:
-                        if t.id == task.id:
-                            # ここが今回のタスクなので、ループを抜ける（current_time が直前の終了時刻になる）
-                            break
-                        # 自分より前のタスクの期間（duration）を足し合わせていく
-                        # ※もし前のタスクも個別のoffsetを持っている等であればそれに合わせますが、
-                        # 基本のロジックとしては duration 分進めます
-                        current_time += timedelta(minutes=t.duration)
-                    
-                    # 3. 「直前の終了時刻」と「新しくドラッグされた開始時刻」の差分（分数）をオフセットとする
-                    diff = start_naive - current_time
-                    new_offset = int(diff.total_seconds() // 60)
-                    
-                    # 4. 保存
-                    task.start_offset = new_offset
-                    task.save()
-                    print(f"Task {task_id} offset updated: base={current_time}, new_start={start_naive}, offset={new_offset}")
+                    if index == 0:
+                        project.scheduled_at = new_start
+                        project.save()
+                    else:
+                        prev_task = tasks[index - 1]
+                        prev_end_time = project.scheduled_at.replace(tzinfo=None)
+                        for t in tasks[:index]:  # 直前までのタスクだけに絞る
+                            prev_end_time += timedelta(minutes=t.start_offset + t.duration)
+    
+                        task.start_offset = int((start_naive - prev_end_time).total_seconds() // 60)
+                        task.save()
 
             return JsonResponse({'success': True})
-            
-        except Task.DoesNotExist:
-            return JsonResponse({'success': False, 'error': 'Task not found'}, status=404)
         except Exception as e:
-            print("SAVE ERROR:", str(e))
             return JsonResponse({'success': False, 'error': str(e)}, status=400)
-
-    return JsonResponse({'success': False, 'error': 'Invalid method'}, status=405)
+    return JsonResponse({'success': False}, status=405)

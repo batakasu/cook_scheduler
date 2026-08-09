@@ -56,15 +56,13 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => response.json())
             .then(data => {
                 if(data.success) {
-                    console.log("保存完了！");
                     callback(item); // 成功したら変更を確定する
+                    location.reload();
                 } else {
-                    console.error("保存失敗");
                     callback(null); // 失敗した場合は移動を元に戻す
                 }
             })
             .catch(error => {
-                console.error("通信エラー", error);
                 callback(null); // エラー時も元に戻す
             });
         },
