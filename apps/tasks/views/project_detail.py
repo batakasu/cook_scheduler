@@ -43,53 +43,61 @@ def update_task_time(request):
             task_id = data.get('id')
             new_start_str = data.get('start')
             
-            if new_start_str:
-                task = Task.objects.get(id=task_id)
-                project = task.project
-                
-                if project and project.scheduled_at:
-                    # 1. 送られた開始時間をパースしてナイーブなdatetimeにする
-                    new_start = datetime.fromisoformat(new_start_str.replace('Z', '+00:00'))
-                    if project.scheduled_at.tzinfo is not None:
-                        new_start = new_start.astimezone(project.scheduled_at.tzinfo)
-                    start_naive = new_start.replace(tzinfo=None)
-                    
-                    # 2. 直前のタスクを取得する（順番が保証されている前提）
-                    tasks = list(project.tasks.order_by('order'))
-                    index = tasks.index(task)
-                    
-                    if index == 0:
-                        project.scheduled_at = new_start
-                        project.save()
-                    else:
-                        prev_task = tasks[index - 1]
-                        prev_end_time = project.scheduled_at.replace(tzinfo=None)
-                        for t in tasks[:index]:  # 直前までのタスクだけに絞る
-                            prev_end_time += timedelta(minutes=t.start_offset + t.duration)
-    
-                        task.start_offset = int((start_naive - prev_end_time).total_seconds() // 60)
-                        task.save()
+            if not new_start_str:
+                return JsonResponse({'success': False, 'error': 'Start time is missing'}, status=400)
+
+            task = Task.objects.get(id=task_id)
+            project = task.project
+            
+            if not project or not project.scheduled_at:
+                return JsonResponse({'success': False, 'error': 'Project schedule not found'}, status=400)
+
+            # 送られた開始時間をパースする
+            new_start = datetime.fromisoformat(new_start_str.replace('Z', '+00:00'))
+            if project.scheduled_at.tzinfo is not None:
+                new_start = new_start.astimezone(project.scheduled_at.tzinfo)
+            
+            start_naive = new_start.replace(tzinfo=None)
+            proj_start_naive = project.scheduled_at.replace(tzinfo=None)
+
+            # プロジェクトの開始時間から新しい開始時間までの「経過分」を計算
+            new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
+            if new_offset < 0:
+                new_offset = 0
+
+            # そのまま start_offset として保存
+            task.start_offset = new_offset
+            task.save()
 
             return JsonResponse({'success': True})
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             return JsonResponse({'success': False, 'error': str(e)}, status=400)
+            
     return JsonResponse({'success': False}, status=405)
 
 def add_new_task(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-
             project_id = data.get('project_id')
             project = Project.objects.get(id=project_id)
 
-            # 3. データベースに保存
+            # 既存のタスクの中から、最後のタスクの終了位置（start_offset + duration）を計算
+            last_task = project.tasks.order_by('order').last()
+            if not last_task:
+                start_offset = 0  # 最初のタスクならオフセット0
+            else:
+                start_offset = last_task.start_offset + last_task.duration
+
+            # データベースに保存（長さは5分固定、オフセットはプロジェクト開始からの累計分）
             Task.objects.create(
                 project=project,
                 title=data.get('content'),
                 duration=5,
-                start_offset=0,
-                order=99,
+                start_offset=start_offset,
+                order=project.tasks.count()
             )
             return JsonResponse({'success': True})
         except Exception as e:
