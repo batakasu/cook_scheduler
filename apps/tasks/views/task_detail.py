@@ -11,7 +11,6 @@ class TaskDetail(generic.DetailView, generic.edit.ModelFormMixin):
     form_class = TaskForm
 
     def get_initial(self):
-        # 既存のタスクのデータをフォームに初期値として渡す場合
         initial = super().get_initial()
         task = self.get_object()
         initial.update({

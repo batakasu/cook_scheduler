@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // 1. HTMLからデータ要素を取得
     const dataElement = document.getElementById('tasks-data');
     const container = document.getElementById('visualization');
+    const projectId = container.getAttribute('data-project-id');
 
     if (!dataElement || !container) return;
 
@@ -37,11 +38,16 @@ document.addEventListener("DOMContentLoaded", function() {
         stack: false,
         showCurrentTime: false,
         orientation:'top',
-        editable: true,
-        
+        editable: {
+            add: true,          // 新規追加を有効化
+            updateTime: true,   // 既存アイテムの時間変更を有効化
+            updateGroup: false,
+            remove: true        // 削除を有効化（必要に応じて）
+        },
+
         onMove: function(item, callback) {
             // Django側へデータを送信（Ajax通信）
-            fetch('/tasks/update-task-time/', {
+            fetch('/tasks/update_task_time/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -51,6 +57,33 @@ document.addEventListener("DOMContentLoaded", function() {
                     id: item.id,
                     start: item.start,
                     end: item.end
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    callback(item); // 成功したら変更を確定する
+                    location.reload();
+                } else {
+                    callback(null); // 失敗した場合は移動を元に戻す
+                }
+            })
+            .catch(error => {
+                callback(null); // エラー時も元に戻す
+            });
+        },
+
+        onAdd: function(item, callback) {
+            fetch('/tasks/add_new_task/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({
+                    project_id: projectId,
+                    id: item.id,
+                    content: item.content,
                 })
             })
             .then(response => response.json())

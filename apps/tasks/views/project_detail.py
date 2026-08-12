@@ -74,3 +74,27 @@ def update_task_time(request):
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=400)
     return JsonResponse({'success': False}, status=405)
+
+def add_new_task(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+
+            project_id = data.get('project_id')
+            project = Project.objects.get(id=project_id)
+
+            # 3. データベースに保存
+            Task.objects.create(
+                project=project,
+                title=data.get('content'),
+                duration=5,
+                start_offset=0,
+                order=99,
+            )
+            return JsonResponse({'success': True})
+        except Exception as e:
+            import traceback
+            traceback.print_exc()
+            return JsonResponse({'success': False, 'error': str(e)}, status=400)
+            
+    return JsonResponse({'success': False}, status=405)

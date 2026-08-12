@@ -12,7 +12,7 @@
 {% block content %}
   <h2>{{ project.title }} の工程表</h2>
   {% if project.scheduled_at %}
-      <div id="visualization"></div>
+      <div id="visualization" data-project-id="{{ project.id }}"></div>
   {% else %}
       <p style="color: red;">※管理画面からプロジェクトの「調理予定日時」を設定してください。</p>
   {% endif %}
