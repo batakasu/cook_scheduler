@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         },
         
-        zoomMin: 1000 * 60 ,    // ミリ秒 * 秒
+        zoomMin: 1000 * 60 * 10,    // ミリ秒 * 秒 * 分
         zoomMax: 1000 * 60 * 60 * 24 * 2,   // ミリ秒 * 秒 * 分 * 時 * 日
         // 
         min: startDate, // これより過去にはスクロールできない
