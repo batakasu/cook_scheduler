@@ -18,7 +18,7 @@ class Project(models.Model):
         verbose_name_plural = "献立一覧"
 
 class Membership(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name = '作業メンバー', related_name='members')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     guest_name = models.CharField(max_length=100, null=True, blank=True)
 
@@ -32,8 +32,8 @@ class Membership(models.Model):
         return self.user.username if self.user else self.guest_name
     
 class Task(models.Model):
-    project = models.ForeignKey(Project, on_delete = models.CASCADE, verbose_name = '献立', related_name='tasks')
-    membership = models.ForeignKey(Membership, on_delete = models.SET_NULL, null=True, verbose_name="担当者", related_name='tasks')
+    project = models.ForeignKey(Project, on_delete = models.CASCADE, verbose_name = '作業', related_name='tasks')
+    membership = models.ForeignKey(Membership, on_delete = models.SET_NULL, null=True, verbose_name="担当者", related_name='member')
     title = models.CharField(max_length=30, blank=True, verbose_name="作業名")
     description = models.TextField(blank=True, verbose_name="備考")
     # 順序の管理
