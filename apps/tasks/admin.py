@@ -13,8 +13,3 @@ class MembershipInline(admin.TabularInline):
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
     inlines = [MembershipInline, TaskInline]
-
-# 単体でも管理できるように登録
-@admin.register(Membership)
-class MembershipAdmin(admin.ModelAdmin):
-    list_display = ('project', 'user', 'guest_name')
