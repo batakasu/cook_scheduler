@@ -19,6 +19,7 @@
 
   {{ project.scheduled_at|date:"c"|json_script:"project-start-time" }}
   {{ tasks_json|json_script:"tasks-data" }}
+  {{ members_json|json_script:"members-data"}}
 {% endblock %}
 
 {% block extra_js %}

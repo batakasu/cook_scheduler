@@ -2,7 +2,7 @@ import json
 from datetime import timedelta
 from django.http import JsonResponse
 from django.views import generic
-from apps.tasks.models import Project, Task
+from apps.tasks.models import Project, Task, Membership
 from datetime import datetime
 
 class ProjectDetailView(generic.DetailView):
@@ -14,9 +14,20 @@ class ProjectDetailView(generic.DetailView):
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
     project = self.object
+
+    members = project.members.all()
+    members_data = []
+    for member in members:
+        members_data.append({
+            'id': member.id,
+            'content': member.user.username if member.user else member.guest_name,
+        })
+
+    context['members_json'] = json.dumps(members_data)
+
+
     tasks = project.tasks.all()
     context['tasks'] = tasks
-
     tasks_data = []
     if project.scheduled_at:
       current_time = project.scheduled_at
@@ -27,6 +38,7 @@ class ProjectDetailView(generic.DetailView):
         tasks_data.append({
             'id': task.id,
             'content': task.title,
+            'group' : task.membership_id,
             'start': start_time.isoformat(),
             'end': end_time.isoformat(),
         })

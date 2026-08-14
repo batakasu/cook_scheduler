@@ -1,15 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
     // 1. HTMLからデータ要素を取得
-    const dataElement = document.getElementById('tasks-data');
+    const taskDataElement = document.getElementById('tasks-data');
+    const memberDataElement = document.getElementById('members-data');
     const container = document.getElementById('visualization');
     const projectId = container.getAttribute('data-project-id');
 
-    if (!dataElement || !container) return;
+    if (!taskDataElement || !memberDataElement || !container) return;
 
     // 2. タスクデータの取得
-    let taskList = JSON.parse(dataElement.textContent);
-    if (typeof taskList === 'string') {
+    let taskList = JSON.parse(taskDataElement.textContent);
+    if (typeof taskList === 'string')
+    {
         taskList = JSON.parse(taskList);
+    }
+    let memberList = JSON.parse(memberDataElement.textContent);
+    if (typeof memberList == 'string')
+    {
+        memberList = JSON.parse(memberList)
     }
 
     // 3. タイムライン用のデータを生成（Djangoから来た start/end をそのまま使う）
@@ -17,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return {
             id: task.id,
             content: task.content, // Django側から来ている 'content' を使用
+            group: task.group,
             start: new Date(task.start), // 文字列をDate型に変換
             end: new Date(task.end)      // 文字列をDate型に変換
         };
@@ -108,7 +116,9 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // 5. タイムラインを描画
-    const timeline = new vis.Timeline(container, new vis.DataSet(timelineItems), options);
+    const items = new vis.DataSet(timelineItems)
+    const groups = new vis.DataSet(memberList)
+    const timeline = new vis.Timeline(container, items, groups, options);
 }, false);
 
 function getCookie(name) {
