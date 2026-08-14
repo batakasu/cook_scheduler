@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}プロフィール{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+    <p>ユーザー名：{{ user_info.username }}</p>
+    <p>メールアドレス：{{ user_info.email }}</p>
+    <form method="post" action="{% url 'accounts:logout' %}">
+    {% csrf_token %}
+    <button type="submit">ログアウトする</button>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
