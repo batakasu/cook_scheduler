@@ -92,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     project_id: projectId,
                     id: item.id,
                     content: item.content,
+                    group: item.group,
                 })
             })
             .then(response => response.json())
