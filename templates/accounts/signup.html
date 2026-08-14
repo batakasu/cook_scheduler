@@ -1,6 +1,7 @@
-<h2>ユーザー登録</h2>
+<!DOCTYPE html>
+<title>ユーザー登録</title>
 <form method="post">
-{% csrf_token %}
-{{ form.as_p }}
+    {% csrf_token %}
+    {{ form.as_p }}
 <button type="submit">登録する</button>
 </form>
