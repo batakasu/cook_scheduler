@@ -47,10 +47,10 @@ document.addEventListener("DOMContentLoaded", function() {
         showCurrentTime: false,
         orientation:'top',
         editable: {
-            add: true,          // 新規追加を有効化
-            updateTime: true,   // 既存アイテムの時間変更を有効化
-            updateGroup: false,
-            remove: true        // 削除を有効化（必要に応じて）
+            add: true,
+            updateTime: true,
+            updateGroup: true,
+            remove: true
         },
 
         onMove: function(item, callback) {
@@ -108,6 +108,25 @@ document.addEventListener("DOMContentLoaded", function() {
                 callback(null); // エラー時も元に戻す
             });
         },
+
+        onRemove: function(item, callback) {
+            fetch(`/tasks/delete/${item.id}/`, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    callback(item); // 成功した場合は callback(item) で確定
+                } else {
+                    callback(null); // 失敗した場合は callback(null) で削除をキャンセル
+                }
+            })
+            .catch(error => {
+                callback(null); // エラー時も元に戻す
+            });
+        },
         
         zoomMin: 1000 * 60 * 10,    // ミリ秒 * 秒 * 分
         zoomMax: 1000 * 60 * 60 * 24 * 2,   // ミリ秒 * 秒 * 分 * 時 * 日
@@ -120,6 +139,15 @@ document.addEventListener("DOMContentLoaded", function() {
     const items = new vis.DataSet(timelineItems)
     const groups = new vis.DataSet(memberList)
     const timeline = new vis.Timeline(container, items, groups, options);
+
+    // 6. タイムライン上でのイベントの設定
+    timeline.on('doubleClick', function(properties) {
+        // タスクをダブルクリックすることでそのタスクのdetailへ
+        if (properties.item) {
+            const taskId = properties.item;
+            window.location.href = `/tasks/${projectId}/tasks/${taskId}/`;
+        }
+    });
 }, false);
 
 function getCookie(name) {
