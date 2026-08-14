@@ -18,7 +18,7 @@ class Project(models.Model):
         verbose_name_plural = "献立一覧"
 
 class Membership(models.Model):
-    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name = '作業メンバー', related_name='members')
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name = 'project', related_name='members')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     guest_name = models.CharField(max_length=100, null=True, blank=True)
 
