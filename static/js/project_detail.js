@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(data => {
                 if(data.success) {
                     callback(item); // 成功したら変更を確定する
-                    location.reload();
+                    // location.reload();
                 } else {
                     callback(null); // 失敗した場合は移動を元に戻す
                 }
