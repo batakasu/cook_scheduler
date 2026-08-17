@@ -54,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function() {
         },
 
         onMove: function(item, callback) {
-            // Django側へデータを送信（Ajax通信）
             fetch('/tasks/update_task_time/', {
                 method: 'POST',
                 headers: {
@@ -71,7 +70,6 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(data => {
                 if(data.success) {
                     callback(item); // 成功したら変更を確定する
-                    // location.reload();
                 } else {
                     callback(null); // 失敗した場合は移動を元に戻す
                 }
@@ -99,7 +97,6 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(data => {
                 if(data.success) {
                     callback(item); // 成功したら変更を確定する
-                    location.reload();
                 } else {
                     callback(null); // 失敗した場合は移動を元に戻す
                 }

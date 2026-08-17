@@ -55,21 +55,24 @@ def update_task_time(request):
         data = json.loads(request.body)
         task_id = data.get('id')
         new_start_str = data.get('start')
-
-        if not new_start_str:
-            return JsonResponse({'success': False, 'error': 'Start time is missing'}, status=400)
-
+        new_end_str = data.get('end')
         task = Task.objects.get(id=task_id)
         project = task.project
 
+        #時間のデータ取得
+        if not new_start_str or not new_end_str:
+            return JsonResponse({'success': False, 'error': 'Start or End time is missing'}, status=400)
         if not project or not project.scheduled_at:
             return JsonResponse({'success': False, 'error': 'Project schedule not found'}, status=400)
-
+        
         new_start = datetime.fromisoformat(new_start_str.replace('Z', '+00:00'))
+        new_end = datetime.fromisoformat(new_end_str.replace('Z', '+00:00'))
+
         if project.scheduled_at.tzinfo is not None:
             new_start = new_start.astimezone(project.scheduled_at.tzinfo)
 
         start_naive = new_start.replace(tzinfo=None)
+        end_naive = new_end.replace(tzinfo=None)
         proj_start_naive = project.scheduled_at.replace(tzinfo=None)
 
         new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
@@ -92,7 +95,7 @@ def update_task_time(request):
         else:
             tasks = Task.objects.filter(project=project).order_by('start_offset')
             first_offset = tasks.first().start_offset
-            
+
             #最初のタスクにoffsetがあるなら
             if first_offset > 0:
                 other_tasks = Task.objects.filter(project=project)
@@ -107,6 +110,9 @@ def update_task_time(request):
                 new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
                 if new_offset < 0:
                     new_offset = 0
+
+        duration_delta = end_naive - start_naive
+        task.duration = int(duration_delta.total_seconds() // 60)
 
         task.start_offset = new_offset
         task.save()
@@ -144,6 +150,7 @@ def add_new_task(request):
             order=project.tasks.count()
         )
         return JsonResponse({'success': True})
+    
     except Exception as e:
         import traceback
         traceback.print_exc()
