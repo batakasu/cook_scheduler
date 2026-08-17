@@ -4,12 +4,14 @@ from apps.tasks.models import Project
 def list(request):
     sort_type = request.GET.get('sort', 'new')
 
+    base_projects = Project.objects.filter(members__user=request.user)
+
     if sort_type == 'old':
-        projects = Project.objects.order_by('scheduled_at')  # 古い順
+        projects = base_projects.order_by('scheduled_at')  # 古い順
     elif sort_type == 'title':
-        projects = Project.objects.order_by('title')         # タイトル順
+        projects = base_projects.order_by('title')         # タイトル順
     else:
-        projects = Project.objects.order_by('-scheduled_at') # 新しい順（デフォルト）
+        projects = base_projects.order_by('-scheduled_at') # 新しい順（デフォルト）
 
     context = {
         'projects': projects,
