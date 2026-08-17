@@ -8,19 +8,6 @@
         <h2>献立の作成</h2>
         {{ project_form.as_p }}
 
-        <hr>
-
-        <!-- 2. 作業(Task)のフォームセット -->
-        <h2>作業一覧</h2>
-        {{ task_formset.management_form }} <!-- これが必須！ -->
-    
-        <table>
-            {% for form in task_formset %}
-                <!-- フォームのタイトルやエラーを表示 -->
-                {{ form.as_table }}
-            {% endfor %}
-        </table>
-
         <button type="submit">保存する</button>
     </form>
 {% endblock %}

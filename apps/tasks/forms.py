@@ -19,6 +19,6 @@ TaskFormSet = inlineformset_factory(
     Project,
     Task,
     form=TaskForm,
-    extra=3,
+    extra=1,
     can_delete=True
 )

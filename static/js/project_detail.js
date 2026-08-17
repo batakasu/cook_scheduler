@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const memberDataElement = document.getElementById('members-data');
     const container = document.getElementById('visualization');
     const projectId = container.getAttribute('data-project-id');
+    const startTimeElement = document.getElementById('project-start-time');
 
     if (!taskDataElement || !memberDataElement || !container) return;
 
@@ -30,13 +31,23 @@ document.addEventListener("DOMContentLoaded", function() {
         };
     });
 
-    const sortedByStart = [...timelineItems].sort((a, b) => a.start - b.start);
-    const firstTask = sortedByStart[0].start;
+    let defaultTime = startTimeElement ? new Date(JSON.parse(startTimeElement.textContent)) : new Date();
+    let startDate, endDate;
 
-    const sortedByEnd = [...timelineItems].sort((a, b) => a.end - b.end);
-    const lastTask = sortedByEnd[sortedByEnd.length - 1].end;
-    let startDate = new Date(firstTask.getFullYear(), firstTask.getMonth(), firstTask.getDate(), 0, 0, 0);
-    let endDate = new Date(lastTask.getFullYear(), lastTask.getMonth(), lastTask.getDate() + 1, 0, 0, 0);
+    // タスクの有無に応じた表示範囲の設定
+    if (timelineItems.length > 0) {
+        const sortedByStart = [...timelineItems].sort((a, b) => a.start - b.start);
+        const firstTask = sortedByStart[0].start;
+
+        const sortedByEnd = [...timelineItems].sort((a, b) => a.end - b.end);
+        const lastTask = sortedByEnd[sortedByEnd.length - 1].end;
+
+        startDate = new Date(firstTask.getFullYear(), firstTask.getMonth(), firstTask.getDate(), 0, 0, 0);
+        endDate = new Date(lastTask.getFullYear(), lastTask.getMonth(), lastTask.getDate() + 1, 0, 0, 0);
+    } else {
+        startDate = new Date(defaultTime.getFullYear(), defaultTime.getMonth(), defaultTime.getDate(), 0, 0, 0);
+        endDate = new Date(defaultTime.getFullYear(), defaultTime.getMonth(), defaultTime.getDate() + 1, 0, 0, 0);
+    }
 
     // 4. タイムラインのオプション設定
     const options = {
@@ -98,6 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(data => {
                 if(data.success) {
                     callback(item); // 成功したら変更を確定する
+                    location.reload();
                 } else {
                     callback(null); // 失敗した場合は移動を元に戻す
                 }
