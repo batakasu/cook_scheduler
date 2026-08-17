@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}レシピ一覧{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="top">
+            <h1>道具一覧</h1>
+
+        <ul class="list">
+            {% for t in tools %}
+                <li class="item">
+                    <a href="{% url 'tasks:project_detail' t.pk %}" class="link">
+                        <span class="title">{{ t.name }}</span>
+                    </a>
+                </li>
+            {% empty %}
+                <p class="empty">まだ道具が登録されていません。</p>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
