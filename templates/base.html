@@ -10,8 +10,6 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    {% csrf_token %}
-    
     <header class="site-header">
         <div class="header-inner">
             <p> ヘッダー</p>
@@ -33,5 +31,6 @@
         <p>&copy; ore</p>
     </footer>
     {% block extra_js %}{% endblock %}
+    <form>{% csrf_token %}</form>
 </body>
 </html>
