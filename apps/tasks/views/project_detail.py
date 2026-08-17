@@ -47,7 +47,7 @@ class ProjectDetailView(generic.DetailView):
 
     return context
 
-def update_task_time(request):
+def update_task(request):
     if request.method != 'POST':
         return JsonResponse({'success': False}, status=405)
     
@@ -56,6 +56,7 @@ def update_task_time(request):
         task_id = data.get('id')
         new_start_str = data.get('start')
         new_end_str = data.get('end')
+        group = data.get('group')
         task = Task.objects.get(id=task_id)
         project = task.project
 
@@ -113,6 +114,8 @@ def update_task_time(request):
 
         duration_delta = end_naive - start_naive
         task.duration = int(duration_delta.total_seconds() // 60)
+
+        task.membership = Membership.objects.get(id=data.get('group'))
 
         task.start_offset = new_offset
         task.save()

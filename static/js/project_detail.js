@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function() {
         },
 
         onMove: function(item, callback) {
-            fetch('/tasks/update_task_time/', {
+            fetch('/tasks/update_task/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,6 +62,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 },
                 body: JSON.stringify({
                     id: item.id,
+                    group: item.group,
                     start: item.start,
                     end: item.end
                 })
@@ -116,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
             .then(response => {
                 if (response.ok) {
                     callback(item); // 成功した場合は callback(item) で確定
+                    location.reload();
                 } else {
                     callback(null); // 失敗した場合は callback(null) で削除をキャンセル
                 }
