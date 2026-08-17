@@ -50,7 +50,7 @@ class ProjectDetailView(generic.DetailView):
 def update_task_time(request):
     if request.method != 'POST':
         return JsonResponse({'success': False}, status=405)
-
+    
     try:
         data = json.loads(request.body)
         task_id = data.get('id')
@@ -74,7 +74,39 @@ def update_task_time(request):
 
         new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
         if new_offset < 0:
-            new_offset = 0
+            diff_minutes = abs(new_offset)
+
+            #他のタスクのoff_setを遅らせる。
+            other_tasks = Task.objects.filter(project=project)
+            for t in other_tasks:
+                t.start_offset += diff_minutes
+                t.save()
+
+            project.scheduled_at -= timedelta(minutes=diff_minutes)
+            project.save()
+            
+            proj_start_naive = project.scheduled_at.replace(tzinfo=None)
+            new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
+            if new_offset < 0:
+                new_offset = 0
+        else:
+            tasks = Task.objects.filter(project=project).order_by('start_offset')
+            first_offset = tasks.first().start_offset
+            
+            #最初のタスクにoffsetがあるなら
+            if first_offset > 0:
+                other_tasks = Task.objects.filter(project=project)
+                for t in other_tasks:
+                    t.start_offset -= first_offset
+                    t.save()
+                    
+                project.scheduled_at += timedelta(minutes=first_offset)
+                project.save()
+
+                proj_start_naive = project.scheduled_at.replace(tzinfo=None)
+                new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
+                if new_offset < 0:
+                    new_offset = 0
 
         task.start_offset = new_offset
         task.save()
