@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project, Task
+from .models import Project, Task, Membership
 from django.forms import inlineformset_factory
 
 class ProjectForm(forms.ModelForm):
@@ -13,7 +13,16 @@ class ProjectForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'membership', 'duration']
+        fields = ['title', 'description', 'membership', 'duration']    
+
+    def __init__(self, *args, **kwargs):
+        project = kwargs.pop('project', None)
+        super().__init__(*args, **kwargs)
+
+        if project is not None:
+            self.fields['membership'].queryset = Membership.objects.filter(project=project)
+        else:
+            self.fields['membership'].queryset = Membership.objects.none()
 
 TaskFormSet = inlineformset_factory(
     Project,

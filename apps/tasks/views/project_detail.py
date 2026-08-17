@@ -7,45 +7,44 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 class ProjectDetailView(generic.DetailView):
-  pk_url_kwarg = 'project_pk'
-  model = Project
-  template_name = 'tasks/project_detail.html'
-  context_object_name = 'project'
+    pk_url_kwarg = 'project_pk'
+    model = Project
+    template_name = 'tasks/project_detail.html'
+    context_object_name = 'project'
 
-  def get_context_data(self, **kwargs):
-    context = super().get_context_data(**kwargs)
-    project = self.object
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = self.object
 
-    members = project.members.all()
-    members_data = []
-    for member in members:
-        members_data.append({
-            'id': member.id,
-            'content': member.user.username if member.user else member.guest_name,
-        })
+        members = project.members.all()
+        members_data = []
+        for member in members:
+            members_data.append({
+                'id': member.id,
+                'content': member.user.username if member.user else member.guest_name,
+            })
 
-    context['members_json'] = json.dumps(members_data)
+        context['members_json'] = json.dumps(members_data)
 
 
-    tasks = project.tasks.all()
-    context['tasks'] = tasks
-    tasks_data = []
-    if project.scheduled_at:
-      for task in tasks:
-        start_time = project.scheduled_at + timedelta(minutes=task.start_offset)
-        end_time = start_time + timedelta(minutes=task.duration)
+        tasks = project.tasks.all()
+        context['tasks'] = tasks
+        tasks_data = []
+        if project.scheduled_at:
+            for task in tasks:
+                start_time = project.scheduled_at + timedelta(minutes=task.start_offset)
+                end_time = start_time + timedelta(minutes=task.duration)
 
-        tasks_data.append({
-            'id': task.id,
-            'content': task.title,
-            'group' : task.membership_id,
-            'start': start_time.isoformat(),
-            'end': end_time.isoformat(),
-        })
+                tasks_data.append({
+                'id': task.id,
+                'content': task.title,
+                'group' : task.membership_id,
+                'start': start_time.isoformat(),
+                'end': end_time.isoformat(),
+            })
 
-    context['tasks_json'] = json.dumps(tasks_data)
-
-    return context
+        context['tasks_json'] = json.dumps(tasks_data)
+        return context
 
 def update_task(request):
     if request.method != 'POST':

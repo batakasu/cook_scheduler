@@ -30,7 +30,19 @@ class Membership(models.Model):
 
     def __str__(self):
         return self.user.username if self.user else self.guest_name
+
+class Tool(models.Model):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name="プロジェクト")
+    name = models.CharField(max_length=30, blank=True, verbose_name="道具")
+    description = models.TextField(blank=True, verbose_name="備考")
     
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "道具"
+        verbose_name_plural = "道具一覧"
+
 class Task(models.Model):
     project = models.ForeignKey(Project, on_delete = models.CASCADE, verbose_name = '作業', related_name='tasks')
     membership = models.ForeignKey(Membership, on_delete = models.SET_NULL, null=True, verbose_name="担当者", related_name='member')
