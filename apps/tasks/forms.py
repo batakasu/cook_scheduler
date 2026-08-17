@@ -13,7 +13,7 @@ class ProjectForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'duration']
+        fields = ['title', 'description', 'membership', 'duration']
 
 TaskFormSet = inlineformset_factory(
     Project,
