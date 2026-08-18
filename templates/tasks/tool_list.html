@@ -11,12 +11,13 @@
     <div class="container">
         <div class="top">
             <h1>道具一覧</h1>
+        </div>
 
         <ul class="list">
-            {% for t in tools %}
+            {% for tool in tool_list %}
                 <li class="item">
-                    <a href="{% url 'tasks:project_detail' t.pk %}" class="link">
-                        <span class="title">{{ t.name }}</span>
+                    <a href="{% url 'tasks:tool_detail' project.pk tool.pk %}" class="link">
+                        <span class="title">{{ tool.name }}</span>
                     </a>
                 </li>
             {% empty %}
