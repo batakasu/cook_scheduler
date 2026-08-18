@@ -29,8 +29,15 @@ SECRET_KEY = 'django-insecure-jpcy!&m=37^9p**=*k=+kf*8mbm-0#f9(p7yuy!1w)-fdvc@=o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    ".trycloudflare.com",
+]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://adjustable-grab-gone-rebates.trycloudflare.com",
+]
 
 # Application definition
 
