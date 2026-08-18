@@ -1,5 +1,5 @@
 from django import forms
-from .models import Project, Task, Membership
+from .models import Project, Task, Membership, Tool
 from django.forms import inlineformset_factory
 
 class ProjectForm(forms.ModelForm):
@@ -23,6 +23,16 @@ class TaskForm(forms.ModelForm):
             self.fields['membership'].queryset = Membership.objects.filter(project=project)
         else:
             self.fields['membership'].queryset = Membership.objects.none()
+
+class ToolForm(forms.ModelForm):
+    class Meta:
+        model = Tool
+        fields = ['name', 'description']
+
+    
+    def __init__(self, *args, **kwargs):
+        project = kwargs.pop('project', None)
+        super().__init__(*args, **kwargs)
 
 TaskFormSet = inlineformset_factory(
     Project,
