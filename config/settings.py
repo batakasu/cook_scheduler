@@ -35,8 +35,9 @@ ALLOWED_HOSTS = [
     ".trycloudflare.com",
 ]
 
+# CloudflareのURLを設定
 CSRF_TRUSTED_ORIGINS = [
-    "https://adjustable-grab-gone-rebates.trycloudflare.com",
+    "https://acquire-junction-shopping-lip.trycloudflare.com",
 ]
 
 # Application definition
