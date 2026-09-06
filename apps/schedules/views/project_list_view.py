@@ -8,13 +8,14 @@ class ProjectListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         self.sort_type = self.request.GET.get('sort', 'new')
+        projects = Project.objects.filter(members__user=self.request.user)
         
         if self.sort_type == 'old':
-            return Project.objects.order_by('scheduled_at')  # 古い順
+            return projects.order_by('scheduled_at')  # 古い順
         elif self.sort_type == 'title':
-            return Project.objects.order_by('title')         # タイトル順
+            return projects.order_by('title')         # タイトル順
         else:
-            return Project.objects.order_by('-scheduled_at') # 新しい順（デフォルト）
+            return projects.order_by('-scheduled_at') # 新しい順（デフォルト）
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
