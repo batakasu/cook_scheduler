@@ -5,8 +5,9 @@ from django.urls import reverse
 from ..forms import ToolForm
 from django.shortcuts import get_object_or_404
 from ..models import Project, Tool
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class ToolDetail(generic.UpdateView):
+class ToolDetail(LoginRequiredMixin,generic.UpdateView):
     pk_url_kwarg = 'tool_pk'
     model = Tool
     template_name = 'tasks/tool_detail.html'
