@@ -16,7 +16,7 @@
         <ul class="list">
             {% for tool in tool_list %}
                 <li class="item">
-                    <a href="{% url 'tasks:tool_detail' project.pk tool.pk %}" class="link">
+                    <a href="{% url 'schedule s:tool_detail' project.pk tool.pk %}" class="link">
                         <span class="title">{{ tool.name }}</span>
                     </a>
                 </li>

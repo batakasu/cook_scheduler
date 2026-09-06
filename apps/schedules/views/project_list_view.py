@@ -1,7 +1,8 @@
 from django.views.generic import ListView
 from ..models import Project
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class ProjectListView(ListView):
+class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
     context_object_name = 'projects'
     

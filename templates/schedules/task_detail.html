@@ -11,7 +11,7 @@
     <h2>タスク詳細・編集</h2>
 
     <!-- フォームを使って全項目（タイトル、説明、数字など）を表示・編集できるようにする -->
-    <form method="post" action="{% url 'tasks:task_detail' project_pk=view.kwargs.project_pk task_pk=task.pk %}">
+    <form method="post" action="{% url 'schedules:task_detail' project_pk=view.kwargs.project_pk task_pk=task.pk %}">
         {% csrf_token %}
         {{ task_form.as_p }}
         <button type="submit" class="btn btn-primary">保存する</button>
