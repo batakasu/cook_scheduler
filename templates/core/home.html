@@ -4,4 +4,14 @@
     <h1>ホーム画面</h1>
     <a href="{% url 'recipes:add' %}">レシピをつくる</a>
     <a href="{% url 'schedules:project_create' %}">献立を考える</a>
+    <h2>次の予定</h2>
+    {% if project%}
+        <a href="{% url 'schedules:project_detail' project.pk %}" class="link">
+            <span class="title">{{ project.title }}</span>
+            <span class="date">{{ project.scheduled_at }}</span>
+        </a>
+    {% else %}
+        <p>まだ予定がありません</p>
+    {% endif %}
+
 {% endblock %}
