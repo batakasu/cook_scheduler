@@ -2,14 +2,14 @@ import json
 from datetime import timedelta
 from django.http import JsonResponse
 from django.views import generic
-from apps.tasks.models import Project, Task, Membership
+from ..models import Project, Task, Membership
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
 class ProjectDetailView(generic.DetailView):
     pk_url_kwarg = 'project_pk'
     model = Project
-    template_name = 'tasks/project_detail.html'
+    template_name = 'schedules/project_detail.html'
     context_object_name = 'project'
 
     def get_context_data(self, **kwargs):

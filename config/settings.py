@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.tasks.apps.TasksConfig',
+    'apps.schedules.apps.SchedulesConfig',
     'apps.recipes.apps.RecipesConfig',
     'apps.accounts.apps.AccountsConfig',
     'apps.core.apps.CoreConfig',

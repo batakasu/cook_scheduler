@@ -11,7 +11,7 @@
 
 {% block content %}
     <h2>{{ project.title }} の工程表</h2>
-    <a href="{% url 'tasks:tool_list' project.id %}">道具一覧</a>
+    <a href="{% url 'schedules:tool_list' project.id %}">道具一覧</a>
     {% if project.scheduled_at %}
         <div id="visualization" data-project-id="{{ project.id }}"></div>
     {% else %}
@@ -20,7 +20,7 @@
 
     {{ project.scheduled_at|date:"c"|json_script:"project-start-time" }}
     {{ tasks_json|json_script:"tasks-data" }}
-    {{ members_json|json_script:"members-data"}}
+    {{ members_json|json_script:"members-data" }}
 {% endblock %}
 
 {% block extra_js %}

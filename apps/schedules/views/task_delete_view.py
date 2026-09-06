@@ -3,7 +3,7 @@ from django.views.generic.edit import DeleteView
 from django.http import JsonResponse
 from ..models import Task
 
-class delete_task(DeleteView):
+class TaskDeleteView(DeleteView):
     model = Task
     pk_url_kwarg = 'task_pk'
 

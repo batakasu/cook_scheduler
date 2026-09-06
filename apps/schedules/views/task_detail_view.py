@@ -1,13 +1,13 @@
 from django.views import generic
 from django.urls import reverse
-from apps.tasks.models import Task, Project
-from apps.tasks.forms import TaskForm
+from apps.schedules.models import Task, Project
+from apps.schedules.forms import TaskForm
 from django.shortcuts import get_object_or_404
 
-class TaskDetail(generic.UpdateView):
+class TaskDetailView(generic.UpdateView):
     pk_url_kwarg = 'task_pk'
     model = Task
-    template_name = 'tasks/task_detail.html'
+    template_name = 'schedules/task_detail.html'
     context_object_name = 'task'
     form_class = TaskForm
 
@@ -28,4 +28,4 @@ class TaskDetail(generic.UpdateView):
     
     def get_success_url(self):
         project_pk = self.kwargs.get('project_pk')
-        return reverse('tasks:project_detail', kwargs={'project_pk': project_pk})
+        return reverse('schedules:project_detail', kwargs={'project_pk': project_pk})

@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
+
     // 1. HTMLからデータ要素を取得
     const taskDataElement = document.getElementById('tasks-data');
     const memberDataElement = document.getElementById('members-data');
@@ -65,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function() {
         },
 
         onMove: function(item, callback) {
-            fetch('/tasks/update_task/', {
+            fetch('/schedules/update_task/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,7 +93,7 @@ document.addEventListener("DOMContentLoaded", function() {
         },
 
         onAdd: function(item, callback) {
-            fetch('/tasks/add_new_task/', {
+            fetch('/schedules/add_new_task/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -120,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function() {
         },
 
         onRemove: function(item, callback) {
-            fetch(`/tasks/delete/${item.id}/`, {
+            fetch(`/schedules/delete/${item.id}/`, {
                 method: 'DELETE',
                 headers: {
                     'X-CSRFToken': getCookie('csrftoken')
@@ -156,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // タスクをダブルクリックすることでそのタスクのdetailへ
         if (properties.item) {
             const taskId = properties.item;
-            window.location.href = `/tasks/${projectId}/tasks/${taskId}/`;
+            window.location.href = `/schedules/${projectId}/tasks/${taskId}/`;
         }
     });
 }, false);

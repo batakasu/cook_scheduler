@@ -7,10 +7,10 @@ from django.shortcuts import get_object_or_404
 from ..models import Project, Tool
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-class ToolDetail(LoginRequiredMixin,generic.UpdateView):
+class ToolDetailView(LoginRequiredMixin,generic.UpdateView):
     pk_url_kwarg = 'tool_pk'
     model = Tool
-    template_name = 'tasks/tool_detail.html'
+    template_name = 'schedules/tool_detail.html'
     context_object_name = 'tool'
     form_class = ToolForm
 
@@ -31,4 +31,4 @@ class ToolDetail(LoginRequiredMixin,generic.UpdateView):
     
     def get_success_url(self):
         project_pk = self.kwargs.get('project_pk')
-        return reverse_lazy('tasks:tool_list', kwargs={'project_pk': project_pk})
+        return reverse_lazy('schedules:tool_list', kwargs={'project_pk': project_pk})

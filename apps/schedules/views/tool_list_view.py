@@ -1,10 +1,10 @@
 from django.views.generic import ListView
-from apps.tasks.models import Tool, Project
+from apps.schedules.models import Tool, Project
 from django.shortcuts import get_object_or_404
 
-class ToolList(ListView):
+class ToolListView(ListView):
     model = Tool
-    template_name = 'tasks/tool_list.html'
+    template_name = 'schedules/tool_list.html'
     context_object_name = 'tool_list'
 
     def get_queryset(self):
