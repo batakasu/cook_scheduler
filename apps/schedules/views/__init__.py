@@ -1,3 +1,4 @@
+from .membership_list_view import MembershipListView
 from .project_create_view import ProjectCreateView
 from .project_list_view import ProjectListView
 from .project_detail_view import ProjectDetailView, update_task, add_new_task

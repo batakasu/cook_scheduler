@@ -12,6 +12,7 @@
 {% block content %}
     <h2>{{ project.title }} の工程表</h2>
     <a href="{% url 'schedules:tool_list' project.id %}">道具一覧</a>
+    <a href="{% url 'schedules:membership_list' project.id%}">メンバー一覧</a>
     {% if project.scheduled_at %}
         <div id="visualization" data-project-id="{{ project.id }}"></div>
     {% else %}
