@@ -10,6 +10,20 @@ class ProjectForm(forms.ModelForm):
             'scheduled_at': forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         }
 
+class MembershipForm(forms.ModelForm):
+    class Meta:
+        model = Membership
+        fields = ['user', 'guest_name']
+    
+    def __init__(self, *args, **kwargs):
+        self.saved_project = kwargs.pop('project', None)
+        super().__init__(*args, **kwargs)
+
+    def save(self, commit=True):
+        self.instance.project = self.saved_project
+        return super().save(commit=commit)
+
+
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task

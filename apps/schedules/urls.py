@@ -4,6 +4,7 @@ from . import views
 app_name = 'schedules'
 
 urlpatterns = [
+    path('<int:project_pk>/members/create/', views.MembershipCreateView.as_view(), name='membership_create'),
     path('<int:project_pk>/members/', views.MembershipListView.as_view(), name='membership_list'),
     path('create/', views.ProjectCreateView.as_view(), name='project_create'),
     path('list/', views.ProjectListView.as_view(), name='project_list'),

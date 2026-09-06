@@ -1,3 +1,4 @@
+from .membership_create_view import MembershipCreateView
 from .membership_list_view import MembershipListView
 from .project_create_view import ProjectCreateView
 from .project_list_view import ProjectListView

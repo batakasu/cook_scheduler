@@ -20,5 +20,8 @@
                 </li>
             {% endfor %}
         </ul>
+        
+        <a href="{% url 'schedules:membership_create' project.pk %}">メンバーを追加</a>
+    
     </div>
 {% endblock %}
