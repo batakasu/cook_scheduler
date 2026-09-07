@@ -35,6 +35,11 @@ header {
     padding: 1rem 2rem 1rem 2rem;
     box-sizing: border-box;
 }
+header img {
+    max-width: 10%;
+    height: auto;
+    padding: 0rem 1rem;
+}
 header a:link,header a:visited {
     color: #fff;
     text-decoration: none;
@@ -76,6 +81,11 @@ footer {
         flex-direction: column; /* 要素を横並びから「縦並び」にする */
         align-items: center;    /* 中央に寄せる */
         gap: 1rem;              /* ロゴとメニューの間の隙間を作る */
+    }
+    header img {
+        max-width: 50%;
+        height: auto;
+        padding: 0rem 1rem;
     }
     .nav-menu {
         flex-wrap: wrap;        /* メニューの文字が多いときに自動で折り返す */
