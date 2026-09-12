@@ -50,13 +50,17 @@ class Task(models.Model):
     description = models.TextField(blank=True, verbose_name="備考")
     # 順序の管理
     order = models.PositiveIntegerField(default=0, verbose_name="順番")
+    # 手をはなせるか（False = はなせない）
+    leave = models.BooleanField(default=False)
+    # 関連するタスク
+    from_task = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     # 時間の管
     # 前のプロジェクトからどれだけ時間を空けるか
     start_offset = models.PositiveIntegerField(default=0, verbose_name="オフセット（分）")
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
 
     def __str__(self):
-            return f"{self.order}: {self.title}"
+        return f"{self.order}: {self.title}"
     
     class Meta:
         ordering = ["order"]
