@@ -93,6 +93,17 @@ class Task(models.Model):
             t.save(update_fields=['start_offset'])
             t.update_next_task_offsets(s)
 
+    def find_conflicting_tasks(self):
+        s = set()
+        
+        if self.leave is True or self.membership is None:
+            return s
+
+        target_tasks = self.project.tasks.filter(membership=self.membership).filter(leave=False).exclude(id=self.id)
+        for t in target_tasks:
+            if self.start_offset < (t.start_offset + t.duration) and t.start_offset < (self.start_offset + self.duration):
+                s.add(t.id)
+        return s
             
     class Meta:
         ordering = ["order"]
