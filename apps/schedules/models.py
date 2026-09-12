@@ -56,7 +56,7 @@ class Task(models.Model):
     from_task = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     # 時間の管
     # 前のプロジェクトからどれだけ時間を空けるか
-    start_offset = models.PositiveIntegerField(default=0, verbose_name="オフセット（分）")
+    start_offset = models.IntegerField(default=0, verbose_name="オフセット（分）")
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
 
     def __str__(self):

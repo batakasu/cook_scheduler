@@ -5,6 +5,7 @@ from django.views import generic
 from ..models import Project, Task, Membership
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from django.db import transaction
 
 class ProjectDetailView(generic.DetailView):
     pk_url_kwarg = 'project_pk'
@@ -53,77 +54,65 @@ def update_task(request):
     try:
         data = json.loads(request.body)
         task_id = data.get('id')
-        new_start_str = data.get('start')
-        new_end_str = data.get('end')
-        group = data.get('group')
-        task = Task.objects.get(id=task_id)
-        project = task.project
+        start_str = data.get('start')
+        end_str = data.get('end')
+        membership_id = data.get('group')
 
         #時間のデータ取得
-        if not new_start_str or not new_end_str:
-            return JsonResponse({'success': False, 'error': 'Start or End time is missing'}, status=400)
-        if not project or not project.scheduled_at:
-            return JsonResponse({'success': False, 'error': 'Project schedule not found'}, status=400)
-        
-        new_start = datetime.fromisoformat(new_start_str.replace('Z', '+00:00'))
-        new_end = datetime.fromisoformat(new_end_str.replace('Z', '+00:00'))
+        if not start_str or not end_str:
+            return JsonResponse({'success': False, 'error': '開始日時と終了日時を指定してください'}, status=400)
 
-        if project.scheduled_at.tzinfo is not None:
-            new_start = new_start.astimezone(project.scheduled_at.tzinfo)
+        new_start = datetime.fromisoformat(start_str.replace('Z', '+00:00'))
+        new_end = datetime.fromisoformat(end_str.replace('Z', '+00:00'))
 
-        start_naive = new_start.replace(tzinfo=None)
-        end_naive = new_end.replace(tzinfo=None)
-        proj_start_naive = project.scheduled_at.replace(tzinfo=None)
+        # 作業時間が0分以下なら
+        if new_end <= new_start:
+            return JsonResponse({'success': False, 'error': '終了日時は開始日時より後にしてください'}, status=400)
 
-        new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
-        if new_offset < 0:
-            diff_minutes = abs(new_offset)
+        with transaction.atomic():
+            task = Task.objects.select_related('project').get(pk=task_id)
+            project = task.project
 
-            #他のタスクのoff_setを遅らせる。
-            other_tasks = Task.objects.filter(project=project)
-            for t in other_tasks:
-                t.start_offset += diff_minutes
-                t.save()
-
-            project.scheduled_at -= timedelta(minutes=diff_minutes)
-            project.save()
+            if project.scheduled_at is None:
+                return JsonResponse({'success': False,'error': '献立の開始日時が設定されていません'},status=400)
             
-            proj_start_naive = project.scheduled_at.replace(tzinfo=None)
-            new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
-            if new_offset < 0:
-                new_offset = 0
-        else:
-            tasks = Task.objects.filter(project=project).order_by('start_offset')
-            first_offset = tasks.first().start_offset
+            duration = new_end - new_start
+            start_offset = new_start - project.scheduled_at
 
-            #最初のタスクにoffsetがあるなら
-            if first_offset > 0:
-                other_tasks = Task.objects.filter(project=project)
-                for t in other_tasks:
-                    t.start_offset -= first_offset
-                    t.save()
-                    
-                project.scheduled_at += timedelta(minutes=first_offset)
-                project.save()
+            task.duration = int(duration.total_seconds() // 60)
+            task.start_offset = int(start_offset.total_seconds() // 60)
+            task.membership = Membership.objects.get(pk=membership_id, project=project)
 
-                proj_start_naive = project.scheduled_at.replace(tzinfo=None)
-                new_offset = int((start_naive - proj_start_naive).total_seconds() // 60)
-                if new_offset < 0:
-                    new_offset = 0
+            task.save(update_fields=["duration", "start_offset", "membership"])
+            normalize_task_offsets(project) 
 
-        duration_delta = end_naive - start_naive
-        task.duration = int(duration_delta.total_seconds() // 60)
-
-        task.membership = Membership.objects.get(id=data.get('group'))
-
-        task.start_offset = new_offset
-        task.save()
         return JsonResponse({'success': True})
 
     except Exception as e:
         import traceback
         traceback.print_exc()
         return JsonResponse({'success': False, 'error': str(e)}, status=400)
+
+def normalize_task_offsets(project):
+    first_task = project.tasks.order_by('start_offset').first()
+
+    if first_task is None:
+        return
+    
+    offset_minutes = first_task.start_offset
+
+    if offset_minutes == 0:
+        return
+    
+
+    #他のタスクのoff_setを調整
+    other_tasks = Task.objects.filter(project=project)
+    for t in other_tasks:
+        t.start_offset -= offset_minutes
+        t.save(update_fields=["start_offset"])
+
+    project.scheduled_at += timedelta(minutes=offset_minutes)
+    project.save(update_fields=["scheduled_at"])
 
 def add_new_task(request):
     if request.method != 'POST':
