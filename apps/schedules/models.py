@@ -55,13 +55,45 @@ class Task(models.Model):
     # 関連するタスク
     from_task = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     # 時間の管
-    # 前のプロジェクトからどれだけ時間を空けるか
+    # スタートからどれだけ時間を空けるか
     start_offset = models.IntegerField(default=0, verbose_name="オフセット（分）")
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
 
     def __str__(self):
         return f"{self.order}: {self.title}"
-    
+
+    def find_first_task(self):
+        first_task = self
+        s = set()
+
+        while(first_task.from_task is not None):
+            if first_task.id in s:
+                raise ValidationError('処理済みです')
+            
+            s.add(first_task.id)
+            first_task = first_task.from_task
+
+        return first_task
+
+    def find_next_tasks(self):
+        next_tasks = self.project.tasks.filter(from_task=self.id)
+        return next_tasks
+
+    def update_next_task_offsets(self, s=None):
+        if s is None:
+            s = set()
+            s.add(self.id)
+
+        for t in self.find_next_tasks():
+            if t.id in s:
+                raise ValidationError('処理済みです')
+
+            s.add(t.id)
+            t.start_offset = self.start_offset + self.duration
+            t.save(update_fields=['start_offset'])
+            t.update_next_task_offsets(s)
+
+            
     class Meta:
         ordering = ["order"]
         verbose_name = "作業"

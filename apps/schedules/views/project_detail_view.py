@@ -79,11 +79,23 @@ def update_task(request):
             duration = new_end - new_start
             start_offset = new_start - project.scheduled_at
 
+            old_offset = task.start_offset
+
             task.duration = int(duration.total_seconds() // 60)
             task.start_offset = int(start_offset.total_seconds() // 60)
             task.membership = Membership.objects.get(pk=membership_id, project=project)
 
             task.save(update_fields=["duration", "start_offset", "membership"])
+
+            if task.from_task is not None:
+                first_task = task.find_first_task()
+                move_time = task.start_offset - old_offset
+                first_task.start_offset = first_task.start_offset + move_time
+            else:
+                first_task = task
+            first_task.save(update_fields=['start_offset'])
+            first_task.update_next_task_offsets()
+
             normalize_task_offsets(project) 
 
         return JsonResponse({'success': True})
