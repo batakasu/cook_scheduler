@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from apps.core.choices import TASK_CATEGORY
 
 # Create your models here.
 class Project(models.Model):
@@ -54,6 +55,7 @@ class Task(models.Model):
     leave = models.BooleanField(default=False)
     # 関連するタスク
     from_task = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
+    category = models.CharField(choices=TASK_CATEGORY, default='other')
     # 時間の管
     # スタートからどれだけ時間を空けるか
     start_offset = models.IntegerField(default=0, verbose_name="オフセット（分）")
@@ -95,7 +97,7 @@ class Task(models.Model):
 
     def find_conflicting_tasks(self):
         s = set()
-        
+
         if self.leave is True or self.membership is None:
             return s
 

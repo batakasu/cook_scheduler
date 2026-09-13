@@ -1,4 +1,5 @@
 from django.db import models
+from apps.core.choices import TASK_CATEGORY
 
 # Create your models here.
 class Recipe(models.Model):
@@ -15,6 +16,7 @@ class Step(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='steps', on_delete=models.CASCADE)
     # 何番目の工程か
     order = models.PositiveIntegerField(verbose_name="順番")
+    category = models.CharField(choices=TASK_CATEGORY, default='other')
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
     description = models.TextField(verbose_name="工程内容")
 
