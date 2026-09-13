@@ -13,7 +13,7 @@ def include_recipe(project, recipe, membership):
             created_task = Task.objects.create(
                 project = project,
                 membership = membership,
-                title = s.title,
+                title = '未題',
                 description = s.description,
                 leave = s.leave,
                 from_task = from_task,
