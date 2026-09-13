@@ -4,3 +4,8 @@
     border: 1px solid #ccc;
     margin-top: 20px;
 }
+
+.vis-item.task-conflict {
+    background-color: #a10000;
+    border-color: #fff;
+}

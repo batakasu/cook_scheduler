@@ -27,21 +27,24 @@ class ProjectDetailView(generic.DetailView):
 
         context['members_json'] = json.dumps(members_data)
 
-
         tasks = project.tasks.all()
         context['tasks'] = tasks
         tasks_data = []
         if project.scheduled_at:
-            for task in tasks:
-                start_time = project.scheduled_at + timedelta(minutes=task.start_offset)
-                end_time = start_time + timedelta(minutes=task.duration)
+            for t in tasks:
+                start_time = project.scheduled_at + timedelta(minutes=t.start_offset)
+                end_time = start_time + timedelta(minutes=t.duration)
+
+                # idがあるならTrue、無いならFalse
+                conflicting = bool(t.find_conflicting_tasks())
 
                 tasks_data.append({
-                'id': task.id,
-                'content': task.title,
-                'group' : task.membership_id,
+                'id': t.id,
+                'content': t.title,
+                'group' : t.membership_id,
                 'start': start_time.isoformat(),
                 'end': end_time.isoformat(),
+                'conflicting': conflicting
             })
 
         context['tasks_json'] = json.dumps(tasks_data)

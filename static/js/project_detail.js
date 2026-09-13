@@ -23,12 +23,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 3. タイムライン用のデータを生成（Djangoから来た start/end をそのまま使う）
     const timelineItems = taskList.map(task => {
+        let name
+        if (task.conflicting) {
+            name = 'task-conflict'
+        } else {
+            name = ''
+        }
+
         return {
             id: task.id,
             content: task.content, // Django側から来ている 'content' を使用
             group: task.group,
             start: new Date(task.start), // 文字列をDate型に変換
-            end: new Date(task.end)      // 文字列をDate型に変換
+            end: new Date(task.end),     // 文字列をDate型に変換
+            className: name
         };
     });
 
@@ -55,15 +63,11 @@ document.addEventListener("DOMContentLoaded", function() {
         locale: 'ja',
         zoomable: true,
         moveable: true,
-        stack: false,
+        stack: true,
         showCurrentTime: false,
         orientation:'top',
-        editable: {
-            add: true,
-            updateTime: true,
-            updateGroup: true,
-            remove: true
-        },
+        editable: true,
+        margin:{item: {horizontal: 0}},
 
         onMove: function(item, callback) {
             fetch('/schedules/update_task/', {
