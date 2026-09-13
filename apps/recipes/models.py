@@ -16,6 +16,8 @@ class Step(models.Model):
     recipe = models.ForeignKey(Recipe, related_name='steps', on_delete=models.CASCADE)
     # 何番目の工程か
     order = models.PositiveIntegerField(verbose_name="順番")
+    # 手をはなせるか（False = はなせない）
+    leave = models.BooleanField(default=False)
     category = models.CharField(choices=TASK_CATEGORY, default='other')
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
     description = models.TextField(verbose_name="工程内容")
