@@ -1,2 +1,2 @@
-from .list import list
+from .recipe_list_view import RecipeListView
 from .recipe_create_view import RecipeCreateView
