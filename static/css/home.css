@@ -1,0 +1,77 @@
+.next-schedule {
+    width: 100%;
+    padding-top: 1.5rem;
+}
+
+.next-schedule h2 {
+    width: calc(100% - 2rem);
+    max-width: 420px;
+
+    margin: 0 auto 0.75rem;
+
+    font-size: 1.2rem;
+}
+
+.schedule-card {
+    display: block;
+    box-sizing: border-box;
+
+    width: calc(100% - 2rem);
+    max-width: 420px;
+
+    margin: 0 auto;
+    padding: 1rem;
+
+    background-color: #fff;
+
+    border: 1px solid #eadfd8;
+    border-radius: 16px;
+
+    color: #1b293f;
+    text-decoration: none;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+
+    transition: transform 0.12s ease;
+}
+
+.schedule-card:active {
+    transform: scale(0.98);
+}
+
+.schedule-card-main h3 {
+    margin: 0 0 0.5rem;
+
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.schedule-time {
+    margin: 0;
+
+    color: #777;
+    font-size: 0.9rem;
+}
+
+.schedule-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    gap: 0.3rem;
+    margin-top: 1rem;
+
+    color: #f39716;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.schedule-arrow {
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+.empty-card {
+    color: #888;
+}

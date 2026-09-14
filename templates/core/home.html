@@ -1,17 +1,32 @@
 {% extends 'base.html' %}
-{% block title %}ホーム画面 - マイサイト{% endblock %}
+{% load static %}
+
+{% block title %}ホーム画面{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
 {% block content %}
-    <h1>ホーム画面</h1>
-    <a href="{% url 'recipes:recipe_create' %}">レシピをつくる</a>
-    <a href="{% url 'schedules:project_create' %}">献立を考える</a>
     <h2>次の予定</h2>
-    {% if project%}
-        <a href="{% url 'schedules:project_detail' project.pk %}" class="link">
-            <span class="title">{{ project.title }}</span>
-            <span class="date">{{ project.scheduled_at }}</span>
+    {% if project %}
+        <a href="{% url 'schedules:project_detail' project.pk %}" class="schedule-card">
+            <div class="schedule-card-main">
+                <h3>{{ project.title }}</h3>
+
+                <p class="schedule-time">
+                    {{ project.scheduled_at|date:"n/j H:i" }} 開始
+                </p>
+            </div>
+
+            <div class="schedule-card-footer">
+                <span>工程表を見る</span>
+                <span class="schedule-arrow">›</span>
+            </div>
         </a>
     {% else %}
-        <p>まだ予定がありません</p>
+        <div class="schedule-card empty-card">
+            <p>次の予定はありません。</p>
+        </div>
     {% endif %}
 
 {% endblock %}
