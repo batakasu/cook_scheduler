@@ -67,9 +67,6 @@ main {
         width: 100%;
         box-sizing: border-box;
 
-        padding-left: 1rem;
-        padding-right: 1rem;
-
         /* ボトムナビゲーションに隠れないための余白 */
         padding-bottom: calc(
             88px + env(safe-area-inset-bottom)

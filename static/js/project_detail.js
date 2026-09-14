@@ -67,7 +67,10 @@ document.addEventListener("DOMContentLoaded", function() {
         showCurrentTime: false,
         orientation:'top',
         editable: true,
-        margin:{item: {horizontal: 0}},
+        margin: {item: {horizontal: 0}},
+        format: {minorLabels: {minute: 'HH:mm', hour: 'HH:mm'},
+                 majorLabels: {minute: 'M/D', hour: 'M/D'}
+        },
 
         onMove: function(item, callback) {
             fetch('/schedules/update_task/', {
@@ -150,6 +153,30 @@ document.addEventListener("DOMContentLoaded", function() {
         min: startDate, // これより過去にはスクロールできない
         max: endDate,   // これより未来にはスクロールできない
     };
+
+    const goStartButton = document.getElementById('go-start-button');
+
+    const firstTask = taskList.reduce((first, task) => {
+        return new Date(task.start) < new Date(first.start) ? task : first;
+    });
+
+    // 開始時刻に戻るボタンのプログラム
+    const firstStart = new Date(firstTask.start);
+    const firstEnd = new Date(firstTask.end);
+
+    goStartButton.addEventListener('click', () => {
+        const viewStart = new Date(firstStart.getTime() - 5 * 60 * 1000);
+        const viewEnd = new Date(firstEnd.getTime() + 15 * 60 * 1000);
+
+        timeline.setWindow(viewStart, viewEnd,
+            {
+                animation: {
+                    duration: 500,
+                    easingFunction: 'easeInOutQuad'
+                }
+            }
+        );
+    });
 
     // 5. タイムラインを描画
     const items = new vis.DataSet(timelineItems)
