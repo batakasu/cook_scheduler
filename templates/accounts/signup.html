@@ -1,7 +1,39 @@
+{% load static %}
+
 <!DOCTYPE html>
-<title>ユーザー登録</title>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-<button type="submit">登録する</button>
-</form>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>新規登録 | Cook Scheduler</title>
+
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+
+<body>
+    <main class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <img src="{% static 'image/Icon.png' %}" alt="Cook Scheduler" class="auth-logo">
+                <h1>新規登録</h1>
+
+                <p>
+                    Cook Schedulerへようこそ
+                </p>
+            </div>
+
+            <form method="post" class="auth-form">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="auth-button">
+                    登録
+                </button>
+            </form>
+
+        </div>
+    </main>
+</body>
+</html>

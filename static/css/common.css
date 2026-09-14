@@ -57,12 +57,6 @@ main {
         background-color 0.15s ease,
         color 0.15s ease;
 }
-.bottom-nav .nav-item:active {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-.bottom-nav .nav-item.active {
-    color: #f39716;
-}
 
 /*スマホ版*/
 @media screen and (max-width: 768px) {
@@ -92,7 +86,7 @@ main {
         min-height: 64px;
 
         padding: 0.35rem 0.25rem;
-        
+
         box-sizing: border-box;
 
         font-size: 0.75rem;
