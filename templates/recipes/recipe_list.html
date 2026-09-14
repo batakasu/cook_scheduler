@@ -1,13 +1,75 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}レシピ一覧{% endblock %}
+
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
-{% block content %}
-    <h1>レシピ一覧</h1>
 
-    {% for recipe in recipes %}
-        <a  class="link" href="{% url 'recipes:recipe_detail' p.pk %}">
-    {% endfor %}
+{% block content %}
+
+<div class="container">
+
+    <div class="top">
+        <h1>レシピ一覧</h1>
+
+        <div class="sort-box">
+            <label for="sort-select">並び順:</label>
+
+            <select id="sort-select" onchange="changeSort(this.value)">
+                <option value="new"
+                    {% if current_sort == 'new' %}selected{% endif %}>
+                    新しい順
+                </option>
+
+                <option value="old"
+                    {% if current_sort == 'old' %}selected{% endif %}>
+                    古い順
+                </option>
+
+                <option value="title"
+                    {% if current_sort == 'title' %}selected{% endif %}>
+                    タイトル順
+                </option>
+            </select>
+        </div>
+    </div>
+
+
+    <ul class="list">
+
+        {% for recipe in recipes %}
+
+            <li class="item">
+
+                <a
+                    class="link"
+                    href="{% url 'recipes:recipe_detail' recipe.pk %}"
+                >
+
+                    <span class="title">
+                        {{ recipe.title }}
+                    </span>
+
+                    <span class="arrow">
+                        ›
+                    </span>
+
+                </a>
+
+            </li>
+
+        {% empty %}
+
+            <li class="empty">
+                まだレシピが登録されていません。
+            </li>
+
+        {% endfor %}
+
+    </ul>
+
+</div>
+
 {% endblock %}

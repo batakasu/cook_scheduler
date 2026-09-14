@@ -8,4 +8,4 @@ class RecipeCreateView(LoginRequiredMixin, CreateView):
     model = Recipe
     form_class = RecipeForm
     template_name = 'recipes/recipe_create.html'
-    success_url = reverse_lazy('recipes/recipe_list')
+    success_url = reverse_lazy('recipes:recipe_list')
