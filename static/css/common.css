@@ -13,6 +13,19 @@ main {
     /* ボトムナビゲーションに隠れないための余白 */
     padding-bottom: 90px;
 }
+#page-top {
+    display: none;
+
+    position: fixed;
+    right: 20px;
+    bottom: 80px;
+
+    width: 50px;
+    height: 50px;
+
+    border: none;
+    border-radius: 50%;
+}
 
 /*ボトムナビゲーション*/
 .bottom-nav {
