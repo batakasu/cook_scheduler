@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
 
 # CloudflareのURLを設定
 CSRF_TRUSTED_ORIGINS = [
-    "https://warnings-versions-illustration-complexity.trycloudflare.com",
+    "https://venice-lee-planes-note.trycloudflare.com",
 ]
 
 # Application definition

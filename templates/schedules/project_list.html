@@ -4,6 +4,7 @@
 {% block title %}レシピ一覧{% endblock %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
     <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
@@ -24,10 +25,10 @@
 
         <ul class="list">
             {% for p in projects %}
-                <li class="item">
-                    <a href="{% url 'schedules:project_detail' p.pk %}" class="link">
-                        <span class="title">{{ p.title }}</span>
-                        <span class="date">{{ p.scheduled_at }}</span>
+                <li>
+                    <a href="{% url 'schedules:project_detail' p.pk %}" class="card link">
+                        <span class="card-title">{{ p.title }}</span>
+                        <span class="card-text">{{ p.scheduled_at }}</span>
                     </a>
                 </li>
             {% empty %}

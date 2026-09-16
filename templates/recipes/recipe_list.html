@@ -4,6 +4,7 @@
 {% block title %}レシピ一覧{% endblock %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
     <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
@@ -40,21 +41,11 @@
     <ul class="list">
 
         {% for recipe in recipes %}
-
-            <li class="item">
-
-                <a class="link" href="{% url 'recipes:recipe_detail' recipe.pk %}">
-
-                    <span class="title">
-                        {{ recipe.title }}
-                    </span>
-
-                    <span class="arrow">
-                        ›
-                    </span>
-
+            <li>
+                <a href="{% url 'recipes:recipe_detail' recipe.pk %}" class="card link">
+                    <span class="card-title"> {{ recipe.title }} </span>
+                    <span class="card-text"> › </span>
                 </a>
-
             </li>
 
         {% empty %}

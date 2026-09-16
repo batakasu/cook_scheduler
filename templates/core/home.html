@@ -4,12 +4,15 @@
 {% block title %}ホーム画面{% endblock %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
+
 {% block content %}
     <h2>次の予定</h2>
+
     {% if project %}
-        <a href="{% url 'schedules:project_detail' project.pk %}" class="schedule-card">
+        <a href="{% url 'schedules:project_detail' project.pk %}" class="card schedule-card">
             <div class="schedule-card-main">
                 <h3>{{ project.title }}</h3>
 
@@ -24,8 +27,8 @@
             </div>
         </a>
     {% else %}
-        <div class="schedule-card empty-card">
-            <p>次の予定はありません。</p>
+        <div class="card schedule-card empty-card">
+            <p class="card-text">次の予定はありません。</p>
         </div>
     {% endif %}
 
