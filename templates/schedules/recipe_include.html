@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}レシピコピー{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+    <div class="project_context">
+        <p>どれを追加しますか？</p>
+    </div>
+
+    {% for recipe in recipes %}
+        <form method="post">
+            {% csrf_token %}
+
+            {{ recipe.title }}
+            <button type='submit' name="recipe_pk" value="{{ recipe.pk }}">追加</button>
+    {% empty %}
+        <p>レシピがありません</p>
+    {% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

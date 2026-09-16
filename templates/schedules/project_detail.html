@@ -31,6 +31,8 @@
     {{ project.scheduled_at|date:"c"|json_script:"project-start-time" }}
     {{ tasks_json|json_script:"tasks-data" }}
     {{ members_json|json_script:"members-data" }}
+
+    <a href="{% url 'schedules:recipe_include' project.id%}">レシピを追加</a>
 {% endblock %}
 
 {% block extra_js %}
