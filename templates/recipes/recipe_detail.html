@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}resipe_detail{% endblock %}
+{% block title %}recipe_detail{% endblock %}
 
 {% block extra_css %}
 {% endblock %}
 
 {% block content %}
-<div class="task-detail-container">
-    <h2>レシピ詳細・編集</h2>
+<div class="recipe-detail-container">
+    <h2>レシピ詳細</h2>
+
+    {{ recipe.title }}
+
+    <hr>
+
+    {% for s in recipe.steps.all %}
+        {{ s.title }}
+    {% empty %}
+        <p class="empty">まだ手順が登録されていません。</p>
+    {% endfor %}
 </div>
 {% endblock %}
 

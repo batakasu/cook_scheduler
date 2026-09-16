@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
 
 # CloudflareのURLを設定
 CSRF_TRUSTED_ORIGINS = [
-    "https://billion-tried-metallic-somewhere.trycloudflare.com",
+    "https://warnings-versions-illustration-complexity.trycloudflare.com",
 ]
 
 # Application definition
