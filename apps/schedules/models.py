@@ -30,7 +30,11 @@ class Membership(models.Model):
         ]
 
     def __str__(self):
-        return self.user.username if self.user else self.guest_name
+        if self.user:
+            return self.user.username
+        if self.guest_name:
+            return self.guest_name
+        return "名前未設定"
 
 class Tool(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, verbose_name="プロジェクト")
