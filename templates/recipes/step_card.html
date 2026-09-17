@@ -1,0 +1,40 @@
+<div class="card step-card">
+
+    {{ s.id }}
+    {{ s.order }}
+
+    <div class="step-card-header">
+        <span class="drag-handle">≡</span>
+
+        <div class="card-title">
+            {{ s.title }}
+        </div>
+    </div>
+
+    <div class="step-card-body">
+        <div>
+            {{ s.description.label_tag }}
+            {{ s.description }}
+        </div>
+
+        <div>
+            {{ s.duration.label_tag }}
+            {{ s.duration }}
+        </div>
+
+        <div>
+            {{ s.category.label_tag }}
+            {{ s.category }}
+        </div>
+
+        <div>
+            {{ s.leave }}
+            {{ s.leave.label_tag }}
+        </div>
+    </div>
+
+    <div class="step-card-footer">
+        {{ s.DELETE }}
+        {{ s.DELETE.label_tag }}
+    </div>
+</div>

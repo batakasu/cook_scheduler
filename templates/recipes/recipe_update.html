@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}recipe_update{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/recipe_update.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+
+    {% csrf_token %}
+    {{ step_formset.management_form }}
+    {{ form.as_p }}
+
+    <div class="card-container">
+        {% for s in step_formset %}
+            {% include 'recipes/step_card.html' with s=s %}
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-step">
+        ＋ 工程を追加
+    </button>
+    <template id="empty-step-form">
+            {% include 'recipes/step_card.html' with s=step_formset.empty_form %}
+    </template>
+
+    <button type="submit">
+        保存する
+    </button>
+</form>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+    <script src="{% static 'js/recipe_update.js' %}"></script>
+{% endblock %}

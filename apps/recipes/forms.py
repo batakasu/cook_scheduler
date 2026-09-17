@@ -8,5 +8,12 @@ class RecipeForm(forms.ModelForm):
 
 # 工程用のフォームセット（複数追加用）
 StepFormSet = forms.inlineformset_factory(
-    Recipe, Step, fields=('order', 'description'), extra=3, can_delete=True
+    Recipe, 
+    Step, 
+    fields=('order', 'title', 'leave', 'category', 'duration', 'description'), 
+    extra=0, 
+    can_delete=True,
+    widgets={
+        'order': forms.HiddenInput(),
+    }
 )
