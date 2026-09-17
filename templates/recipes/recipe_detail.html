@@ -4,18 +4,52 @@
 {% block title %}recipe_detail{% endblock %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="recipe-detail-container">
     <h2>レシピ詳細</h2>
+    <a href="{% url 'recipes:recipe_update' recipe.pk %}">
+        レシピを編集する
+    </a>
 
     {{ recipe.title }}
 
     <hr>
 
     {% for s in recipe.steps.all %}
-        {{ s.title }}
+        <div class="card step-card">
+
+            <div class="step-card-header">
+                <div class="card-title">
+                    {{ s.title }}
+                </div>
+            </div>
+
+            <div class="step-card-body">
+                <div>
+                    {{ s.description }}
+                </div>
+
+                <div>
+                    所要時間：{{ s.duration }}分
+                </div>
+
+                <div>
+                    {{ s.get_category_display }}
+                </div>
+
+                <div>
+                    {% if step.leave %}
+                        手を離せる
+                    {% else %}
+                        手を離せない
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
     {% empty %}
         <p class="empty">まだ手順が登録されていません。</p>
     {% endfor %}
