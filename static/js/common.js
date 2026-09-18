@@ -1,7 +1,8 @@
+const main = document.querySelector("main");
 const pageTopButton = document.getElementById("page-top");
 
-window.addEventListener("scroll", function () {
-    if (window.scrollY > (window.innerHeight + 100)) {
+main.addEventListener("scroll", function () {
+    if (main.scrollTop > (main.clientHeight * 0.8)) {
         pageTopButton.style.display = "block";
     } else {
         pageTopButton.style.display = "none";
@@ -9,7 +10,7 @@ window.addEventListener("scroll", function () {
 });
 
 pageTopButton.addEventListener("click", function () {
-    window.scrollTo({
+    main.scrollTo({
         top: 0,
         behavior: "smooth"
     });
