@@ -8,6 +8,7 @@ urlpatterns = [
     path('<int:project_pk>/members/', views.MembershipListView.as_view(), name='membership_list'),
     path('create/', views.ProjectCreateView.as_view(), name='project_create'),
     path('list/', views.ProjectListView.as_view(), name='project_list'),
+    path('calendar/', views.ProjectCalendarView.as_view(), name='project_calendar'),
     path('<int:project_pk>/', views.ProjectDetailView.as_view(), name='project_detail'),
     path('<int:project_pk>/recipe_include/', views.RecipeIncludeView.as_view(), name='recipe_include'),
     path('<int:project_pk>/tasks/<int:task_pk>/', views.TaskDetailView.as_view(), name='task_detail'),

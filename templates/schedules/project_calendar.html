@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }}カレンダー{% endblock %}
+
+{% block extra_css %}
+    <!-- FullCalendarのCSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/skeleton.css"
+        rel="stylesheet"
+    />
+    <link
+        href="https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/themes/monarch/theme.css"
+        rel="stylesheet"
+    />
+    <link
+        href="https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/themes/monarch/palettes/purple.css"
+        rel="stylesheet"
+    />
+{% endblock %}
+
+{% block content %}
+    <div id="calendar"></div>
+{% endblock %}
+
+{% block extra_js %}
+    <!-- FullCalendar本体 -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/all/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/themes/monarch/global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@7.1.0/locales/ja/global.js"></script>
+
+    <script src="{% static 'js/project_calendar.js' %}"></script>
+{% endblock %}
