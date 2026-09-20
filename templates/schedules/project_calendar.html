@@ -21,6 +21,7 @@
 
 {% block content %}
     <div id="calendar" data-create-url="{% url 'schedules:project_create' %}"></div>
+    {{ projects_json|json_script:"projects-data" }}
 {% endblock %}
 
 {% block extra_js %}

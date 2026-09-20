@@ -1,9 +1,12 @@
 document.addEventListener("DOMContentLoaded", function() {
     const calendarEl = document.getElementById('calendar');
+	const projectsDataElement = document.getElementById('projects-data');
+	const projects = JSON.parse(projectsDataElement.textContent);
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
     	initialView: 'dayGridMonth',
     	locale: 'ja',
+		events: projects,
         
         dateClick: function (info) {
 			// project_create_viewに移動
