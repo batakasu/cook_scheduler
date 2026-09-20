@@ -67,6 +67,10 @@ document.addEventListener("DOMContentLoaded", function() {
         showCurrentTime: false,
         orientation:'top',
         editable: true,
+        // 一つのみ選択可
+        selectable: true,
+        multiselect: false,
+
         margin: {item: {horizontal: 0}},
         format: {minorLabels: {minute: 'HH:mm', hour: 'HH:mm'},
                  majorLabels: {minute: 'M/D', hour: 'M/D'}
@@ -147,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         },
         
-        zoomMin: 1000 * 60 * 30,    // ミリ秒 * 秒 * 分
+        zoomMin: 1000 * 60 * 45,    // ミリ秒 * 秒 * 分
         zoomMax: 1000 * 60 * 60 * 24 * 2,   // ミリ秒 * 秒 * 分 * 時 * 日
         // 
         min: startDate, // これより過去にはスクロールできない
@@ -182,8 +186,21 @@ document.addEventListener("DOMContentLoaded", function() {
     const items = new vis.DataSet(timelineItems)
     const groups = new vis.DataSet(memberList)
     const timeline = new vis.Timeline(container, items, groups, options);
+    showProjectDetail();
 
     // 6. タイムライン上でのイベントの設定
+    
+    timeline.on('select', function(properties) {
+        if (properties.items.length > 0) {
+            const taskId = properties.items[0];
+            const task = taskList.find(task => task.id === taskId);
+            showTaskDetail(task);
+
+        } else {
+            showProjectDetail();
+        }
+    });
+
     timeline.on('doubleClick', function(properties) {
         // タスクをダブルクリックすることでそのタスクのdetailへ
         if (properties.item) {
@@ -206,4 +223,31 @@ function getCookie(name) {
         }
     }
     return cookieValue;
+}
+
+function showTaskDetail(task) {
+    const start = new Date(task.start);
+
+    const startText = start.toLocaleString('ja-JP', {
+        month: 'numeric',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+
+    document.getElementById('detail-title').textContent = task.content;
+    document.getElementById('detail-start').textContent = startText;
+    document.getElementById('detail-duration').textContent = task.duration;
+    document.getElementById('detail-description').textContent = task.description;
+}
+
+const projectData = {
+    title: document.getElementById('detail-title').textContent,
+    start: document.getElementById('detail-start').textContent,
+    description: document.getElementById('detail-description').textContent
+};
+function showProjectDetail() {
+    document.getElementById('detail-title').textContent = projectData.title;
+    document.getElementById('detail-start').textContent = projectData.start;
+    document.getElementById('detail-description').textContent = projectData.description;
 }

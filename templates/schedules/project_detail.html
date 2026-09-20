@@ -11,6 +11,7 @@
 
 {% block content %}
     <div class="project_context">
+        <a href="{% url 'schedules:project_list' %}">＜</a>
         <p>{{ project.title }} の工程表</p>
         <p>開始時刻 : {{ project.scheduled_at}}</p>
     </div>
@@ -25,6 +26,22 @@
     {% else %}
         <p style="color: red;">※プロジェクトの「調理予定日時」を設定してください。</p>
     {% endif %}
+
+    <div id="detail-panel">
+        <h2 id="detail-title">{{ project.title }}</h2>
+        <p>
+            担当者：<span id="detail-member"></span>
+        </p>
+        <p>
+            開始：<span id="detail-start">{{ project.scheduled_at }}</span>
+        </p>
+        <p>
+            所要時間：<span id="detail-duration"></span>
+        </p>
+        <p>
+            説明：<span id="detail-description">{{ project.description }}</span>
+        </p>
+    </div>
 
     <button type="button" id="go-start-button"> 開始時刻に戻る </button>
 

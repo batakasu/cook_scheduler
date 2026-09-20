@@ -44,7 +44,8 @@ class ProjectDetailView(generic.DetailView):
                 'group' : t.membership_id,
                 'start': start_time.isoformat(),
                 'end': end_time.isoformat(),
-                'conflicting': conflicting
+                'conflicting': conflicting,
+                'description': t.description
             })
 
         context['tasks_json'] = json.dumps(tasks_data)
