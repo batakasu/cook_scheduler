@@ -7,6 +7,12 @@ document.addEventListener("DOMContentLoaded", function() {
     	initialView: 'dayGridMonth',
     	locale: 'ja',
 		events: projects,
+
+    	headerToolbar: {
+        	start: 'title',
+        	end: 'today prev,next'
+	    },
+
         
         dateClick: function (info) {
 			// project_create_viewに移動
