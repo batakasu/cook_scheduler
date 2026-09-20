@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block content %}
-    <div id="calendar"></div>
+    <div id="calendar" data-create-url="{% url 'schedules:project_create' %}"></div>
 {% endblock %}
 
 {% block extra_js %}
