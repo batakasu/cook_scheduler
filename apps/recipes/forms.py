@@ -4,7 +4,7 @@ from .models import Recipe, Step
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['title']
+        fields = ['title', 'is_public']
 
 # 工程用のフォームセット（複数追加用）
 StepFormSet = forms.inlineformset_factory(
