@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from apps.core.choices import TASK_CATEGORY
 from django.conf import settings
 
@@ -33,3 +34,10 @@ class Step(models.Model):
 
     def __str__(self):
         return f"{self.order}: {self.description[:20]}" 
+
+# Recipeと一対多の関係
+class RecipeIngredient(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
+    amount = models.DecimalField(default=0, max_digits=8, decimal_places=2, validators=[MinValueValidator(0)], blank=True, null=True, verbose_name="使用量")
+    name = models.CharField(max_length=30, verbose_name="材料名")
+    unit = models.CharField(max_length=30, blank=True, verbose_name="単位")
