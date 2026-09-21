@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     id: item.id,
                     content: item.content,
                     group: item.group,
+                    start: item.start
                 })
             })
             .then(response => response.json())
@@ -189,7 +190,6 @@ document.addEventListener("DOMContentLoaded", function() {
     showProjectDetail();
 
     // 6. タイムライン上でのイベントの設定
-    
     timeline.on('select', function(properties) {
         if (properties.items.length > 0) {
             const taskId = properties.items[0];
@@ -200,7 +200,6 @@ document.addEventListener("DOMContentLoaded", function() {
             showProjectDetail();
         }
     });
-
     timeline.on('doubleClick', function(properties) {
         // タスクをダブルクリックすることでそのタスクのdetailへ
         if (properties.item) {
@@ -208,6 +207,7 @@ document.addEventListener("DOMContentLoaded", function() {
             window.location.href = `/schedules/${projectId}/tasks/${taskId}/`;
         }
     });
+
 }, false);
 
 function getCookie(name) {

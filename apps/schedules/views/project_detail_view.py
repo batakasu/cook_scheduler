@@ -138,13 +138,13 @@ def add_new_task(request):
         data = json.loads(request.body)
         project_id = data.get('project_id')
         project = Project.objects.get(id=project_id)
+        start_str = data.get('start')
 
-        # 既存のタスクの中から、最後のタスクの終了位置（start_offset + duration）を計算
-        last_task = project.tasks.order_by('order').last()
-        if not last_task:
-            start_offset = 0  # 最初のタスクならオフセット0
-        else:
-            start_offset = last_task.start_offset + last_task.duration
+        if not start_str:
+            return JsonResponse({'success': False, 'error': '開始日時を指定してください'}, status=400)
+
+        start = datetime.fromisoformat(start_str.replace('Z', '+00:00'))
+        offset = int((start - project.scheduled_at).total_seconds() // 60)
 
         # データベースに保存（長さは5分固定、オフセットはプロジェクト開始からの累計分）
         membership_obj = Membership.objects.get(id=data.get('group'))
@@ -153,8 +153,7 @@ def add_new_task(request):
             title=data.get('content'),
             membership=membership_obj,
             duration=5,
-            start_offset=start_offset,
-            order=project.tasks.count()
+            start_offset=offset
         )
         return JsonResponse({'success': True})
     

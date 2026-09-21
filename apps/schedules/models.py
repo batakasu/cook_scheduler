@@ -53,8 +53,6 @@ class Task(models.Model):
     membership = models.ForeignKey(Membership, on_delete = models.SET_NULL, null=True, verbose_name="担当者", related_name='member')
     title = models.CharField(max_length=30, blank=True, verbose_name="作業名")
     description = models.TextField(blank=True, verbose_name="備考")
-    # 順序の管理
-    order = models.PositiveIntegerField(default=0, verbose_name="順番")
     # 手をはなせるか（False = はなせない）
     leave = models.BooleanField(default=False)
     # 関連するタスク
@@ -66,7 +64,7 @@ class Task(models.Model):
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
 
     def __str__(self):
-        return f"{self.order}: {self.title}"
+        return f"{self.title}"
 
     def find_first_task(self):
         first_task = self
@@ -112,6 +110,5 @@ class Task(models.Model):
         return s
             
     class Meta:
-        ordering = ["order"]
         verbose_name = "作業"
         verbose_name_plural = "作業一覧"
