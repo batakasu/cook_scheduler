@@ -1,5 +1,6 @@
 from django.db import models
 from apps.core.choices import TASK_CATEGORY
+from django.conf import settings
 
 # Create your models here.
 class Recipe(models.Model):
@@ -7,6 +8,10 @@ class Recipe(models.Model):
     title = models.CharField(max_length=15, blank=True, verbose_name="料理名")
     # 作成日時
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="作成日時")
+    # 公開するか
+    is_public = models.BooleanField(default=False)
+    # 作った人
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     
     def __str__(self):
         return self.title
