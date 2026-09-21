@@ -1,5 +1,5 @@
 from ..forms import ProjectForm
-from ..models import Project, Membership
+from ..models import Project, Membership, Task
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import date, time, datetime
@@ -26,9 +26,17 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         
-        Membership.objects.create(
+        membership = Membership.objects.create(
             project=self.object,
             user=self.request.user
+        )
+        Task.objects.create(
+            project=self.object,
+            membership=membership,
+            title='手を洗う',
+            order=0,
+            start_offset=0,
+            duration=5
         )
         
         return response
