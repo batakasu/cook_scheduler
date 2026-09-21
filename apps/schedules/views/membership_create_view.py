@@ -11,10 +11,6 @@ class MembershipCreateView(LoginRequiredMixin, CreateView):
     form_class = MembershipForm
     template_name = 'schedules/membership_create.html'
 
-    def get_queryset(self):
-        projects = accessible_projects(self.request.user)
-        return projects
-
     def form_valid(self, form):
         response = super().form_valid(form)
         return response
@@ -22,7 +18,7 @@ class MembershipCreateView(LoginRequiredMixin, CreateView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         project_pk = self.kwargs.get('project_pk')
-        kwargs['project'] = get_object_or_404(Project, pk=project_pk)
+        kwargs['project'] = get_object_or_404(accessible_projects(self.request.user), pk=project_pk)
         
         return kwargs
     

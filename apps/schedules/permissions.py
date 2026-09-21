@@ -1,4 +1,4 @@
-from .models import Project, Task
+from .models import Project, Task, Membership
 
 def accessible_projects(user):
     return Project.objects.filter(
@@ -7,5 +7,10 @@ def accessible_projects(user):
 
 def accessible_tasks(user):
     return Task.objects.filter(
+        project__members__user=user
+    )
+
+def accessible_memberships(user):
+    return Membership.objects.filter(
         project__members__user=user
     )

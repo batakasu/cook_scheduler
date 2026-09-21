@@ -14,7 +14,7 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
     def get_queryset(self):
         return accessible_tasks(self.request.user)
 
-    def delete(self):
+    def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
         self.object.delete()
 

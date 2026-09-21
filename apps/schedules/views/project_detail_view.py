@@ -3,10 +3,11 @@ from datetime import timedelta
 from django.http import JsonResponse
 from django.views import generic
 from ..models import Project, Task, Membership
-from ..permissions import accessible_projects, accessible_tasks
+from ..permissions import accessible_projects, accessible_tasks, accessible_memberships
 from datetime import datetime
 from django.db import transaction
-from django.contrib.auth.mixins import LoginRequiredMixin, login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 
 class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     pk_url_kwarg = 'project_pk'
@@ -154,7 +155,7 @@ def add_new_task(request):
         offset = int((start - project.scheduled_at).total_seconds() // 60)
 
         # データベースに保存（長さは5分固定、オフセットはプロジェクト開始からの累計分）
-        membership_obj = Membership.objects.get(id=data.get('group'))
+        membership_obj = accessible_memberships.get(id=data.get('group'))
         Task.objects.create(
             project=project,
             title=data.get('content'),

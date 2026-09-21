@@ -3,7 +3,7 @@ from django.urls import reverse
 from apps.schedules.models import Task
 from apps.schedules.forms import TaskForm
 from django.shortcuts import get_object_or_404
-from ..permissions import accessible_projects
+from ..permissions import accessible_projects, accessible_tasks
 
 class TaskUpdateView(generic.UpdateView):
     pk_url_kwarg = 'task_pk'
@@ -11,6 +11,10 @@ class TaskUpdateView(generic.UpdateView):
     template_name = 'schedules/task_detail.html'
     context_object_name = 'task'
     form_class = TaskForm
+
+    def get_queryset(self):
+        tasks = accessible_tasks(self.request.user)
+        return tasks
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
