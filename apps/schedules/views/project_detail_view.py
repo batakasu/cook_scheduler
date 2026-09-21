@@ -155,7 +155,7 @@ def add_new_task(request):
         offset = int((start - project.scheduled_at).total_seconds() // 60)
 
         # データベースに保存（長さは5分固定、オフセットはプロジェクト開始からの累計分）
-        membership_obj = accessible_memberships.get(id=data.get('group'))
+        membership_obj = accessible_memberships(request.user).get(id=data.get('group'), project=project)
         Task.objects.create(
             project=project,
             title=data.get('content'),
