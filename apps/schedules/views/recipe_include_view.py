@@ -2,8 +2,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import View
 from ..services import include_recipe
-from ..models import Project, Membership
-from apps.recipes.models import Recipe
 from ..permissions import accessible_projects, accessible_memberships
 from apps.recipes.permissions import accessible_recipes
 
@@ -16,7 +14,7 @@ class RecipeIncludeView(LoginRequiredMixin, View):
 
         context = {
             'project': project,
-            'recipes': Recipe.objects.all(),
+            'recipes': accessible_recipes(request.user),
         }
 
         return render(request, 'schedules/recipe_include.html', context)
