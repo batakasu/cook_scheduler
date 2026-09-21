@@ -2,14 +2,13 @@ from ..forms import ProjectForm
 from ..models import Project, Membership
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse_lazy
 from datetime import date, time, datetime
+from django.urls import reverse
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
     template_name = 'schedules/project_create.html'
-    success_url = reverse_lazy('schedules:project_list')
 
     def get_initial(self):
         initial = super().get_initial()
@@ -33,3 +32,9 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
         )
         
         return response
+
+    def get_success_url(self):
+        return reverse(
+            'schedules:project_detail',
+            kwargs={'project_pk': self.object.pk}
+        )
