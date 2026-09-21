@@ -10,11 +10,14 @@
 {% block content %}
 <div class="recipe-detail-container">
     <h2>レシピ詳細</h2>
-    <a href="{% url 'recipes:recipe_update' recipe.pk %}">
-        レシピを編集する
-    </a>
 
     {{ recipe.title }}
+
+    {% if recipe.user == request.user%}
+        <a href="{% url 'recipes:recipe_update' recipe.pk %}">
+            レシピを編集する
+        </a>
+    {% endif %}
 
     <hr>
 
