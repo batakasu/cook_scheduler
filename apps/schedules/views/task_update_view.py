@@ -1,10 +1,11 @@
 from django.views import generic
 from django.urls import reverse
-from apps.schedules.models import Task, Project
+from apps.schedules.models import Task
 from apps.schedules.forms import TaskForm
 from django.shortcuts import get_object_or_404
+from ..permissions import accessible_projects
 
-class TaskDetailView(generic.UpdateView):
+class TaskUpdateView(generic.UpdateView):
     pk_url_kwarg = 'task_pk'
     model = Task
     template_name = 'schedules/task_detail.html'
@@ -20,7 +21,7 @@ class TaskDetailView(generic.UpdateView):
         kwargs = super().get_form_kwargs()
         # URLの kwargs から project_pk を取得して Project オブジェクトを取り出す
         project_pk = self.kwargs.get('project_pk')
-        project = get_object_or_404(Project, pk=project_pk)
+        project = get_object_or_404(accessible_projects(self.request.user), pk=project_pk)
         
         # フォームの初期化引数に project を追加する
         kwargs['project'] = project

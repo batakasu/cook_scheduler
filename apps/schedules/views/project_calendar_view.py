@@ -1,7 +1,6 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from ..models import Project
+from ..permissions import accessible_projects
 from django.urls import reverse
 
 class ProjectCalendarView(LoginRequiredMixin, TemplateView):
@@ -9,7 +8,7 @@ class ProjectCalendarView(LoginRequiredMixin, TemplateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        projects = Project.objects.filter(members__user=self.request.user).exclude(scheduled_at=None)
+        projects = accessible_projects(self.request.user).filter(members__user=self.request.user).exclude(scheduled_at=None)
 
         projects_data = []
         for p in projects:

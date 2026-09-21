@@ -1,6 +1,8 @@
 from django.views.generic import ListView
 from ..models import Project
+from ..permissions import accessible_projects
 from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 class ProjectListView(LoginRequiredMixin, ListView):
     model = Project
@@ -8,7 +10,7 @@ class ProjectListView(LoginRequiredMixin, ListView):
     
     def get_queryset(self):
         self.sort_type = self.request.GET.get('sort', 'new')
-        projects = Project.objects.filter(members__user=self.request.user)
+        projects = accessible_projects(self.request.user)
         
         if self.sort_type == 'old':
             return projects.order_by('scheduled_at')  # 古い順

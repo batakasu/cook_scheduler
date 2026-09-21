@@ -1,5 +1,6 @@
 from ..forms import MembershipForm
 from ..models import Project, Membership
+from ..permissions import accessible_projects
 from django.views.generic.edit import CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -9,6 +10,10 @@ class MembershipCreateView(LoginRequiredMixin, CreateView):
     model = Membership
     form_class = MembershipForm
     template_name = 'schedules/membership_create.html'
+
+    def get_queryset(self):
+        projects = accessible_projects(self.request.user)
+        return projects
 
     def form_valid(self, form):
         response = super().form_valid(form)

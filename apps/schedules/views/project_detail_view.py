@@ -3,15 +3,20 @@ from datetime import timedelta
 from django.http import JsonResponse
 from django.views import generic
 from ..models import Project, Task, Membership
+from ..permissions import accessible_projects, accessible_tasks
 from datetime import datetime
-from zoneinfo import ZoneInfo
 from django.db import transaction
+from django.contrib.auth.mixins import LoginRequiredMixin, login_required
 
-class ProjectDetailView(generic.DetailView):
+class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
     pk_url_kwarg = 'project_pk'
     model = Project
     template_name = 'schedules/project_detail.html'
     context_object_name = 'project'
+
+    def get_queryset(self):
+        projects = accessible_projects(self.request.user)
+        return projects
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -51,6 +56,7 @@ class ProjectDetailView(generic.DetailView):
         context['tasks_json'] = json.dumps(tasks_data)
         return context
 
+@login_required
 def update_task(request):
     if request.method != 'POST':
         return JsonResponse({'success': False}, status=405)
@@ -74,7 +80,7 @@ def update_task(request):
             return JsonResponse({'success': False, 'error': '終了日時は開始日時より後にしてください'}, status=400)
 
         with transaction.atomic():
-            task = Task.objects.select_related('project').get(pk=task_id)
+            task = accessible_tasks(request.user).select_related('project').get(pk=task_id)
             project = task.project
 
             if project.scheduled_at is None:
@@ -130,6 +136,7 @@ def normalize_task_offsets(project):
     project.scheduled_at += timedelta(minutes=offset_minutes)
     project.save(update_fields=["scheduled_at"])
 
+@login_required
 def add_new_task(request):
     if request.method != 'POST':
         return JsonResponse({'success': False}, status=405)
@@ -137,7 +144,7 @@ def add_new_task(request):
     try:
         data = json.loads(request.body)
         project_id = data.get('project_id')
-        project = Project.objects.get(id=project_id)
+        project = accessible_projects(request.user).get(id=project_id)
         start_str = data.get('start')
 
         if not start_str:

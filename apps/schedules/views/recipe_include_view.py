@@ -4,11 +4,12 @@ from django.views import View
 from ..services import include_recipe
 from ..models import Project, Membership
 from apps.recipes.models import Recipe
+from ..permissions import accessible_projects
 
 class RecipeIncludeView(LoginRequiredMixin, View):
-    def get(self, request, project_pk):
+    def get(request, project_pk):
         project = get_object_or_404(
-            Project,
+            accessible_projects(request.user),
             pk = project_pk
         )
 

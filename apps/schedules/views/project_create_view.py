@@ -34,7 +34,6 @@ class ProjectCreateView(LoginRequiredMixin, CreateView):
             project=self.object,
             membership=membership,
             title='手を洗う',
-            order=0,
             start_offset=0,
             duration=5
         )

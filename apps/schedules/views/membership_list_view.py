@@ -1,15 +1,17 @@
 from django.views.generic import ListView
-from apps.schedules.models import Membership, Project
+from apps.schedules.models import Membership
 from django.shortcuts import get_object_or_404
+from ..permissions import accessible_projects
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class MembershipListView(ListView):
+class MembershipListView(LoginRequiredMixin, ListView):
     model = Membership
     template_name = 'schedules/membership_list.html'
     context_object_name = 'membership_list'
 
     def get_queryset(self):
         # URLに含まれる project_pk を取得し、そのプロジェクトのメンバーに絞り込む
-        self.project = get_object_or_404(Project, pk=self.kwargs['project_pk'])
+        self.project = get_object_or_404(accessible_projects(self.request.user), pk=self.kwargs['project_pk'])
         return Membership.objects.filter(project=self.project)
 
     def get_context_data(self, **kwargs):
