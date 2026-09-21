@@ -4,12 +4,17 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from ..models import Recipe
 from ..forms import RecipeForm, StepFormSet
+from ..permissions import accessible_recipes
 
 class RecipeUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Recipe
     template_name = 'recipes/recipe_update.html'
     context_object_name = 'recipe'
     form_class = RecipeForm
+
+    def get_queryset(self):
+        recipes = accessible_recipes(self.request.user).filter(user=self.request.user)
+        return recipes
     
     def get_success_url(self):
         return reverse('recipes:recipe_detail', kwargs={'pk': self.object.pk})

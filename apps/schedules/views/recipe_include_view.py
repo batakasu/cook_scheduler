@@ -5,6 +5,7 @@ from ..services import include_recipe
 from ..models import Project, Membership
 from apps.recipes.models import Recipe
 from ..permissions import accessible_projects, accessible_memberships
+from apps.recipes.permissions import accessible_recipes
 
 class RecipeIncludeView(LoginRequiredMixin, View):
     def get(self, request, project_pk):
@@ -26,7 +27,7 @@ class RecipeIncludeView(LoginRequiredMixin, View):
             pk=project_pk
         )
         recipe = get_object_or_404(
-            Recipe,
+            accessible_recipes(request.user),
             pk=request.POST.get('recipe_pk')
         )
         membership = get_object_or_404(

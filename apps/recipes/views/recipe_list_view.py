@@ -1,6 +1,6 @@
 from django.views.generic import ListView
-from django.db.models import Q
 from ..models import Recipe
+from ..permissions import accessible_recipes
 
 class RecipeListView(ListView):
     model = Recipe
@@ -8,8 +8,5 @@ class RecipeListView(ListView):
     context_object_name = 'recipes'
 
     def get_queryset(self):
-        qs1 = Recipe.objects.filter(user=self.request.user)
-        qs2 = Recipe.objects.filter(is_public=True)
-
-        recipes = qs1 | qs2
+        recipes = accessible_recipes(self.request.user)
         return recipes.order_by('-created_at') # 新しい順（デフォルト）
