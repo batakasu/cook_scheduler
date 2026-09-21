@@ -2,10 +2,10 @@ from django.views import generic
 from django.urls import reverse
 from apps.schedules.models import Task
 from apps.schedules.forms import TaskForm
-from django.shortcuts import get_object_or_404
-from ..permissions import accessible_projects, accessible_tasks
+from ..permissions import accessible_tasks
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class TaskUpdateView(generic.UpdateView):
+class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
     pk_url_kwarg = 'task_pk'
     model = Task
     template_name = 'schedules/task_detail.html'
@@ -13,7 +13,7 @@ class TaskUpdateView(generic.UpdateView):
     form_class = TaskForm
 
     def get_queryset(self):
-        tasks = accessible_tasks(self.request.user)
+        tasks = accessible_tasks(self.request.user).filter(project_id=self.kwargs['project_pk'])
         return tasks
 
     def get_context_data(self, **kwargs):
@@ -23,12 +23,7 @@ class TaskUpdateView(generic.UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        # URLの kwargs から project_pk を取得して Project オブジェクトを取り出す
-        project_pk = self.kwargs.get('project_pk')
-        project = get_object_or_404(accessible_projects(self.request.user), pk=project_pk)
-        
-        # フォームの初期化引数に project を追加する
-        kwargs['project'] = project
+        kwargs['project'] = self.object.project
         return kwargs
     
     def get_success_url(self):
