@@ -17,6 +17,9 @@
         <a href="{% url 'recipes:recipe_update' recipe.pk %}">
             レシピを編集する
         </a>
+        <a href="{% url 'recipes:recipe_ingredinets_update' recipe.pk %}">
+            材料を編集する
+        </a>
     {% endif %}
 
     <hr>

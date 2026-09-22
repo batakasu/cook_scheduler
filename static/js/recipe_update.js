@@ -4,12 +4,8 @@ new Sortable(container, {
     animation: 150,
     handle: '.drag-handle',
 
-    onEnd: function (event) {
-        const cards = document.querySelectorAll('.step-card');
-        cards.forEach((card, index) => {
-            const orderInput = card.querySelector('input[name$="-order"]')
-            orderInput.value = index + 1;
-        })
+    onEnd: function () {
+        updateStepOrder();
     }
 });
 
@@ -26,4 +22,14 @@ button.addEventListener("click", function() {
 
     container.insertAdjacentHTML('beforeend', newFormHtml);
     totalForms.value = Number(totalForms.value) + 1;
+
+    updateStepOrder();
 })
+
+function updateStepOrder(){
+    const cards = document.querySelectorAll('.step-card');
+    cards.forEach((card, index) => {
+        const orderInput = card.querySelector('input[name$="-order"]')
+        orderInput.value = index + 1;
+    })
+}

@@ -19,7 +19,7 @@
     </div>
 
     <div class="card-container">
-        {% for i in step_formset %}
+        {% for i in recipe_ingredient_formset %}
             {% include 'recipes/ingredient_card.html' with i=i %}
         {% endfor %}
     </div>

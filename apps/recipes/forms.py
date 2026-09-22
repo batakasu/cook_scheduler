@@ -22,6 +22,6 @@ RecipeIngredientFormSet = forms.inlineformset_factory(
     Recipe,
     RecipeIngredient,
     fields=('name', 'amount', 'unit'),
-    extra=1,
+    extra=0,
     can_delete=True
 )

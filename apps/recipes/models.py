@@ -27,7 +27,7 @@ class Step(models.Model):
     category = models.CharField(choices=TASK_CATEGORY, default='other')
     duration = models.PositiveIntegerField(default=0, verbose_name="所要時間（分）")
     title = models.CharField(max_length=30, blank=True, verbose_name="作業名")
-    description = models.TextField(verbose_name="工程内容")
+    description = models.TextField(blank=True, verbose_name="工程内容")
 
     class Meta:
         ordering = ['order']
