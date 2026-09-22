@@ -37,7 +37,7 @@ class Step(models.Model):
 
 # Recipeと一対多の関係
 class RecipeIngredient(models.Model):
-    recipe = models.ForeignKey(Recipe, related_name='ingredients', on_delete=models.CASCADE)
-    amount = models.DecimalField(default=0, max_digits=8, decimal_places=2, validators=[MinValueValidator(0)], blank=True, null=True, verbose_name="使用量")
+    recipe = models.ForeignKey(Recipe, related_name='recipe_ingredients', on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=8, decimal_places=2, validators=[MinValueValidator(0)], blank=True, null=True, verbose_name="使用量")
     name = models.CharField(max_length=30, verbose_name="材料名")
     unit = models.CharField(max_length=30, blank=True, verbose_name="単位")

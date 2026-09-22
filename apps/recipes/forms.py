@@ -1,5 +1,5 @@
 from django import forms
-from .models import Recipe, Step
+from .models import Recipe, Step, RecipeIngredient
 
 class RecipeForm(forms.ModelForm):
     class Meta:
@@ -16,4 +16,12 @@ StepFormSet = forms.inlineformset_factory(
     widgets={
         'order': forms.HiddenInput(),
     }
+)
+
+RecipeIngredientFormSet = forms.inlineformset_factory(
+    Recipe,
+    RecipeIngredient,
+    fields=('name', 'amount', 'unit'),
+    extra=1,
+    can_delete=True
 )

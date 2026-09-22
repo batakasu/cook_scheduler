@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}recipe_update{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+
+    {% csrf_token %}
+    {{ recipe_ingredient_formset.management_form }}
+    <div class="recipe-header">
+        <h1>{{ recipe.title }}</h1>
+        <p>材料を編集</p>
+    </div>
+
+    <div class="card-container">
+        {% for i in step_formset %}
+            {% include 'recipes/ingredient_card.html' with i=i %}
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-ingredient">
+        ＋ 材料を追加
+    </button>
+    <template id="empty-ingredient-form"> 
+            {% include 'recipes/ingredient_card.html' with i=recipe_ingredient_formset.empty_form %}
+    </template>
+
+    <button type="submit">
+        保存する
+    </button>
+</form>
+
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'js/recipe_ingredients_update.js' %}"></script>
+{% endblock %} 

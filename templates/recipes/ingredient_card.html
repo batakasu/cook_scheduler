@@ -1,0 +1,27 @@
+<div class="card ingredient-card">
+
+    {{ i.id }}
+
+    <div class="ingredient-card-header">
+        <div class="card-title">
+            {{ i.name }}
+        </div>
+    </div>
+
+    <div class="ingredient-card-body">
+        <div>
+            {{ i.amount.label_tag }}
+            {{ i.amount }}
+        </div>
+
+        <div>
+            {{ i.unit.label_tag }}
+            {{ i.unit }}
+        </div>
+    </div>
+
+    <div class="ingredient-card-footer">
+        {{ i.DELETE }}
+        {{ i.DELETE.label_tag }}
+    </div>
+</div>

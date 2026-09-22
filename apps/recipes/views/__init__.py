@@ -2,3 +2,4 @@ from .recipe_create_view import RecipeCreateView
 from .recipe_detail_view import RecipeDetailView
 from .recipe_list_view import RecipeListView
 from .recipe_update_view import RecipeUpdateView
+from .recipe_ingredients_update_view import RecipeIngredientsUpdateView
