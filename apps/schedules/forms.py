@@ -22,17 +22,37 @@ class MembershipForm(forms.ModelForm):
         self.saved_project = kwargs.pop('project', None)
         super().__init__(*args, **kwargs)
 
+    def clean(self):
+        cleaned_data = super().clean()
+
+        username = cleaned_data.get('username')
+        guest_name = cleaned_data.get('guest_name')
+
+        if 'username' in self.errors:
+            return cleaned_data
+
+        if username and guest_name:
+            raise forms.ValidationError('ユーザーIDとゲスト名はどちらか一方だけ入力してください')
+
+        if not username and not guest_name:
+            raise forms.ValidationError('ユーザーIDまたはゲスト名を入力してください')
+
+        return cleaned_data
+
     def clean_username(self):
         username = self.cleaned_data.get('username')
 
         if not username:
             return username
-        
+
         user = CustomUser.objects.filter(username=username).first()
-        
+
         if user is None:
             raise forms.ValidationError('そのユーザーIDは存在しません')
-        
+
+        if Membership.objects.filter(project=self.saved_project, user=user).exists():
+            raise forms.ValidationError('既に参加しています')
+
         self.found_user = user
         return username
     
