@@ -71,7 +71,11 @@ document.addEventListener("DOMContentLoaded", function() {
         selectable: true,
         multiselect: false,
 
-        margin: {item: {horizontal: 0}},
+        margin: {
+            axis: 3,
+            item: {horizontal: 0, vertical: 6}
+        },
+
         format: {minorLabels: {minute: 'HH:mm', hour: 'HH:mm'},
                  majorLabels: {minute: 'M/D', hour: 'M/D'}
         },

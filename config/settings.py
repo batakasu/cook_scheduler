@@ -37,7 +37,7 @@ ALLOWED_HOSTS = [
 
 # CloudflareのURLを設定
 CSRF_TRUSTED_ORIGINS = [
-    "https://poison-idaho-speaker-telescope.trycloudflare.com",
+    "https://initially-fathers-workshops-rider.trycloudflare.com",
 ]
 
 # Application definition

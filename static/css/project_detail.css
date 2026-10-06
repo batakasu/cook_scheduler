@@ -150,6 +150,8 @@
 
 /* 工程 */
 .vis-item {
+    height: 32px;
+
     background-color: #fff4e6;
 
     border: 1px solid #f39716;
