@@ -3,6 +3,7 @@
 {% block content %}
     <form method="post">
         {% csrf_token %}
+        <a href="{% url 'schedules:group_include' project.pk %}">グループからメンバーを追加</a>
 
         <h2>メンバーを追加</h2>
         {{ form.as_p }}

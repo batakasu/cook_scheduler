@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 body: JSON.stringify({
                     project_id: projectId,
                     id: item.id,
-                    content: item.content,
+                    content: "タイトル無し",
                     group: item.group,
                     start: item.start
                 })

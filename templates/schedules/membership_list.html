@@ -4,6 +4,7 @@
 {% block title %}レシピ一覧{% endblock %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
     <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
@@ -12,6 +13,7 @@
         <div class="top">
             <a href="{% url 'schedules:project_detail' project.id %}">＜</a>
             <h1>メンバー一覧</h1>
+            <div></div>
         </div>
 
         <ul class="list">

@@ -25,3 +25,10 @@ class MembershipCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         project_pk = self.kwargs.get('project_pk')
         return reverse_lazy('schedules:membership_list', kwargs={'project_pk': project_pk})
+
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project_pk = self.kwargs.get('project_pk')
+        context['project'] = get_object_or_404(accessible_projects(self.request.user), pk=project_pk)
+        return context

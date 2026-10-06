@@ -33,4 +33,4 @@ class GroupIncludeView(LoginRequiredMixin, View):
             group
         )
 
-        return redirect('schedules:project_detail', project_pk=project.pk)
+        return redirect('schedules:membership_list', project_pk=project.pk)
