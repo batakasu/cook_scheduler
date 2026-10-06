@@ -31,7 +31,7 @@ class Membership(models.Model):
 
     def __str__(self):
         if self.user:
-            return self.user.username
+            return self.user.display_name or self.user.username
         if self.guest_name:
             return self.guest_name
         return "名前未設定"
@@ -54,7 +54,7 @@ class Task(models.Model):
     title = models.CharField(max_length=30, blank=True, verbose_name="作業名")
     description = models.TextField(blank=True, verbose_name="備考")
     # 手をはなせるか（False = はなせない）
-    leave = models.BooleanField(default=False)
+    leave = models.BooleanField(default=False, verbose_name="手を離せる")
     # 関連するタスク
     from_task = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True)
     category = models.CharField(choices=TASK_CATEGORY, default='other')

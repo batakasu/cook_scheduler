@@ -27,7 +27,7 @@ class MembershipForm(forms.ModelForm):
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['title', 'description', 'membership', 'duration']    
+        fields = ['title', 'description', 'membership', 'duration', 'leave']    
 
     def __init__(self, *args, **kwargs):
         project = kwargs.pop('project', None)
