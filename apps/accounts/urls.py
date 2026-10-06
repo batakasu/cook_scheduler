@@ -10,4 +10,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', views.signup, name='signup'),
     path('profile/', views.profile.as_view(), name='profile'),
+    path('<int:group_pk>/', views.GroupUpdateView.as_view(), name='group_update'),
 ]

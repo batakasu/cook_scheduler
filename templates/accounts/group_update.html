@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}group_update{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+<div class="task-detail-container">
+    <h2>グループ詳細・編集</h2>
+
+    <!-- フォームを使って全項目（タイトル、説明、数字など）を表示・編集できるようにする -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">保存する</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}

@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
+from .models import CookingGroup
 
 CustomUser = get_user_model()
 
@@ -19,3 +20,8 @@ class SignUpForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = CookingGroup
+        fields = ['name', 'leader', 'members']

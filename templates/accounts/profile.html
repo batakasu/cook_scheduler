@@ -21,10 +21,12 @@
 <div>
     <ul class="list">
         {% for g in groups %}
-            <p>
-                <span class="card-title">{{ g.name }}</span>
-                <span class="card-text">{{ g.leader }}</span>
-            </p>
+            <li>
+                <a href="{% url 'accounts:group_update' g.pk %}" class="card link">
+                    <span class="card-title">{{ g.name }}</span>
+                    <span class="card-text">{{ g.leader }}</span>
+                </a>
+            </li>
         {% empty %}
             <p class="empty">まだグループがありません。</p>
         {% endfor %}
