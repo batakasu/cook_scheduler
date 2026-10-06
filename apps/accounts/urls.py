@@ -9,6 +9,7 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='accounts/login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('signup/', views.signup, name='signup'),
+    path('profile/update/', views.ProfileUpdateView.as_view(), name='profile_update'),
     path('profile/', views.profile.as_view(), name='profile'),
     path('<int:group_pk>/', views.GroupUpdateView.as_view(), name='group_update'),
 ]

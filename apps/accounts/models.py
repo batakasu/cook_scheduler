@@ -5,7 +5,16 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
 class CustomUser(AbstractUser):
-    pass
+    display_name = models.CharField(max_length=30, blank=True, verbose_name="表示名")
+
+    @property
+    def display_name_or_username(self):
+        return self.display_name or self.username
+
+    def __str__(self):
+        if self.display_name:
+            return f"{self.display_name} (@{self.username})"
+        return f"@{self.username}"
 
 class CookingGroup(models.Model):
     name = models.CharField(max_length=30, blank=True, verbose_name="グループ名")

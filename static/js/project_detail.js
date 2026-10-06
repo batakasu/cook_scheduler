@@ -163,13 +163,46 @@ document.addEventListener("DOMContentLoaded", function() {
         max: endDate,   // これより未来にはスクロールできない
     };
 
+    // Taskをコピーするプログラム
+    const copyButton = document.getElementById('copy-button');
+
+    copyButton.addEventListener('click', () => {
+        const [selectedTaskId] = timeline.getSelection();
+
+        if(selectedTaskId === undefined) 
+        {
+            return;
+        }
+
+        fetch('/schedules/copy_task/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                    task_id: selectedTaskId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    console.error(data.error);
+                }
+            })
+            .catch(error => {
+            });
+    });
+
+    // 開始時刻に戻るボタンのプログラム
     const goStartButton = document.getElementById('go-start-button');
 
     const firstTask = taskList.reduce((first, task) => {
         return new Date(task.start) < new Date(first.start) ? task : first;
     });
 
-    // 開始時刻に戻るボタンのプログラム
     const firstStart = new Date(firstTask.start);
     const firstEnd = new Date(firstTask.end);
 

@@ -11,7 +11,7 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         # AbstractUserが持っている標準的なフィールドを指定
-        fields = ('username', 'email', 'password')
+        fields = ('username', 'display_name', 'password')
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -25,3 +25,8 @@ class GroupForm(forms.ModelForm):
     class Meta:
         model = CookingGroup
         fields = ['name', 'leader', 'members']
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'display_name']

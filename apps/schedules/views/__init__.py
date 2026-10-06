@@ -4,7 +4,7 @@ from .membership_list_view import MembershipListView
 from .project_calendar_view import ProjectCalendarView
 from .project_create_view import ProjectCreateView
 from .project_list_view import ProjectListView
-from .project_detail_view import ProjectDetailView, update_task, add_new_task
+from .project_detail_view import ProjectDetailView, update_task, add_new_task, copy_task
 from .recipe_include_view import RecipeIncludeView
 from .task_update_view import TaskUpdateView
 from .task_delete_view import TaskDeleteView

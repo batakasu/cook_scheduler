@@ -26,9 +26,14 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
         members = project.members.all()
         members_data = []
         for member in members:
+            if member.user:
+                name = member.user.display_name or member.user.username
+            else:
+                name = member.guest_name
+
             members_data.append({
                 'id': member.id,
-                'content': member.user.username if member.user else member.guest_name,
+                'content': name,
             })
 
         context['members_json'] = json.dumps(members_data)
@@ -162,6 +167,35 @@ def add_new_task(request):
             membership=membership_obj,
             duration=5,
             start_offset=offset
+        )
+        return JsonResponse({'success': True})
+    
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return JsonResponse({'success': False, 'error': str(e)}, status=400)
+
+@login_required
+def copy_task(request):
+    if request.method != 'POST':
+        return JsonResponse({'success': False}, status=405)
+    
+    try:
+        data = json.loads(request.body)
+        task_id = data.get('task_id')
+
+        original = accessible_tasks(request.user).get(pk=task_id)
+
+        Task.objects.create(
+            project=original.project,
+            membership=original.membership,
+            title=original.title,
+            description=original.description,
+            leave=original.leave,
+            category=original.category,
+            duration=original.duration,
+            start_offset=original.start_offset,
+            from_task=None,
         )
         return JsonResponse({'success': True})
     

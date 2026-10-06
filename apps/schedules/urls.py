@@ -17,5 +17,6 @@ urlpatterns = [
     path('<int:project_pk>/tools/<int:tool_pk>/', views.ToolDetailView.as_view(), name='tool_detail'),
     path('update_task/', views.update_task, name='update_task'),
     path('add_new_task/', views.add_new_task, name='add_new_task'),
+    path('copy_task/', views.copy_task, name='copy_task'),
     path('delete/<int:task_pk>/', views.TaskDeleteView.as_view(), name='delete_task'),
 ]

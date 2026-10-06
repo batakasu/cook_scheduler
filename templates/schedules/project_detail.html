@@ -43,6 +43,8 @@
         </p>
     </div>
 
+    <button type="button" id="copy-button"> コピー </button>
+
     <button type="button" id="go-start-button"> 開始時刻に戻る </button>
 
     {{ project.scheduled_at|date:"c"|json_script:"project-start-time" }}
