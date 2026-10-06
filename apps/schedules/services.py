@@ -23,3 +23,12 @@ def include_recipe(project, recipe, membership):
             )
             from_task = created_task
             start_at += s.duration
+
+def include_group(project, group):
+    with transaction.atomic():
+        for m in group.members.all():
+            if not Membership.objects.filter(project=project, user=m).exists():
+                Membership.objects.create(
+                    project = project,
+                    user = m
+                )

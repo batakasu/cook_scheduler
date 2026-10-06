@@ -1,3 +1,4 @@
+from .group_include_view import GroupIncludeView
 from .membership_create_view import MembershipCreateView
 from .membership_list_view import MembershipListView
 from .project_calendar_view import ProjectCalendarView

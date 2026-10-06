@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}グループコピー{% endblock %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+    <div class="project_context">
+        <p>どれを追加しますか？</p>
+    </div>
+
+    {% for g in groups %}
+        <form method="post">
+            {% csrf_token %}
+
+            {{ g.name }}
+            <button type='submit' name="group_pk" value="{{ g.pk }}">追加</button>
+    {% empty %}
+        <p>レシピがありません</p>
+    {% endfor %}
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
