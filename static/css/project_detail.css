@@ -61,21 +61,6 @@
     background-color: #f8eee8;
 }
 
-/*タイムライン*/
-#visualization {
-    width: 100%;
-    margin-top: 0.5rem;
-
-    overflow: hidden;
-
-    background-color: #ffffff;
-
-    border: 1px solid #e5d8d0;
-
-    box-shadow:
-        0 4px 14px rgba(0, 0, 0, 0.06);
-}
-
 /*開始時刻に戻るボタン*/
 #go-start-button {
     position: fixed;
@@ -114,8 +99,23 @@
     background-color: #d97f08;
 }
 
+/*タイムライン*/
+#visualization {
+    width: 100%;
+    margin-top: 0.5rem;
+
+    overflow: hidden;
+
+    background-color: #ffffff;
+
+    border: 1.5px solid #aa9182;
+
+    box-shadow:
+        0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
 /*vis Timeline*/
-.vis-timeline {
+#visualization .vis-timeline {
     border: none;
     font-family:
         system-ui,
@@ -126,38 +126,37 @@
 }
 
 /*時間軸*/
-.vis-time-axis .vis-text {
-    color: #75665d;
+#visualization .vis-time-axis .vis-text {
+    color: #000000;
     font-size: 0.75rem;
 }
-.vis-time-axis .vis-grid.vis-minor {
-    border-color: #eee5df;
-}
 
-.vis-time-axis .vis-grid.vis-major {
-    border-color: #ded1c9;
+#visualization .vis-time-axis,
+#visualization .vis-grid.vis-vertical,
+#visualization .vis-foreground .vis-group,
+#visualization .vis-panel {
+    border-color: #d6c7bd;
 }
 
 /*担当者エリア*/
-.vis-labelset .vis-label {
-    background-color: #faf5f1;
-    color: #49372b;
-    border-color: #e8ddd6;
+#visualization .vis-labelset .vis-label {
+    background-color: #ffead8;
+    color: #000000;
+    border-color: #aa9182;
 
     font-size: 0.85rem;
     font-weight: 600;
 }
 
 /* 工程 */
-.vis-item {
+#visualization .vis-item {
     height: 32px;
 
-    background-color: #fff4e6;
+    background-color: #e6f4ff;
+    border: 2px solid #20619e;
+    color: #000000;
 
-    border: 1px solid #f39716;
     border-radius: 8px;
-
-    color: #49372b;
 
     font-size: 0.8rem;
 
@@ -168,19 +167,19 @@
     padding: 0.35rem 0.5rem;
 }
 
+/*作業が競合してる時*/
+#visualization .vis-item.task-conflict {
+    background-color: #fff0ef;
+    border: 2px solid #d94a45;
+    color: #000000;
+}
 /*選択中*/
-.vis-item.vis-selected {
-    background-color: #f39716;
+#visualization .vis-item.vis-selected {
+    background-color: #ffe8ca;
     border-color: #d97f08;
     color: #000000;
     box-shadow:
         0 3px 10px rgba(243, 151, 22, 0.3);
-}
-/*作業が競合してる時*/
-.vis-item.task-conflict {
-    background-color: #fff0ef;
-    border: 2px solid #d94a45;
-    color: #9b2e29;
 }
 
 /*スマートフォン*/
