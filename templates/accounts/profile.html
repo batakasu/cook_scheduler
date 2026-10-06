@@ -4,15 +4,32 @@
 {% block title %}プロフィール{% endblock %}
 
 {% block extra_css %}
+    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/list.css' %}">
 {% endblock %}
 
 {% block content %}
+<div>
     <p>ユーザー名：{{ user_info.username }}</p>
     <p>メールアドレス：{{ user_info.email }}</p>
     <form method="post" action="{% url 'accounts:logout' %}">
-    {% csrf_token %}
-    <button type="submit">ログアウトする</button>
-</form>
+        {% csrf_token %}
+        <button type="submit">ログアウトする</button>
+    </form>
+</div>
+
+<div>
+    <ul class="list">
+        {% for g in groups %}
+            <p>
+                <span class="card-title">{{ g.name }}</span>
+                <span class="card-text">{{ g.leader }}</span>
+            </p>
+        {% empty %}
+            <p class="empty">まだグループがありません。</p>
+        {% endfor %}
+    </ul>
+</div>
 {% endblock %}
 
 {% block extra_js %}
