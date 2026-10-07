@@ -24,7 +24,41 @@ class SignUpForm(forms.ModelForm):
 class GroupForm(forms.ModelForm):
     class Meta:
         model = CookingGroup
-        fields = ['name', 'leader', 'members']
+        fields = ['name', 'leader']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['leader'].queryset = self.instance.members.all()
+
+class GroupMemberForm(forms.Form):
+    username = forms.CharField(label='ユーザーID')
+
+    def __init__(self, *args, **kwargs):
+        self.saved_group = kwargs.pop('group', None)
+        super().__init__(*args, **kwargs)
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+
+        if not username:
+            return username
+
+        user = CustomUser.objects.filter(username=username).first()
+
+        if user is None:
+            raise forms.ValidationError('そのユーザーIDは存在しません')
+
+        if self.saved_group.members.filter(pk=user.pk).exists():
+            raise forms.ValidationError('既に参加しています')
+
+        self.found_user = user
+        return username
+    
+    def save(self):
+        if hasattr(self, 'found_user'):
+            self.instance.user = self.found_user
+
+        return self.saved_group
 
 class UserForm(forms.ModelForm):
     class Meta:

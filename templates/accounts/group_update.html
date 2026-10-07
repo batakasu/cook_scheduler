@@ -14,8 +14,30 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">保存する</button>
+        <button type="submit" class="btn btn-primary">グループ設定を保存する</button>
     </form>
+
+    <form method="post" action="{% url 'accounts:add_member' group.pk %}">
+        {% csrf_token %}
+        {{ member_form.as_p }}
+        <button type="submit" class="btn btn-primary">このメンバーを追加する</button>
+    </form>
+
+    <div>
+        <h2>メンバー一覧</h2>
+
+        {% for m in group.members.all %}
+            <p>{{ m.display_name_or_username }}</p>
+            <form method="post" action="{% url 'accounts:remove_member' group.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="username" value="{{ m.username }}">
+                <button type="submit">削除</button>
+            </form>
+        {% empty %}
+            <p class="empty">メンバーが居ません</p>
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock %}
 

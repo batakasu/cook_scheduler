@@ -20,6 +20,11 @@
 </div>
 
 <div>
+    <form method="post" action="{% url 'accounts:group_create' %}">
+        {% csrf_token %}
+        <button type="submit">グループを作成</button>
+    </form>
+
     <ul class="list">
         {% for g in groups %}
             <li>
