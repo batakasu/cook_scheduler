@@ -56,7 +56,8 @@ class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
                 'start': start_time.isoformat(),
                 'end': end_time.isoformat(),
                 'conflicting': conflicting,
-                'description': t.description
+                'description': t.description,
+                'duration': t.duration
             })
 
         context['tasks_json'] = json.dumps(tasks_data)
