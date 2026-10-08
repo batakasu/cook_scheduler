@@ -1,43 +1,142 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}プロフィール{% endblock %}
+{% block title %}マイページ{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
-    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
 {% endblock %}
 
 {% block content %}
-<div>
-    <p>ユーザー名：{{ user_info.username }}</p>
-    <p>メールアドレス：{{ user_info.email }}</p>
-    <a href="{% url 'accounts:profile_update' %}" type="submit">アカウント設定</a>
-    <form method="post" action="{% url 'accounts:logout' %}">
-        {% csrf_token %}
-        <button type="submit">ログアウトする</button>
-    </form>
-</div>
+<header class="profile-hero">
+    <h1>マイページ</h1>
+</header>
 
-<div>
-    <form method="post" action="{% url 'accounts:group_create' %}">
-        {% csrf_token %}
-        <button type="submit">グループを作成</button>
-    </form>
+    <!-- アカウント情報 -->
+    <section class="profile-section">
 
-    <ul class="list">
-        {% for g in groups %}
+        <div class="profile-section-heading">
+            <div>
+                <span class="profile-eyebrow">ACCOUNT</span>
+                <h2>プロフィール</h2>
+            </div>
+        </div>
+
+        <div class="profile-account-card">
+
+            <div class="profile-user">
+
+                <div class="profile-user-info">
+                    <h3>
+                        {{ user_info.display_name|default:user_info.username }}
+                    </h3>
+
+                    <p>@{{ user_info.username }}</p>
+                </div>
+            </div>
+
+            <div class="profile-info-list">
+
+                <div class="profile-info-row">
+                    <span class="profile-info-label">
+                        ユーザーID
+                    </span>
+                    <span class="profile-info-value">
+                        {{ user_info.username }}
+                    </span>
+                </div>
+
+                <div class="profile-info-row">
+                    <span class="profile-info-label">
+                        メールアドレス
+                    </span>
+                    <span class="profile-info-value">
+                        {{ user_info.email|default:"未登録" }}
+                    </span>
+                </div>
+
+            </div>
+
+            <a href="{% url 'accounts:profile_update' %}"
+               class="profile-settings-button">
+                <span>アカウント設定</span>
+                <span aria-hidden="true">→</span>
+            </a>
+
+        </div>
+    </section>
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+            <div>
+                <h2>参加グループ</h2>
+            </div>
+
+            <form method="post"
+                  action="{% url 'accounts:group_create' %}">
+                {% csrf_token %}
+                <button type="submit" class="profile-create-button">
+                    ＋ グループ作成
+                </button>
+            </form>
+        </div>
+
+        <p class="profile-group-count">
+            {{ groups|length }} 件のグループ
+        </p>
+
+        <ul class="profile-group-list">
+
+            {% for g in groups %}
+
             <li>
-                <a href="{% url 'accounts:group_update' g.pk %}" class="card link">
-                    <span class="card-title">{{ g.name }}</span>
-                    <span class="card-text">{{ g.leader }}</span>
+                <a href="{% url 'accounts:group_update' g.pk %}"
+                   class="profile-group-card">
+
+                    <span class="profile-group-content">
+                        <span class="profile-group-name">
+                            {{ g.name }}
+                        </span>
+
+                        <span class="profile-group-leader">
+                            リーダー：{{ g.leader }}
+                        </span>
+                    </span>
+
+                    <span class="profile-group-arrow"
+                          aria-hidden="true">
+                        →
+                    </span>
+
                 </a>
             </li>
-        {% empty %}
-            <p class="empty">まだグループがありません。</p>
-        {% endfor %}
-    </ul>
+
+            {% empty %}
+                <h3>まだグループがありません</h3>
+            {% endfor %}
+
+        </ul>
+    </section>
+
+    <!-- ログアウト -->
+    <section class="profile-section profile-logout-section">
+
+        <form method="post"
+              action="{% url 'accounts:logout' %}">
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="profile-logout-button">
+                <span aria-hidden="true">↪</span>
+                ログアウト
+            </button>
+        </form>
+
+    </section>
+
 </div>
+
 {% endblock %}
 
 {% block extra_js %}
