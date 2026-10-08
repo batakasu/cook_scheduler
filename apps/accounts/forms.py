@@ -55,9 +55,7 @@ class GroupMemberForm(forms.Form):
         return username
     
     def save(self):
-        if hasattr(self, 'found_user'):
-            self.instance.user = self.found_user
-
+        self.saved_group.members.add(self.found_user)
         return self.saved_group
 
 class UserForm(forms.ModelForm):

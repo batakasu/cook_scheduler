@@ -30,9 +30,6 @@
             <p>グループの情報と参加メンバーを管理します。</p>
         </div>
 
-        <div class="group-update-hero-icon" aria-hidden="true">
-            👥
-        </div>
     </header>
 
     <!-- グループ設定 -->
@@ -156,9 +153,6 @@
 
         <div class="group-update-section-heading members-heading">
             <div>
-                <span class="group-update-eyebrow">
-                    GROUP MEMBERS
-                </span>
                 <h2>参加メンバー</h2>
             </div>
 
@@ -172,11 +166,6 @@
             {% for m in group.members.all %}
 
                 <article class="group-update-member-card">
-
-                    <div class="group-update-avatar"
-                         aria-hidden="true">
-                        👤
-                    </div>
 
                     <div class="group-update-member-info">
                         <h3>{{ m.display_name_or_username }}</h3>
@@ -204,7 +193,6 @@
             {% empty %}
 
                 <div class="group-update-empty">
-                    <div aria-hidden="true">👥</div>
                     <h3>まだメンバーがいません</h3>
                     <p>
                         上のフォームからメンバーを追加しましょう。
