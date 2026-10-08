@@ -61,6 +61,7 @@ class GroupMemberForm(forms.Form):
         return self.saved_group
 
 class UserForm(forms.ModelForm):
+
     class Meta:
         model = CustomUser
         fields = ['username', 'display_name']
