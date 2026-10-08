@@ -5,62 +5,78 @@
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
-    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/recipe_list.css' %}">
 {% endblock %}
 
 {% block content %}
+    <section class="recipe-section">
 
-<div class="container">
-
-    <div class="top">
-        <h1>レシピ一覧</h1>
-        <a href="{% url 'recipes:recipe_create' %}">
-            レシピを作る
-        </a>
-
-        <div class="sort-box">
-            <label for="sort-select">並び順:</label>
-
-            <select id="sort-select" onchange="changeSort(this.value)">
-                <option value="new"
-                    {% if current_sort == 'new' %}selected{% endif %}>
-                    新しい順
-                </option>
-
-                <option value="old"
-                    {% if current_sort == 'old' %}selected{% endif %}>
-                    古い順
-                </option>
-
-                <option value="title"
-                    {% if current_sort == 'title' %}selected{% endif %}>
-                    タイトル順
-                </option>
-            </select>
+        <div class="recipe-section-heading">
+            <h2>レシピ一覧</h2>
+            <a href="{% url 'recipes:recipe_create' %}"
+               class="recipe-create-button">
+                <span aria-hidden="true">＋</span>
+                <span>レシピを作る</span>
+            </a>
         </div>
-    </div>
+        <!-- 並び替え -->
+        <div class="recipe-toolbar">
 
+            <p class="recipe-count">
+                {{ recipes|length }} 件のレシピ
+            </p>
 
-    <ul class="list">
+            <div class="recipe-sort">
+                <label for="sort-select">並び順</label>
 
-        {% for recipe in recipes %}
-            <li>
-                <a href="{% url 'recipes:recipe_detail' recipe.pk %}" class="card link">
-                    <span class="card-title"> {{ recipe.title }} </span>
-                    <span class="card-text"> › </span>
-                </a>
-            </li>
+                <select id="sort-select">
+                    <option value="new"
+                        {% if current_sort == 'new' %}selected{% endif %}>
+                        新しい順
+                    </option>
 
-        {% empty %}
+                    <option value="old"
+                        {% if current_sort == 'old' %}selected{% endif %}>
+                        古い順
+                    </option>
 
-            <li class="empty">
-                まだレシピが登録されていません。
-            </li>
+                    <option value="title"
+                        {% if current_sort == 'title' %}selected{% endif %}>
+                        タイトル順
+                    </option>
+                </select>
+            </div>
 
-        {% endfor %}
+        </div>
+    </section>
 
-    </ul>
+    <section class="recipe-section">
+        <ul class="recipe-grid">
+            {% for recipe in recipes %}
+                <li class="recipe-grid-item">
+                    <a href="{% url 'recipes:recipe_detail' recipe.pk %}" class="card recipe-card">
+                        <div class="recipe-card-top">
+                            <div>
+                                <h3>{{ recipe.title|default:"名前のないレシピ" }}</h3>
+                                <p>{{ recipe.steps.count }} 件の調理工程</p>
+                            </div>
+                            
+                            {% if recipe.is_public %}
+                                <span class="recipe-visibility">公開</span>
+                            {% else %}
+                                <span class="recipe-visibility private">非公開</span>
+                            {% endif %}
+                        </div>
 
-</div>
+                        <div class="recipe-card-footer">
+                            <span>レシピを見る</span>
+                        </div>
+                    </a>
+                </li>
 
+            {% empty %}
+                <h3>レシピがありません</h3>
+            {% endfor %}
+        </ul>
+    </section>
 {% endblock %}
