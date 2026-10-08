@@ -1,51 +1,111 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}レシピ一覧{% endblock %}
+{% block title %}工程表一覧{% endblock %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
-    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/project_list.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="top">
-            <h1>献立一覧</h1>
-            <a href="{% url 'schedules:project_create' %}">
-                工程表を作る
-            </a>
 
+    <!-- 工程表一覧 -->
+    <section class="project-section">
 
-            <div class="sort-box">
-                <label for="sort-select">並び順: </label>
-                <select id="sort-select" onchange="changeSort(this.value)">
-                    <option value="new" {% if current_sort == 'new' %}selected{% endif %}>新しい順</option>
-                    <option value="old" {% if current_sort == 'old' %}selected{% endif %}>古い順</option>
-                    <option value="title" {% if current_sort == 'title' %}selected{% endif %}>タイトル順</option>
-                </select>
+        <div class="project-section-heading">
+            <div>
+                <h2>工程表一覧</h2>
             </div>
+
+            <a href="{% url 'schedules:project_create' %}" class="project-create-button">
+                ＋ 工程表を作る
+            </a>
         </div>
 
-        <ul class="list">
+        <!-- 並び替え -->
+        <div class="project-toolbar">
+
+            <p class="project-count">
+                {{ projects|length }} 件の工程表
+            </p>
+
+            <div class="project-sort">
+                <label for="sort-select">並び順</label>
+
+                <select id="sort-select"
+                        onchange="changeSort(this.value)">
+
+                    <option value="new"
+                        {% if current_sort == 'new' %}selected{% endif %}>
+                        新しい順
+                    </option>
+
+                    <option value="old"
+                        {% if current_sort == 'old' %}selected{% endif %}>
+                        古い順
+                    </option>
+
+                    <option value="title"
+                        {% if current_sort == 'title' %}selected{% endif %}>
+                        タイトル順
+                    </option>
+
+                </select>
+            </div>
+
+        </div>
+
+        <!-- 工程表カード -->
+        <ul class="project-grid">
+
             {% for p in projects %}
-                <li>
-                    <a href="{% url 'schedules:project_detail' p.pk %}" class="card link">
-                        <span class="card-title">{{ p.title }}</span>
-                        <span class="card-text">{{ p.scheduled_at }}</span>
-                    </a>
-                </li>
+
+            <li class="project-grid-item">
+                <a href="{% url 'schedules:project_detail' p.pk %}"
+                   class="card project-card">
+
+                    <div class="project-card-top">
+
+                    <div class="project-card-body">
+                        <h3>{{ p.title }}</h3>
+
+                        <p class="project-date">
+                            {{ p.scheduled_at|date:"Y年n月j日 H:i" }}
+                        </p>
+
+                        {% if p.description %}
+                            <p class="project-description">
+                                {{ p.description|truncatechars:70 }}
+                            </p>
+                        {% endif %}
+                            <span class="project-card-badge">
+                                調理予定
+                           </span>
+                        </div>
+                    </div>
+
+                    <div class="project-card-footer">
+                        <span>工程表を見る</span>
+                        <span aria-hidden="true">→</span>
+                    </div>
+
+                </a>
+            </li>
+
             {% empty %}
-                <p class="empty">まだ献立が登録されていません。</p>
+                <h3>工程表がありません</h3>
             {% endfor %}
         </ul>
-    </div>
+    </section>
+{% endblock %}
 
-    <script>
-    function changeSort(sortValue) {
-        const url = new URL(window.location.href);
-        url.searchParams.set('sort', sortValue);
-        window.location.href = url.toString();
-    }
-    </script>
+{% block extra_js %}
+<script>
+function changeSort(sortValue) {
+    const url = new URL(window.location.href);
+    url.searchParams.set("sort", sortValue);
+    window.location.href = url.toString();
+}
+</script>
 {% endblock %}
