@@ -1,26 +1,117 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}レシピコピー{% endblock %}
+{% block title %}レシピから追加{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/group_include.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="project_context">
-        <p>どれを追加しますか？</p>
+    <!-- 戻る -->
+    <nav class="group-include-breadcrumb">
+        <a href="{% url 'schedules:project_detail' project.pk %}">
+            ← 工程表に戻る
+        </a>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header class="group-include-hero">
+        <div>
+            <h1>レシピから追加</h1>
+
+            <p>
+                {{ project.title }} に追加するレシピを選択してください。
+            </p>
+        </div>
+    </header>
+
+    <!-- レシピ一覧 -->
+    <section class="group-include-section">
+
+        <div class="group-include-heading">
+            <div>
+                <h2>レシピを選択</h2>
+            </div>
+        </div>
+
+        <div class="group-include-toolbar">
+            <p>
+                {{ recipes|length }} 件のレシピ
+            </p>
+        </div>
+
+        <div class="group-include-grid">
+
+            {% for recipe in recipes %}
+
+            <form method="post"
+                  class="group-include-card">
+                {% csrf_token %}
+
+                <div class="group-include-card-body">
+                    <h3>{{ recipe.title }}</h3>
+
+                    <p>
+                        {{ recipe.steps.count }} 件の調理工程
+                    </p>
+
+                    <p>
+                        {% if recipe.is_public %}
+                            公開レシピ
+                        {% else %}
+                            非公開レシピ
+                        {% endif %}
+                    </p>
+                </div>
+
+                <button type="submit"
+                        name="recipe_pk"
+                        value="{{ recipe.pk }}"
+                        class="group-include-button">
+                    工程表に追加
+                    <span aria-hidden="true">→</span>
+                </button>
+
+            </form>
+
+            {% empty %}
+
+            <div class="group-include-empty">
+
+                <h3>レシピがありません</h3>
+
+                <p>
+                    取り込めるレシピがまだありません。
+                    レシピを作成してから追加してください。
+                </p>
+
+                <a href="{% url 'recipes:recipe_create' %}"
+                   class="group-include-empty-link">
+                    レシピを作成する
+                    <span aria-hidden="true">→</span>
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    {% if recipes %}
+    <div class="group-include-notice">
+        <span aria-hidden="true">ⓘ</span>
+        <p>
+            「工程表に追加」を押すと、
+            レシピに登録された調理工程が
+            この工程表に追加されます。
+        </p>
     </div>
+    {% endif %}
 
-    {% for recipe in recipes %}
-        <form method="post">
-            {% csrf_token %}
+</div>
 
-            {{ recipe.title }}
-            <button type='submit' name="recipe_pk" value="{{ recipe.pk }}">追加</button>
-    {% empty %}
-        <p>レシピがありません</p>
-    {% endfor %}
-{% endblock %}
-
-{% block extra_js %}
 {% endblock %}
