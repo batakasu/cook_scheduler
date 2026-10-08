@@ -23,7 +23,10 @@
 {% endblock %}
 
 {% block content %}
-    <h2>次の予定</h2>
+<section class="home-section">
+    <div class="section-heading">
+        <h2>次の予定</h2>
+    </div>
 
     {% if project %}
         <a href="{% url 'schedules:project_detail' project.pk %}" class="card schedule-card">
@@ -36,19 +39,65 @@
             </div>
 
             <div class="schedule-card-footer">
-                <span>工程表を見る</span>
+                <span>工程表を確認する</span>
                 <span class="schedule-arrow">›</span>
             </div>
         </a>
     {% else %}
         <div class="card schedule-card empty-card">
-            <p class="card-text">次の予定はありません。</p>
+            <h3>まだ予定がありません</h3>
         </div>
     {% endif %}
+</section>
 
-    <h2>予定を確認</h2>
+<section class="home-section">
+    <div class="section-heading">
+        <h2>考えを保存する</h2>
+    </div>
+    <div class="quick-actions">
+        <a href="{% url 'recipes:recipe_create' %}"
+               class="quick-action-card">
+
+                <span class="quick-action-title">
+                    レシピを作る
+                </span>
+
+                <span class="quick-action-description">
+                    料理の手順を登録
+                </span>
+
+            </a>
+
+            <a href="{% url 'schedules:project_create' %}"
+               class="quick-action-card">
+
+                <span class="quick-action-title">
+                    工程表を作る
+                </span>
+
+                <span class="quick-action-description">
+                    調理の予定を計画
+                </span>
+
+            </a>
+
+        </div>
+</section>
+
+<section class="home-section calendar-section">
+    <div class="section-heading">
+        <h2>予定カレンダー</h2>
+    </div>
+
+    <div class="calendar-card">
+
+    <p class="calendar-description">
+        日付を選択すると、その日の工程表を作成できます。
+    </p>
+
     <div id="calendar" data-create-url="{% url 'schedules:project_create' %}"></div>
     {{ projects_json|json_script:"projects-data" }}
+</section>
 
 {% endblock %}
 

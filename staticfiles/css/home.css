@@ -1,77 +1,446 @@
-.next-schedule {
-    width: 100%;
-    padding-top: 1.5rem;
+
+/* ========================================
+   HOME - Cook Scheduler
+======================================== */
+
+.home-container {
+    width: min(100% - 36px, 900px);
+    margin: 0 auto;
+    padding: 32px 0 64px;
 }
 
-.next-schedule h2 {
-    width: calc(100% - 2rem);
-    max-width: 420px;
+/* ヘッダー */
 
-    margin: 0 auto 0.75rem;
+.home-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
 
-    font-size: 1.2rem;
+    margin-bottom: 38px;
+    padding: 8px 0;
 }
+
+.hero-label,
+.section-label {
+    color: var(--color-primary, #c76a27);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+.hero-text h1 {
+    margin: 8px 0 10px;
+
+    color: var(--color-text, #293443);
+    font-size: clamp(1.55rem, 4vw, 2.2rem);
+    line-height: 1.45;
+}
+
+.hero-text p {
+    margin: 0;
+    color: var(--color-muted, #687483);
+    font-size: 0.95rem;
+}
+
+.hero-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 92px;
+    height: 92px;
+
+    border-radius: 26px;
+    background: #f9e7d5;
+
+    font-size: 2.8rem;
+}
+
+/* セクション */
+
+.home-section {
+    margin-bottom: 36px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 12px;
+
+    margin-bottom: 16px;
+}
+
+.section-heading h2 {
+    margin: 4px 0 0;
+
+    color: var(--color-text, #293443);
+    font-size: 1.3rem;
+}
+
+.section-link {
+    color: var(--color-primary, #c76a27);
+    text-decoration: none;
+    font-size: 0.86rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.section-link:hover {
+    text-decoration: underline;
+}
+
+/* 次の予定 */
 
 .schedule-card {
     display: block;
-    box-sizing: border-box;
 
-    width: calc(100% - 2rem);
-    max-width: 420px;
+    padding: 24px;
 
-    margin: 0 auto;
-    padding: 1rem;
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 20px;
 
-    background-color: #fff;
+    background: #fff;
+    box-shadow: var(--shadow-card, 0 5px 22px rgba(75,46,26,.065));
 
-    border: 1px solid #eadfd8;
-    border-radius: 16px;
-
-    color: #1b293f;
+    color: var(--color-text, #293443);
     text-decoration: none;
 
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-
-    transition: transform 0.12s ease;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
 }
 
-.schedule-card:active {
-    transform: scale(0.98);
+a.schedule-card:hover {
+    transform: translateY(-2px);
+    border-color: #e7c3a9;
+
+    box-shadow: 0 10px 28px rgba(75,46,26,.11);
+}
+
+.schedule-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.schedule-badge {
+    display: inline-block;
+
+    padding: 5px 12px;
+
+    border-radius: 100px;
+    background: #fff1e6;
+
+    color: #a65a22;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.schedule-icon {
+    font-size: 1.45rem;
+}
+
+.schedule-card-main {
+    margin-top: 16px;
 }
 
 .schedule-card-main h3 {
-    margin: 0 0 0.5rem;
+    margin: 0 0 8px;
 
-    font-size: 1.15rem;
-    font-weight: 700;
+    color: var(--color-text, #293443);
+    font-size: clamp(1.2rem, 3vw, 1.5rem);
+    line-height: 1.5;
 }
 
 .schedule-time {
     margin: 0;
 
-    color: #777;
-    font-size: 0.9rem;
+    color: var(--color-muted, #687483);
+    font-size: 0.92rem;
 }
 
 .schedule-card-footer {
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: 8px;
 
-    gap: 0.3rem;
-    margin-top: 1rem;
+    margin-top: 22px;
+    padding-top: 16px;
 
-    color: #f39716;
+    border-top: 1px solid #f0e9e3;
 
+    color: #a65a22;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+/* 予定なし */
+
+.empty-schedule {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    gap: 8px;
+    padding: 36px 20px;
+}
+
+.empty-icon {
+    font-size: 2.5rem;
+    margin-bottom: 4px;
+}
+
+.empty-schedule h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.empty-schedule p {
+    margin: 0 0 14px;
+    color: var(--color-muted, #687483);
+    font-size: 0.9rem;
+}
+
+.home-primary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 20px;
+
+    border-radius: 11px;
+    background: var(--color-primary, #c76a27);
+
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: background 0.18s ease;
+}
+
+.home-primary-button:hover {
+    background: #9f4c17;
+}
+
+/* クイック操作 */
+
+.quick-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.quick-action-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+
+    min-width: 0;
+    padding: 20px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 18px;
+
+    background: #fff;
+    box-shadow: var(--shadow-card, 0 5px 22px rgba(75,46,26,.065));
+
+    color: var(--color-text, #293443);
+    text-decoration: none;
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease;
+}
+
+.quick-action-card:hover {
+    transform: translateY(-2px);
+    border-color: #e7c3a9;
+}
+
+.quick-action-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 46px;
+    height: 46px;
+    margin-bottom: 8px;
+
+    border-radius: 13px;
+    background: #fff1e6;
+
+    font-size: 1.45rem;
+}
+
+.quick-action-title {
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.quick-action-description {
+    color: var(--color-muted, #687483);
+    font-size: 0.83rem;
+}
+
+/* カレンダー */
+
+.calendar-card {
+    padding: 24px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 20px;
+
+    background: #fff;
+    box-shadow: var(--shadow-card, 0 5px 22px rgba(75,46,26,.065));
+}
+
+.calendar-description {
+    margin: 0 0 20px;
+
+    color: var(--color-muted, #687483);
+    font-size: 0.88rem;
+}
+
+#calendar {
+    min-width: 0;
+}
+
+/* FullCalendarの色を統一 */
+
+.calendar-card .fc {
+    --fc-border-color: #eee5de;
+    --fc-button-bg-color: #c76a27;
+    --fc-button-border-color: #c76a27;
+    --fc-button-hover-bg-color: #9f4c17;
+    --fc-button-hover-border-color: #9f4c17;
+    --fc-button-active-bg-color: #9f4c17;
+    --fc-button-active-border-color: #9f4c17;
+    --fc-today-bg-color: #fff1e6;
+    --fc-event-bg-color: #c76a27;
+    --fc-event-border-color: #c76a27;
+
+    font-family: inherit;
+}
+
+.calendar-card .fc .fc-toolbar-title {
+    font-size: clamp(1.05rem, 3vw, 1.4rem);
+    font-weight: 700;
+}
+
+.calendar-card .fc .fc-button {
+    border-radius: 8px;
     font-size: 0.85rem;
-    font-weight: 600;
+    box-shadow: none;
 }
 
-.schedule-arrow {
-    font-size: 1.3rem;
-    line-height: 1;
+.calendar-card .fc .fc-daygrid-day-number {
+    color: var(--color-text, #293443);
+    text-decoration: none;
 }
 
-.empty-card {
-    color: #888;
+.calendar-card .fc .fc-col-header-cell-cushion {
+    color: var(--color-muted, #687483);
+    text-decoration: none;
+}
+
+.calendar-card .fc .fc-daygrid-day {
+    cursor: pointer;
+}
+
+.calendar-card .fc .fc-daygrid-day:hover {
+    background: #fff8f2;
+}
+
+/* スマートフォン */
+
+@media (max-width: 600px) {
+    .home-container {
+        width: calc(100% - 28px);
+        padding-top: 22px;
+    }
+
+    .home-hero {
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .hero-icon {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        font-size: 2rem;
+    }
+
+    .hero-text h1 {
+        font-size: 1.5rem;
+    }
+
+    .hero-text p {
+        font-size: 0.85rem;
+    }
+
+    .home-section {
+        margin-bottom: 28px;
+    }
+
+    .schedule-card {
+        padding: 18px;
+    }
+
+    .quick-actions {
+        gap: 10px;
+    }
+
+    .quick-action-card {
+        padding: 14px;
+    }
+
+    .quick-action-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.25rem;
+    }
+
+    .quick-action-description {
+        font-size: 0.75rem;
+    }
+
+    .calendar-card {
+        padding: 12px 8px;
+    }
+
+    .calendar-description {
+        padding: 0 8px;
+    }
+
+    .calendar-card .fc .fc-toolbar {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .calendar-card .fc .fc-toolbar-title {
+        font-size: 1.1rem;
+    }
+
+    .calendar-card .fc .fc-button {
+        padding: 6px 9px;
+        font-size: 0.75rem;
+    }
+
+    .calendar-card .fc .fc-daygrid-day-number {
+        font-size: 0.8rem;
+        padding: 4px;
+    }
+
+    .calendar-card .fc .fc-event-title {
+        font-size: 0.7rem;
+    }
 }
