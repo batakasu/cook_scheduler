@@ -1,14 +1,117 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}レシピ一覧{% endblock %}
+{% block title %}レシピを作成{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/recipe_create.css' %}">
+{% endblock %}
 
 {% block content %}
-    <form method="post">
+
+    <!-- 戻る -->
+    <nav class="recipe-create-breadcrumb">
+        <a href="{% url 'recipes:recipe_list' %}">
+            ← レシピ一覧に戻る
+        </a>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header class="recipe-create-hero">
+            <h1>新しいレシピを作成</h1>
+    </header>
+
+    <!-- 作成フォーム -->
+    <form method="post" class="recipe-create-form">
         {% csrf_token %}
 
-        <h2>レシピの作成</h2>
-        {{ form.as_p }}
+        {% if form.non_field_errors %}
+        <div class="recipe-create-error" role="alert">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
 
-        <button type="submit">保存する</button>
+        <section class="recipe-create-card">
+
+            <div class="recipe-create-card-header">
+
+                <div>
+                    <h2>レシピの基本情報</h2>
+                    <p>料理名と公開設定を入力してください。</p>
+                </div>
+            </div>
+
+            <!-- 料理名 -->
+            <div class="recipe-create-field">
+                <label for="{{ form.title.id_for_label }}">
+                    料理名
+                </label>
+
+                {{ form.title }}
+
+                {% if form.title.errors %}
+                <div class="recipe-create-error" role="alert">
+                    {{ form.title.errors }}
+                </div>
+                {% endif %}
+
+                <p class="recipe-create-help">
+                    例：カレーライス、オムライス、肉じゃが
+                </p>
+            </div>
+
+            <!-- 公開設定 -->
+            <div class="recipe-create-public">
+                <label for="{{ form.is_public.id_for_label }}">
+                    {{ form.is_public }}
+                    <span>レシピを公開する</span>
+                </label>
+
+                <p>
+                    公開すると、ほかの利用者も
+                    このレシピを閲覧できるようになります。
+                </p>
+
+                {% if form.is_public.errors %}
+                <div class="recipe-create-error" role="alert">
+                    {{ form.is_public.errors }}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- 操作 -->
+            <div class="recipe-create-actions">
+
+                <a href="{% url 'recipes:recipe_list' %}"
+                   class="recipe-create-cancel">
+                    キャンセル
+                </a>
+
+                <button type="submit"
+                        class="recipe-create-submit">
+                    レシピを作成する
+                    <span aria-hidden="true">→</span>
+                </button>
+
+            </div>
+
+        </section>
+
     </form>
+
+    <!-- 次のステップ -->
+    <aside class="recipe-create-notice">
+        <span aria-hidden="true">ⓘ</span>
+
+        <div>
+            <h3>レシピ作成後について</h3>
+
+            <p>
+                作成したレシピには、あとから
+                調理工程や材料を追加できます。
+            </p>
+        </div>
+    </aside>
+
+
 {% endblock %}
