@@ -1,92 +1,21 @@
-.container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
-}
-
-/* 見出しのスタイル */
-.container h1 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 8px;
-}
-
-.top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 24px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #eaeaea;
-}
-
-/* セレクトボックスのデザイン */
-.sort-box {
-    display: flex;
-    align-items: center;
-    gap: 8px; /* 「並び順:」とセレクトボックスの間の隙間 */
-    font-size: 14px;
-    color: #555;
-}
-#sort-select {
-    appearance: none;                 /* ブラウザデフォルトのデザインを消す */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    
-    background-color: #fff;           /* 背景色を白に */
-    border: 1px solid #d1d5db;        /* 落ち着いたグレーの枠線 */
-    border-radius: 8px;               /* 角を少し丸くする */
-    padding: 8px 36px 8px 12px;       /* 内部の余白（右側に矢印用のスペースを空ける） */
-    font-size: 14px;
-    color: #333;
-    cursor: pointer;                  /* マウスカーソルを指マークに */
-    
-    /* 自分で右側に「▼」の矢印アイコン（SVG）を配置する */
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 10px center; /* 矢印の位置を右側に調整 */
-    background-size: 16px;                  /* 矢印の大きさ */
-    
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-#sort-select:hover {
-    border-color: #9ca3af;
-}
-#sort-select:focus {
-    outline: none;
-    border-color: #3b82f6;           /* 選択中は綺麗な青色に光らせる */
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15); /* ふんわりとした影をつける */
-}
-
-/* リスト全体のスタイル */
-.list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px; /* リストの間隔 */
-}
-
-/* リンクをカード全体に広げる */
-.link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px 20px;
-    text-decoration: none;
-    color: #24292e;
-}
-.link:hover .card-title {
-    text-decoration: none;
-}
-
-/* データが空のときの表示 */
-.empty {
-    padding: 24px;
-    text-align: center;
-    color: #6a737d;
-    background-color: #f6f8fa;
-    border-radius: 8px;
-    border: 1px dashed #e1e4e8;
+.container { width: min(100% - 32px, 900px); margin: 28px auto 64px; padding: 0; }
+.container h1 { font-size: clamp(1.45rem, 3vw, 2rem); color: var(--ink); margin: 0; }
+.top { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 16px; margin-bottom: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.top h1 { margin-right: auto; }
+.top > a { text-decoration: none; background: var(--primary); color: white; font-weight: 700; border-radius: 12px; padding: 10px 16px; }
+.top > a:hover { background: var(--primary-dark); }
+.sort-box { display: flex; align-items: center; gap: 8px; font-size: .9rem; color: var(--muted); }
+#sort-select { appearance: auto; min-width: 132px; padding: 9px 12px; cursor: pointer; }
+.list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+.list > li { margin: 0; }
+.link { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 18px 20px; text-decoration: none; }
+.link .card-title { min-width: 0; overflow-wrap: anywhere; }
+.link .card-text { flex-shrink: 0; text-align: right; }
+.empty { list-style: none; padding: 30px 20px; text-align: center; color: var(--muted); background: white; border-radius: 16px; border: 1px dashed var(--line); }
+@media(max-width:600px) {
+  .container { margin-top: 20px; }
+  .top h1 { width: 100%; }
+  .sort-box { width: 100%; justify-content: space-between; }
+  .link { align-items: flex-start; flex-direction: column; }
+  .link .card-text { text-align: left; }
 }
