@@ -1,0 +1,464 @@
+
+/* ======================================
+   PROFILE PAGE
+====================================== */
+
+.profile-page {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 0 40px;
+}
+
+/* ページヘッダー */
+
+.profile-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+
+    margin-bottom: 38px;
+    padding: 8px 0;
+}
+
+.profile-eyebrow {
+    color: var(--color-primary, #c76a27);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+.profile-hero h1 {
+    margin: 8px 0 10px;
+
+    color: var(--color-text, #293443);
+    font-size: clamp(1.55rem, 4vw, 2.2rem);
+    line-height: 1.45;
+}
+
+.profile-hero p {
+    margin: 0;
+    color: var(--color-muted, #687483);
+    font-size: 0.95rem;
+}
+
+.profile-hero-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 92px;
+    height: 92px;
+
+    border-radius: 26px;
+    background: #f9e7d5;
+
+    font-size: 2.8rem;
+}
+
+/* セクション */
+
+.profile-section {
+    margin-bottom: 36px;
+}
+
+.profile-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+
+    margin-bottom: 16px;
+}
+
+.profile-section-heading h2 {
+    margin: 4px 0 0;
+
+    color: var(--color-text, #293443);
+    font-size: 1.3rem;
+}
+
+.profile-section-heading form {
+    margin: 0;
+}
+
+/* アカウントカード */
+
+.profile-account-card {
+    padding: 24px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 20px;
+
+    background: #fff;
+    box-shadow: var(
+        --shadow-card,
+        0 5px 22px rgba(75, 46, 26, 0.065)
+    );
+}
+
+.profile-user {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.profile-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 72px;
+    height: 72px;
+
+    border-radius: 50%;
+    background: #f9e7d5;
+
+    font-size: 2rem;
+}
+
+.profile-user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.profile-user-info h3 {
+    margin: 0 0 4px;
+
+    font-size: 1.3rem;
+    overflow-wrap: anywhere;
+}
+
+.profile-user-info p {
+    margin: 0;
+
+    color: var(--color-muted, #687483);
+    font-size: 0.88rem;
+
+    overflow-wrap: anywhere;
+}
+
+/* アカウント詳細 */
+
+.profile-info-list {
+    margin: 22px 0;
+    border-top: 1px solid #f0e9e3;
+}
+
+.profile-info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid #f0e9e3;
+}
+
+.profile-info-label {
+    color: var(--color-muted, #687483);
+    font-size: 0.82rem;
+}
+
+.profile-info-value {
+    color: var(--color-text, #293443);
+    font-size: 0.95rem;
+    font-weight: 600;
+
+    overflow-wrap: anywhere;
+}
+
+/* 設定ボタン */
+
+.profile-settings-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    padding: 12px 18px;
+
+    border-radius: 12px;
+    background: #fff1e6;
+
+    color: #9f4c17;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition: background 0.18s ease;
+}
+
+.profile-settings-button:hover {
+    background: #f9e1cd;
+}
+
+/* グループ作成ボタン */
+
+.profile-create-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    padding: 11px 18px;
+
+    border: none;
+    border-radius: 12px;
+    background: var(--color-primary, #c76a27);
+
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: background 0.18s ease;
+}
+
+.profile-create-button:hover {
+    background: var(--color-primary-hover, #9f4c17);
+}
+
+/* グループ一覧 */
+
+.profile-group-count {
+    margin: 0 0 16px;
+    padding-bottom: 14px;
+
+    border-bottom: 1px solid var(--color-border, #e9dfd8);
+
+    color: var(--color-muted, #687483);
+    font-size: 0.88rem;
+}
+
+.profile-group-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.profile-group-list > li {
+    min-width: 0;
+}
+
+.profile-group-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    height: 100%;
+    min-height: 110px;
+    padding: 20px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 18px;
+
+    background: #fff;
+    box-shadow: var(
+        --shadow-card,
+        0 5px 22px rgba(75, 46, 26, 0.065)
+    );
+
+    color: var(--color-text, #293443);
+    text-decoration: none;
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.profile-group-card:hover {
+    transform: translateY(-2px);
+    border-color: #e7c3a9;
+    box-shadow: 0 10px 28px rgba(75, 46, 26, 0.11);
+}
+
+.profile-group-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+    background: #fff1e6;
+
+    font-size: 1.5rem;
+}
+
+.profile-group-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 5px;
+
+    min-width: 0;
+}
+
+.profile-group-name {
+    font-size: 1rem;
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+}
+
+.profile-group-leader {
+    color: var(--color-muted, #687483);
+    font-size: 0.83rem;
+
+    overflow-wrap: anywhere;
+}
+
+.profile-group-arrow {
+    flex-shrink: 0;
+
+    color: #9f4c17;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+/* グループがない場合 */
+
+.profile-group-empty {
+    grid-column: 1 / -1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    padding: 48px 20px;
+
+    border: 1px dashed var(--color-border, #e9dfd8);
+    border-radius: 20px;
+
+    background: #fff;
+    text-align: center;
+}
+
+.profile-empty-icon {
+    font-size: 2.5rem;
+}
+
+.profile-group-empty h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.profile-group-empty p {
+    max-width: 360px;
+    margin: 0;
+
+    color: var(--color-muted, #687483);
+    font-size: 0.88rem;
+}
+
+/* ログアウト */
+
+.profile-logout-section {
+    margin-top: 48px;
+}
+
+.profile-logout-section form {
+    margin: 0;
+}
+
+.profile-logout-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    width: 100%;
+    padding: 14px;
+
+    border: 1px solid #f1d6cd;
+    border-radius: 14px;
+
+    background: #fff;
+    color: #a44b35;
+
+    font-size: 0.92rem;
+    font-weight: 700;
+
+    cursor: pointer;
+    transition: background 0.18s ease;
+}
+
+.profile-logout-button:hover {
+    background: #fff2ee;
+}
+
+/* スマートフォン */
+
+@media (max-width: 600px) {
+    .profile-hero {
+        gap: 12px;
+        margin-bottom: 30px;
+    }
+
+    .profile-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .profile-hero p {
+        font-size: 0.85rem;
+    }
+
+    .profile-hero-icon {
+        width: 64px;
+        height: 64px;
+
+        border-radius: 18px;
+        font-size: 2rem;
+    }
+
+    .profile-account-card {
+        padding: 18px;
+    }
+
+    .profile-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.7rem;
+    }
+
+    .profile-user {
+        gap: 12px;
+    }
+
+    .profile-user-info h3 {
+        font-size: 1.1rem;
+    }
+
+    .profile-group-list {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .profile-group-card {
+        min-height: 95px;
+        padding: 16px;
+    }
+
+    .profile-section-heading {
+        align-items: flex-start;
+    }
+
+    .profile-create-button {
+        padding: 10px 12px;
+        font-size: 0.82rem;
+    }
+}

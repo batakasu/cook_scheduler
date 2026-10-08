@@ -1,0 +1,317 @@
+
+/* ======================================
+   TASK EDIT
+====================================== */
+
+.task-edit-page {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding-bottom: 48px;
+}
+
+/* 戻る */
+
+.task-edit-breadcrumb {
+    margin-bottom: 22px;
+}
+
+.task-edit-breadcrumb a {
+    color: #687483;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.task-edit-breadcrumb a:hover {
+    color: #c76a27;
+}
+
+/* ヘッダー */
+
+.task-edit-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+
+    margin-bottom: 36px;
+}
+
+.task-edit-eyebrow {
+    color: #c76a27;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+.task-edit-hero h1 {
+    margin: 8px 0 10px;
+    color: #293443;
+    font-size: clamp(1.55rem, 4vw, 2.2rem);
+    line-height: 1.4;
+}
+
+.task-edit-hero p {
+    margin: 0;
+    color: #687483;
+    font-size: 0.95rem;
+}
+
+.task-edit-hero-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 82px;
+    height: 82px;
+
+    border-radius: 24px;
+    background: #f9e7d5;
+    font-size: 2.4rem;
+}
+
+/* フォームカード */
+
+.task-edit-card {
+    padding: 28px;
+
+    border: 1px solid #e9dfd8;
+    border-radius: 20px;
+
+    background: #fff;
+    box-shadow: 0 5px 22px rgba(75,46,26,.065);
+}
+
+.task-edit-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 28px;
+}
+
+.task-edit-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+    background: #fff1e6;
+    font-size: 1.5rem;
+}
+
+.task-edit-card-header h2 {
+    margin: 0 0 4px;
+    color: #293443;
+    font-size: 1.1rem;
+}
+
+.task-edit-card-header p {
+    margin: 0;
+    color: #687483;
+    font-size: 0.85rem;
+}
+
+/* 入力欄 */
+
+.task-edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+    margin-bottom: 22px;
+}
+
+.task-edit-field label {
+    color: #293443;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.task-edit-field input,
+.task-edit-field select,
+.task-edit-field textarea {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 11px 14px;
+
+    border: 1px solid #dcd4ce;
+    border-radius: 12px;
+
+    background: #fff;
+    color: #293443;
+
+    font: inherit;
+    font-size: 1rem;
+
+    outline: none;
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.task-edit-field textarea {
+    height: 80px;
+    min-height: 72px;
+    resize: vertical;
+}
+
+.task-edit-field input:focus,
+.task-edit-field select:focus,
+.task-edit-field textarea:focus {
+    border-color: #c76a27;
+    box-shadow: 0 0 0 3px rgba(199,106,39,.12);
+}
+
+/* 担当者と時間を横並び */
+
+.task-edit-field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* 手を離せるか */
+
+.task-edit-leave {
+    padding: 16px;
+
+    border-radius: 12px;
+    background: #fcf7f3;
+}
+
+.task-edit-leave label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    color: #293443;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.task-edit-leave input {
+    width: 18px;
+    height: 18px;
+    accent-color: #c76a27;
+}
+
+.task-edit-leave p {
+    margin: 8px 0 0;
+    color: #687483;
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+/* 保存・キャンセル */
+
+.task-edit-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+
+    margin-top: 28px;
+    padding-top: 24px;
+
+    border-top: 1px solid #f0e9e3;
+}
+
+.task-edit-cancel,
+.task-edit-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+    padding: 12px 22px;
+
+    border-radius: 12px;
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.task-edit-cancel {
+    border: 1px solid #e9dfd8;
+    background: #fff;
+    color: #293443;
+}
+
+.task-edit-submit {
+    border: 1px solid #c76a27;
+    background: #c76a27;
+    color: #fff;
+    cursor: pointer;
+}
+
+.task-edit-submit:hover {
+    background: #a6531d;
+}
+
+/* エラー */
+
+.task-edit-error {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+
+    border-radius: 10px;
+    background: #fff2ee;
+    color: #a44b35;
+    font-size: 0.85rem;
+}
+
+.task-edit-error ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+/* スマートフォン */
+
+@media (max-width: 600px) {
+    .task-edit-hero {
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .task-edit-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .task-edit-hero-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 18px;
+        font-size: 1.9rem;
+    }
+
+    .task-edit-card {
+        padding: 18px;
+    }
+
+    .task-edit-card-header {
+        gap: 12px;
+    }
+
+    .task-edit-field-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .task-edit-actions {
+        flex-direction: column-reverse;
+    }
+
+    .task-edit-cancel,
+    .task-edit-submit {
+        width: 100%;
+    }
+}

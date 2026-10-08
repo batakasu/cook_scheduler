@@ -1,25 +1,48 @@
-html, body {
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
     height: 100%;
     margin: 0;
+}
+html {
     overflow: hidden;
 }
 body {
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
 
-    background-color: #fdf5f1;
-    color: #1b293f;
-
+    background: #fcf7f3;
+    color: #293443;
     font-family: "Zen Maru Gothic", sans-serif;
+    line-height: 1.6;
 }
 main {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 0;
     min-height: 0;
+    width: 100%;
 
-    /*スクロールバーの設定*/
+    overflow-x: hidden;
     overflow-y: auto;
+
+    /* 左右の余白はここで管理 */
+    padding: 24px 24px 48px;
+
+    /* marginは使わない */
+    margin: 0;
+
     scrollbar-gutter: stable;
+    overscroll-behavior-y: contain;
 }
+
 #page-top {
     display: none;
 

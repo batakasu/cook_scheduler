@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (properties.items.length > 0) {
             const taskId = properties.items[0];
             const task = taskList.find(task => task.id === taskId);
-            showTaskDetail(task);
+            showTaskDetail(task, memberList);
 
         } else {
             showProjectDetail();
@@ -262,7 +262,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-function showTaskDetail(task) {
+function showTaskDetail(task, memberList) {
     const start = new Date(task.start);
 
     const startText = start.toLocaleString('ja-JP', {
@@ -271,8 +271,11 @@ function showTaskDetail(task) {
         hour: '2-digit',
         minute: '2-digit'
     });
+    
+    const member = memberList.find(m => m.id === task.group);
 
     document.getElementById('detail-title').textContent = task.content;
+    document.getElementById('detail-member').textContent = member?.content ?? '未設定';
     document.getElementById('detail-start').textContent = startText;
     document.getElementById('detail-duration').textContent = task.duration;
     document.getElementById('detail-description').textContent = task.description;

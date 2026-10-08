@@ -1,0 +1,434 @@
+
+/* ======================================
+   RECIPE DETAIL
+====================================== */
+
+.recipe-detail-page {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding-bottom: 48px;
+}
+
+/* 戻る */
+
+.recipe-detail-breadcrumb {
+    margin-bottom: 24px;
+}
+
+.recipe-detail-breadcrumb a {
+    color: var(--color-muted, #687483);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.recipe-detail-breadcrumb a:hover {
+    color: var(--color-primary, #c76a27);
+}
+
+/* ヘッダー */
+
+.recipe-detail-hero {
+    margin-bottom: 38px;
+}
+
+.recipe-detail-hero-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.recipe-detail-eyebrow {
+    color: var(--color-primary, #c76a27);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+.recipe-detail-hero h1 {
+    margin: 8px 0 14px;
+
+    color: var(--color-text, #293443);
+    font-size: clamp(1.7rem, 4vw, 2.3rem);
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.recipe-detail-hero-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 92px;
+    height: 92px;
+
+    border-radius: 26px;
+    background: #f9e7d5;
+
+    font-size: 2.8rem;
+}
+
+.recipe-detail-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}
+
+.recipe-status {
+    padding: 5px 12px;
+    border-radius: 999px;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.recipe-status.public {
+    background: #e8f4ec;
+    color: #39764e;
+}
+
+.recipe-status.private {
+    background: #f0edeb;
+    color: #79736f;
+}
+
+.recipe-step-count {
+    color: var(--color-muted, #687483);
+    font-size: 0.85rem;
+}
+
+/* 編集操作 */
+
+.recipe-detail-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-top: 24px;
+}
+
+.recipe-detail-action {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 44px;
+    padding: 10px 16px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 12px;
+
+    background: #fff;
+    color: var(--color-text, #293443);
+
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    transition:
+        border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+.recipe-detail-action:hover {
+    border-color: #e7c3a9;
+    background: #fff8f2;
+}
+
+/* セクション */
+
+.recipe-detail-section {
+    margin-bottom: 38px;
+}
+
+.recipe-detail-section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 12px;
+
+    margin-bottom: 16px;
+}
+
+.recipe-detail-section-heading h2 {
+    margin: 4px 0 0;
+
+    color: var(--color-text, #293443);
+    font-size: 1.3rem;
+}
+
+.recipe-detail-counter {
+    color: var(--color-muted, #687483);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+/* 材料一覧 */
+
+.recipe-ingredients-card {
+    padding: 8px 24px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 20px;
+
+    background: #fff;
+    box-shadow: var(
+        --shadow-card,
+        0 5px 22px rgba(75,46,26,.065)
+    );
+}
+
+.recipe-ingredient-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    min-height: 58px;
+    padding: 14px 0;
+
+    border-bottom: 1px solid #f0e9e3;
+}
+
+.recipe-ingredient-row:last-child {
+    border-bottom: none;
+}
+
+.recipe-ingredient-name {
+    min-width: 0;
+    color: var(--color-text, #293443);
+    font-size: 0.95rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.recipe-ingredient-amount {
+    flex-shrink: 0;
+
+    color: var(--color-muted, #687483);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-align: right;
+}
+
+/* 手順カード */
+
+.recipe-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.recipe-step-card {
+    padding: 24px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 20px;
+
+    background: #fff;
+    box-shadow: var(
+        --shadow-card,
+        0 5px 22px rgba(75,46,26,.065)
+    );
+}
+
+.recipe-step-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.recipe-step-number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 14px;
+    background: #fff1e6;
+
+    color: #a65a22;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.recipe-step-title-group {
+    flex: 1;
+    min-width: 0;
+}
+
+.recipe-step-eyebrow {
+    color: var(--color-primary, #c76a27);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+}
+
+.recipe-step-title-group h3 {
+    margin: 4px 0 0;
+
+    color: var(--color-text, #293443);
+    font-size: 1.12rem;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+}
+
+.recipe-step-duration {
+    flex-shrink: 0;
+
+    padding: 7px 12px;
+    border-radius: 10px;
+
+    background: #f6f2ee;
+    color: #685a50;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+/* 工程の説明 */
+
+.recipe-step-description {
+    margin-top: 22px;
+    padding: 18px;
+
+    border-radius: 12px;
+    background: #fcf7f3;
+
+    color: var(--color-text, #293443);
+    font-size: 0.95rem;
+    line-height: 1.85;
+
+    overflow-wrap: anywhere;
+}
+
+/* 工程の属性 */
+
+.recipe-step-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin-top: 18px;
+}
+
+.recipe-step-category,
+.recipe-step-leave {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 6px 11px;
+    border-radius: 999px;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.recipe-step-category {
+    background: #eef2f6;
+    color: #566579;
+}
+
+.recipe-step-leave.available {
+    background: #e8f4ec;
+    color: #39764e;
+}
+
+.recipe-step-leave.busy {
+    background: #fff1e6;
+    color: #975a29;
+}
+
+/* データがない場合 */
+
+.recipe-detail-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+
+    padding: 42px 20px;
+    text-align: center;
+}
+
+.recipe-detail-empty > div {
+    font-size: 2.3rem;
+}
+
+.recipe-detail-empty h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+.recipe-detail-empty p {
+    margin: 0;
+
+    color: var(--color-muted, #687483);
+    font-size: 0.87rem;
+}
+
+/* レスポンシブ */
+
+@media (max-width: 600px) {
+    .recipe-detail-hero {
+        margin-bottom: 30px;
+    }
+
+    .recipe-detail-hero-icon {
+        width: 64px;
+        height: 64px;
+
+        border-radius: 18px;
+        font-size: 2rem;
+    }
+
+    .recipe-detail-hero h1 {
+        font-size: 1.55rem;
+    }
+
+    .recipe-detail-actions {
+        gap: 8px;
+    }
+
+    .recipe-detail-action {
+        flex: 1;
+        padding: 10px 12px;
+        font-size: 0.82rem;
+    }
+
+    .recipe-ingredients-card {
+        padding: 6px 18px;
+    }
+
+    .recipe-step-card {
+        padding: 18px;
+    }
+
+    .recipe-step-heading {
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .recipe-step-number {
+        width: 40px;
+        height: 40px;
+    }
+
+    .recipe-step-duration {
+        margin-left: 50px;
+        font-size: 0.8rem;
+    }
+
+    .recipe-step-description {
+        margin-top: 16px;
+        padding: 14px;
+        font-size: 0.9rem;
+    }
+}
