@@ -27,17 +27,19 @@ sys.path.append(os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = 'django-insecure-jpcy!&m=37^9p**=*k=+kf*8mbm-0#f9(p7yuy!1w)-fdvc@=o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     ".trycloudflare.com",
+    "cook-scheduler.tailce775b.ts.net",
 ]
 
 # CloudflareのURLを設定
 CSRF_TRUSTED_ORIGINS = [
     "https://initially-fathers-workshops-rider.trycloudflare.com",
+    "https://cook-scheduler.tailce775b.ts.net",
 ]
 
 # Application definition
