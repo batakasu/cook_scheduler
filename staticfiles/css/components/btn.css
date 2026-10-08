@@ -1,0 +1,42 @@
+.btn {
+    box-sizing: border-box;
+    padding: 0.7rem 1rem;
+
+    border: none;
+    border-radius: 10px;
+
+    font: inherit;
+    font-weight: 600;
+
+    cursor: pointer;
+    text-decoration: none;
+
+    transition:
+        transform 0.12s ease,
+        opacity 0.12s ease;
+}
+.btn:active {
+    transform: scale(0.98);
+}
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/*ボタンの色の種類*/
+.btn--primary {
+    background: #1b293f;
+    color: white;
+}
+.btn--secondary {
+    background: #eee;
+    color: #1b293f;
+}
+.btn--danger {
+    background: #c0392b;
+    color: white;
+}
+.btn--ghost {
+    background: transparent;
+    color: #1b293f;
+}
