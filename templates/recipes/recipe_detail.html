@@ -1,66 +1,195 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}recipe_detail{% endblock %}
+{% block title %}{{ recipe.title }} | レシピ詳細{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
+<link rel="stylesheet" href="{% static 'css/recipe_detail.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="recipe-detail-container">
-    <h2>レシピ詳細</h2>
-
-    {{ recipe.title }}
-
-    {% if recipe.user == request.user%}
-        <a href="{% url 'recipes:recipe_update' recipe.pk %}">
-            レシピを編集する
+    <!-- 戻る -->
+    <nav class="recipe-detail-breadcrumb">
+        <a href="{% url 'recipes:recipe_list' %}">
+            ← レシピ一覧に戻る
         </a>
-        <a href="{% url 'recipes:recipe_ingredinets_update' recipe.pk %}">
-            材料を編集する
-        </a>
-    {% endif %}
+    </nav>
 
-    <hr>
+    <!-- レシピヘッダー -->
+    <header class="recipe-detail-hero">
 
-    {% for s in recipe.steps.all %}
-        <div class="card step-card">
+        <div class="recipe-detail-hero-main">
+            <div>
 
-            <div class="step-card-header">
-                <div class="card-title">
-                    {{ s.title }}
-                </div>
-            </div>
+                <h1>{{ recipe.title }}</h1>
 
-            <div class="step-card-body">
-                <div>
-                    {{ s.description }}
-                </div>
-
-                <div>
-                    所要時間：{{ s.duration }}分
-                </div>
-
-                <div>
-                    {{ s.get_category_display }}
-                </div>
-
-                <div>
-                    {% if step.leave %}
-                        手を離せる
+                <div class="recipe-detail-meta">
+                    {% if recipe.is_public %}
+                        <span class="recipe-status public">
+                            公開レシピ
+                        </span>
                     {% else %}
-                        手を離せない
+                        <span class="recipe-status private">
+                            非公開レシピ
+                        </span>
                     {% endif %}
+
+                    <span class="recipe-step-count">
+                        {{ recipe.steps.count }} 件の調理工程
+                    </span>
                 </div>
             </div>
 
         </div>
-    {% empty %}
-        <p class="empty">まだ手順が登録されていません。</p>
-    {% endfor %}
-</div>
-{% endblock %}
 
-{% block extra_js %}
+        {% if recipe.user == request.user %}
+        <div class="recipe-detail-actions">
+
+            <a href="{% url 'recipes:recipe_update' recipe.pk %}"
+               class="recipe-detail-action">
+                レシピを編集
+            </a>
+
+            <a href="{% url 'recipes:recipe_ingredinets_update' recipe.pk %}"
+               class="recipe-detail-action">
+                材料を編集
+            </a>
+
+        </div>
+        {% endif %}
+
+    </header>
+
+    <!-- 材料 -->
+    <section class="recipe-detail-section">
+
+        <div class="recipe-detail-section-heading">
+            <div>
+                <h2>材料</h2>
+            </div>
+
+            <span class="recipe-detail-counter">
+                {{ recipe.recipe_ingredients.count }} 種類
+            </span>
+        </div>
+
+        <div class="recipe-ingredients-card">
+
+            {% for ingredient in recipe.recipe_ingredients.all %}
+
+                <div class="recipe-ingredient-row">
+
+                    <span class="recipe-ingredient-name">
+                        {{ ingredient.name }}
+                    </span>
+
+                    <span class="recipe-ingredient-amount">
+                        {% if ingredient.amount is not None %}
+                            {{ ingredient.amount|floatformat:"-2" }}
+                        {% endif %}
+                        {{ ingredient.unit }}
+                    </span>
+
+                </div>
+
+            {% empty %}
+
+                <div class="recipe-detail-empty">
+                    <h3>材料が登録されていません</h3>
+                    <p>材料を登録すると、ここに一覧表示されます。</p>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- 調理手順 -->
+    <section class="recipe-detail-section">
+
+        <div class="recipe-detail-section-heading">
+            <div>
+                <h2>調理手順</h2>
+            </div>
+
+            <span class="recipe-detail-counter">
+                {{ recipe.steps.count }} ステップ
+            </span>
+        </div>
+
+        <div class="recipe-steps">
+
+            {% for s in recipe.steps.all %}
+
+            <article class="recipe-step-card">
+
+                <div class="recipe-step-heading">
+
+                    <div class="recipe-step-number">
+                        {{ forloop.counter }}
+                    </div>
+
+                    <div class="recipe-step-title-group">
+
+                        <span class="recipe-step-eyebrow">
+                            STEP {{ forloop.counter }}
+                        </span>
+
+                        <h3>
+                            {{ s.title|default:"タイトル未設定" }}
+                        </h3>
+
+                    </div>
+
+                    <div class="recipe-step-duration">
+                        {{ s.duration }}分
+                    </div>
+
+                </div>
+
+                {% if s.description %}
+                <div class="recipe-step-description">
+                    {{ s.description|linebreaksbr }}
+                </div>
+                {% endif %}
+
+                <div class="recipe-step-footer">
+
+                    <span class="recipe-step-category">
+                        {{ s.get_category_display }}
+                    </span>
+
+                    {% if s.leave %}
+                        <span class="recipe-step-leave available">
+                            ✓ 手を離せる
+                        </span>
+                    {% else %}
+                        <span class="recipe-step-leave busy">
+                            手を離せない
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </article>
+
+            {% empty %}
+
+            <div class="recipe-detail-empty">
+                <h3>まだ調理手順がありません</h3>
+                <p>
+                    レシピを編集して、
+                    調理手順を登録しましょう。
+                </p>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+
 {% endblock %}

@@ -1,42 +1,148 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}recipe_update{% endblock %}
+{% block title %}レシピを編集{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
-    <link rel="stylesheet" href="{% static 'css/recipe_update.css' %}">
+<link rel="stylesheet" href="{% static 'css/recipe_update.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<form method="post">
+    <nav class="recipe-edit-breadcrumb">
+        {% if recipe.pk %}
+            <a href="{% url 'recipes:recipe_detail' recipe.pk %}">
+                ← レシピ詳細に戻る
+            </a>
+        {% else %}
+            <a href="{% url 'recipes:recipe_list' %}">
+                ← レシピ一覧に戻る
+            </a>
+        {% endif %}
+    </nav>
 
-    {% csrf_token %}
-    {{ step_formset.management_form }}
-    {{ form.as_p }}
+    <header class="recipe-edit-hero">
+        <div>
+            <h1>レシピを編集</h1>
+            <p>基本情報と調理工程を編集します。</p>
+        </div>
 
-    <div class="card-container">
-        {% for s in step_formset %}
-            {% include 'recipes/step_card.html' with s=s %}
-        {% endfor %}
-    </div>
+    </header>
 
-    <button type="button" id="add-step">
-        ＋ 工程を追加
-    </button>
-    <template id="empty-step-form">
-            {% include 'recipes/step_card.html' with s=step_formset.empty_form %}
-    </template>
+    <form method="post" class="recipe-edit-form">
+        {% csrf_token %}
+        {{ step_formset.management_form }}
 
-    <button type="submit">
-        保存する
-    </button>
-</form>
+        {% if form.non_field_errors %}
+            <div class="recipe-form-errors" role="alert">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
 
+        {% if step_formset.non_form_errors %}
+            <div class="recipe-form-errors" role="alert">
+                {{ step_formset.non_form_errors }}
+            </div>
+        {% endif %}
+
+        <!-- 基本情報 -->
+        <section class="recipe-edit-section">
+
+            <div class="recipe-edit-section-heading">
+                <h2>レシピの基本情報</h2>
+            </div>
+
+            <div class="recipe-basic-card">
+
+                <div class="recipe-edit-field">
+                    {{ form.title.label_tag }}
+                    {{ form.title }}
+
+                    {% if form.title.errors %}
+                        <div class="recipe-field-error">
+                            {{ form.title.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="recipe-public-field">
+                    <label for="{{ form.is_public.id_for_label }}">
+                        {{ form.is_public }}
+                        <span>レシピを公開する</span>
+                    </label>
+
+                    <p>
+                        公開すると、ほかの利用者も
+                        このレシピを閲覧できるようになります。
+                    </p>
+
+                    {% if form.is_public.errors %}
+                        <div class="recipe-field-error">
+                            {{ form.is_public.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- 調理工程 -->
+        <section class="recipe-edit-section">
+
+            <div class="recipe-edit-section-heading">
+                <h2>調理工程</h2>
+                <p>
+                    左上のハンドルをドラッグすると、
+                    工程の順番を変更できます。
+                </p>
+            </div>
+
+            <div class="card-container">
+                {% for s in step_formset %}
+                    {% include 'recipes/step_card.html' with s=s %}
+                {% endfor %}
+            </div>
+
+            <button type="button"
+                    id="add-step"
+                    class="recipe-add-step">
+                ＋ 工程を追加する
+            </button>
+
+            <template id="empty-step-form">
+                {% include 'recipes/step_card.html' with s=step_formset.empty_form %}
+            </template>
+
+        </section>
+
+        <!-- 保存 -->
+        <div class="recipe-edit-actions">
+
+            {% if recipe.pk %}
+                <a href="{% url 'recipes:recipe_detail' recipe.pk %}"
+                   class="recipe-cancel-button">
+                    キャンセル
+                </a>
+            {% else %}
+                <a href="{% url 'recipes:recipe_list' %}"
+                   class="recipe-cancel-button">
+                    キャンセル
+                </a>
+            {% endif %}
+
+            <button type="submit"
+                    class="recipe-save-button">
+                変更を保存する
+            </button>
+
+        </div>
+
+    </form>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
-    <script src="{% static 'js/recipe_update.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+<script src="{% static 'js/recipe_update.js' %}"></script>
 {% endblock %}

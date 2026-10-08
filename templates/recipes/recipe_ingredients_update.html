@@ -1,43 +1,99 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}recipe_update{% endblock %}
+{% block title %}材料を編集 | {{ recipe.title }}{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
+<link rel="stylesheet" href="{% static 'css/recipe_ingredients_update.css' %}">
 {% endblock %}
 
 {% block content %}
 
-<form method="post">
+    <!-- 戻る -->
+    <nav class="ingredient-edit-breadcrumb">
+        <a href="{% url 'recipes:recipe_detail' recipe.pk %}">
+            ← レシピ詳細に戻る
+        </a>
+    </nav>
 
-    {% csrf_token %}
-    {{ recipe_ingredient_formset.management_form }}
-    <div class="recipe-header">
-        <h1>{{ recipe.title }}</h1>
-        <p>材料を編集</p>
-    </div>
+    <!-- ヘッダー -->
+    <header class="ingredient-edit-hero">
+        <div>
 
-    <div class="card-container">
-        {% for i in recipe_ingredient_formset %}
-            {% include 'recipes/ingredient_card.html' with i=i %}
-        {% endfor %}
-    </div>
+            <h1>材料を編集</h1>
 
-    <button type="button" id="add-ingredient">
-        ＋ 材料を追加
-    </button>
-    <template id="empty-ingredient-form"> 
-            {% include 'recipes/ingredient_card.html' with i=recipe_ingredient_formset.empty_form %}
-    </template>
+            <p>
+                {{ recipe.title }} の材料を登録・編集します。
+            </p>
+        </div>
 
-    <button type="submit">
-        保存する
-    </button>
-</form>
+    </header>
 
+    <form method="post" class="ingredient-edit-form">
+        {% csrf_token %}
+
+        {{ recipe_ingredient_formset.management_form }}
+
+        {% if recipe_ingredient_formset.non_form_errors %}
+            <div class="ingredient-form-errors" role="alert">
+                {{ recipe_ingredient_formset.non_form_errors }}
+            </div>
+        {% endif %}
+
+        <!-- 材料一覧 -->
+        <section class="ingredient-edit-section">
+
+            <div class="ingredient-section-heading">
+                <div>
+                    <h2>材料一覧</h2>
+                </div>
+            </div>
+
+            <p class="ingredient-section-description">
+                材料名・使用量・単位を入力してください。
+            </p>
+
+            <div class="card-container">
+
+                {% for i in recipe_ingredient_formset %}
+                    {% include 'recipes/ingredient_card.html' with i=i %}
+                {% endfor %}
+
+            </div>
+
+            <!-- 動的にフォームを追加する -->
+            <button type="button"
+                    id="add-ingredient"
+                    class="ingredient-add-button">
+                <span aria-hidden="true">＋</span>
+                材料を追加する
+            </button>
+
+            <template id="empty-ingredient-form">
+                {% include 'recipes/ingredient_card.html' with i=recipe_ingredient_formset.empty_form %}
+            </template>
+
+        </section>
+
+        <!-- 操作 -->
+        <div class="ingredient-edit-actions">
+
+            <a href="{% url 'recipes:recipe_detail' recipe.pk %}"
+               class="ingredient-cancel-button">
+                キャンセル
+            </a>
+
+            <button type="submit"
+                    class="ingredient-save-button">
+                変更を保存する
+            </button>
+
+        </div>
+
+    </form>
 {% endblock %}
 
 {% block extra_js %}
-    <script src="{% static 'js/recipe_ingredients_update.js' %}"></script>
-{% endblock %} 
+<script src="{% static 'js/recipe_ingredients_update.js' %}"></script>
+{% endblock %}

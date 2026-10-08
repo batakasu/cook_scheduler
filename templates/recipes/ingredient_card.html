@@ -1,27 +1,69 @@
-<div class="card ingredient-card">
+
+<div class="ingredient-card">
 
     {{ i.id }}
 
+    <!-- カード見出し -->
     <div class="ingredient-card-header">
-        <div class="card-title">
-            {{ i.name }}
+
+        <div class="ingredient-card-heading">
+
+            <h3>材料</h3>
         </div>
+
+        <label class="ingredient-delete">
+            {{ i.DELETE }}
+            <span>削除する</span>
+        </label>
+
     </div>
 
+    <!-- 入力 -->
     <div class="ingredient-card-body">
-        <div>
-            {{ i.amount.label_tag }}
-            {{ i.amount }}
+
+        <div class="ingredient-field">
+            {{ i.name.label_tag }}
+            {{ i.name }}
+
+            {% if i.name.errors %}
+                <div class="ingredient-field-error">
+                    {{ i.name.errors }}
+                </div>
+            {% endif %}
         </div>
 
-        <div>
-            {{ i.unit.label_tag }}
-            {{ i.unit }}
+        <div class="ingredient-field-row">
+
+            <div class="ingredient-field">
+                {{ i.amount.label_tag }}
+                {{ i.amount }}
+
+                {% if i.amount.errors %}
+                    <div class="ingredient-field-error">
+                        {{ i.amount.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="ingredient-field">
+                {{ i.unit.label_tag }}
+                {{ i.unit }}
+
+                {% if i.unit.errors %}
+                    <div class="ingredient-field-error">
+                        {{ i.unit.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
         </div>
+
     </div>
 
-    <div class="ingredient-card-footer">
-        {{ i.DELETE }}
-        {{ i.DELETE.label_tag }}
-    </div>
+    {% if i.non_field_errors %}
+        <div class="ingredient-field-error">
+            {{ i.non_field_errors }}
+        </div>
+    {% endif %}
+
 </div>

@@ -1,0 +1,370 @@
+
+/* ======================================
+   RECIPE INGREDIENTS UPDATE
+====================================== */
+
+.ingredient-edit-page {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding-bottom: 48px;
+}
+
+/* 戻る */
+
+.ingredient-edit-breadcrumb {
+    margin-bottom: 22px;
+}
+
+.ingredient-edit-breadcrumb a {
+    color: var(--color-muted, #687483);
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.ingredient-edit-breadcrumb a:hover {
+    color: var(--color-primary, #c76a27);
+}
+
+/* ヘッダー */
+
+.ingredient-edit-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+
+    margin-bottom: 36px;
+    padding: 8px 0;
+}
+
+.ingredient-edit-eyebrow {
+    color: var(--color-primary, #c76a27);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+.ingredient-edit-hero h1 {
+    margin: 8px 0 10px;
+    color: var(--color-text, #293443);
+    font-size: clamp(1.55rem, 4vw, 2.2rem);
+}
+
+.ingredient-edit-hero p {
+    margin: 0;
+    color: var(--color-muted, #687483);
+    font-size: 0.95rem;
+}
+
+.ingredient-edit-hero-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 82px;
+    height: 82px;
+
+    border-radius: 24px;
+    background: #f9e7d5;
+    font-size: 2.4rem;
+}
+
+/* セクション */
+
+.ingredient-edit-section {
+    margin-bottom: 28px;
+}
+
+.ingredient-section-heading h2 {
+    margin: 4px 0 0;
+    font-size: 1.3rem;
+    color: var(--color-text, #293443);
+}
+
+.ingredient-section-description {
+    margin: 8px 0 20px;
+    color: var(--color-muted, #687483);
+    font-size: 0.87rem;
+}
+
+/* カード一覧 */
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* 材料カード */
+
+.ingredient-card {
+    min-width: 0;
+    padding: 24px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 18px;
+
+    background: #fff;
+    box-shadow: var(
+        --shadow-card,
+        0 5px 22px rgba(75,46,26,.065)
+    );
+}
+
+.ingredient-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    margin-bottom: 20px;
+}
+
+.ingredient-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ingredient-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+
+    border-radius: 12px;
+    background: #fff1e6;
+    font-size: 1.3rem;
+}
+
+.ingredient-card-heading h3 {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--color-text, #293443);
+}
+
+/* 削除 */
+
+.ingredient-delete {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+
+    color: #a44b35;
+    font-size: 0.83rem;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.ingredient-delete input {
+    width: 17px;
+    height: 17px;
+    accent-color: #c76a27;
+    cursor: pointer;
+}
+
+/* フォーム入力 */
+
+.ingredient-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.ingredient-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    min-width: 0;
+}
+
+.ingredient-field label {
+    color: var(--color-text, #293443);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.ingredient-field input,
+.ingredient-field select {
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+
+    padding: 11px 14px;
+
+    border: 1px solid #dcd4ce;
+    border-radius: 11px;
+
+    background: #fff;
+    color: var(--color-text, #293443);
+
+    font: inherit;
+    font-size: 1rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.ingredient-field input:focus,
+.ingredient-field select:focus {
+    border-color: var(--color-primary, #c76a27);
+    box-shadow: 0 0 0 3px rgba(199,106,39,.12);
+}
+
+.ingredient-field-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+/* 材料追加 */
+
+.ingredient-add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    min-height: 54px;
+    padding: 14px;
+
+    border: 1.5px dashed var(--color-primary, #c76a27);
+    border-radius: 14px;
+
+    background: #fffaf5;
+    color: #a65a22;
+
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: background 0.18s ease;
+}
+
+.ingredient-add-button:hover {
+    background: #fff1e6;
+}
+
+/* 保存・キャンセル */
+
+.ingredient-edit-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border, #e9dfd8);
+}
+
+.ingredient-cancel-button,
+.ingredient-save-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+    padding: 12px 22px;
+
+    border-radius: 12px;
+
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.ingredient-cancel-button {
+    border: 1px solid var(--color-border, #e9dfd8);
+    background: #fff;
+    color: var(--color-text, #293443);
+}
+
+.ingredient-save-button {
+    border: 1px solid var(--color-primary, #c76a27);
+    background: var(--color-primary, #c76a27);
+    color: #fff;
+    cursor: pointer;
+}
+
+.ingredient-save-button:hover {
+    background: var(--color-primary-hover, #9f4c17);
+}
+
+/* エラー */
+
+.ingredient-form-errors,
+.ingredient-field-error {
+    padding: 10px 12px;
+    border-radius: 10px;
+
+    background: #fff2ee;
+    color: #a44b35;
+
+    font-size: 0.85rem;
+}
+
+.ingredient-field-error ul,
+.ingredient-form-errors ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.ingredient-form-errors {
+    margin-bottom: 20px;
+}
+
+/* スマートフォン */
+
+@media (max-width: 600px) {
+    .ingredient-edit-hero {
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .ingredient-edit-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .ingredient-edit-hero p {
+        font-size: 0.85rem;
+    }
+
+    .ingredient-edit-hero-icon {
+        width: 62px;
+        height: 62px;
+
+        border-radius: 18px;
+        font-size: 1.9rem;
+    }
+
+    .ingredient-card {
+        padding: 18px;
+    }
+
+    .ingredient-field-row {
+        gap: 10px;
+    }
+
+    .ingredient-edit-actions {
+        flex-direction: column-reverse;
+    }
+
+    .ingredient-cancel-button,
+    .ingredient-save-button {
+        width: 100%;
+    }
+}
