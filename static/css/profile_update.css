@@ -1,0 +1,278 @@
+
+/* ======================================
+   PROFILE UPDATE
+====================================== */
+
+.profile-edit-page {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding-bottom: 48px;
+}
+
+/* 戻る */
+
+.profile-edit-breadcrumb {
+    margin-bottom: 22px;
+}
+
+.profile-edit-breadcrumb a {
+    color: #687483;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.profile-edit-breadcrumb a:hover {
+    color: #c76a27;
+}
+
+/* ヘッダー */
+
+.profile-edit-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+
+    margin-bottom: 36px;
+}
+
+.profile-edit-eyebrow {
+    color: #c76a27;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+.profile-edit-hero h1 {
+    margin: 8px 0 10px;
+
+    color: #293443;
+    font-size: clamp(1.55rem, 4vw, 2.2rem);
+    line-height: 1.4;
+}
+
+.profile-edit-hero p {
+    margin: 0;
+    color: #687483;
+    font-size: 0.95rem;
+}
+
+.profile-edit-hero-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 82px;
+    height: 82px;
+
+    border-radius: 24px;
+    background: #f9e7d5;
+
+    font-size: 2.4rem;
+}
+
+/* フォームカード */
+
+.profile-edit-card {
+    padding: 28px;
+
+    border: 1px solid #e9dfd8;
+    border-radius: 20px;
+
+    background: #fff;
+    box-shadow: 0 5px 22px rgba(75,46,26,.065);
+}
+
+.profile-edit-card-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    margin-bottom: 28px;
+}
+
+.profile-edit-card-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+    background: #fff1e6;
+
+    font-size: 1.5rem;
+}
+
+.profile-edit-card-header h2 {
+    margin: 0 0 4px;
+    color: #293443;
+    font-size: 1.1rem;
+}
+
+.profile-edit-card-header p {
+    margin: 0;
+    color: #687483;
+    font-size: 0.85rem;
+}
+
+/* 入力フィールド */
+
+.profile-edit-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    margin-bottom: 24px;
+}
+
+.profile-edit-field label {
+    color: #293443;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.profile-edit-field input {
+    width: 100%;
+    min-height: 48px;
+    padding: 11px 14px;
+
+    border: 1px solid #dcd4ce;
+    border-radius: 12px;
+
+    background: #fff;
+    color: #293443;
+
+    font: inherit;
+    font-size: 1rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.profile-edit-field input:focus {
+    border-color: #c76a27;
+    box-shadow: 0 0 0 3px rgba(199,106,39,.12);
+}
+
+.profile-edit-help {
+    margin: 0;
+
+    color: #687483;
+    font-size: 0.82rem;
+    line-height: 1.6;
+}
+
+/* 保存・キャンセル */
+
+.profile-edit-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+
+    margin-top: 28px;
+    padding-top: 24px;
+
+    border-top: 1px solid #f0e9e3;
+}
+
+.profile-edit-cancel,
+.profile-edit-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+    padding: 12px 22px;
+
+    border-radius: 12px;
+
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.profile-edit-cancel {
+    border: 1px solid #e9dfd8;
+    background: #fff;
+    color: #293443;
+}
+
+.profile-edit-submit {
+    border: 1px solid #c76a27;
+    background: #c76a27;
+    color: #fff;
+    cursor: pointer;
+}
+
+.profile-edit-submit:hover {
+    background: #a6531d;
+}
+
+/* エラー */
+
+.profile-edit-error {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+
+    border-radius: 10px;
+    background: #fff2ee;
+    color: #a44b35;
+    font-size: 0.85rem;
+}
+
+.profile-edit-error ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+/* スマートフォン */
+
+@media (max-width: 600px) {
+    .profile-edit-hero {
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .profile-edit-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .profile-edit-hero p {
+        font-size: 0.85rem;
+    }
+
+    .profile-edit-hero-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 18px;
+        font-size: 1.9rem;
+    }
+
+    .profile-edit-card {
+        padding: 18px;
+    }
+
+    .profile-edit-card-header {
+        gap: 12px;
+    }
+
+    .profile-edit-actions {
+        flex-direction: column-reverse;
+    }
+
+    .profile-edit-cancel,
+    .profile-edit-submit {
+        width: 100%;
+    }
+}

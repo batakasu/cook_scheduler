@@ -1,23 +1,104 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}profile_update{% endblock %}
+{% block title %}ユーザー情報を編集{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/profile_update.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="task-detail-container">
-    <h2>ユーザー情報編集</h2>
 
-    <!-- フォームを使って全項目（タイトル、説明、数字など）を表示・編集できるようにする -->
-    <form method="post">
+    <!-- 戻る -->
+    <nav class="profile-edit-breadcrumb">
+        <a href="{% url 'accounts:profile' %}">
+            ← マイページに戻る
+        </a>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header class="profile-edit-hero">
+        <div>
+            <h1>ユーザー情報を編集</h1>
+        </div>
+
+    </header>
+
+    <!-- 編集フォーム -->
+    <form method="post" class="profile-edit-form">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">保存する</button>
-    </form>
-</div>
-{% endblock %}
 
-{% block extra_js %}
+        {% if form.non_field_errors %}
+            <div class="profile-edit-error" role="alert">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <section class="profile-edit-card">
+
+            <div class="profile-edit-card-header">
+                <div>
+                    <h2>基本情報</h2>
+                    <p>ユーザーIDと表示名を設定してください。</p>
+                </div>
+            </div>
+
+            <!-- ユーザーID -->
+            <div class="profile-edit-field">
+                <label for="{{ form.username.id_for_label }}">
+                    ユーザーID
+                </label>
+
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <div class="profile-edit-error" role="alert">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+
+                <p class="profile-edit-help">
+                    ログインやユーザーの識別に使用されます。
+                </p>
+            </div>
+
+            <!-- 表示名 -->
+            <div class="profile-edit-field">
+                <label for="{{ form.display_name.id_for_label }}">
+                    表示名
+                </label>
+
+                {{ form.display_name }}
+
+                {% if form.display_name.errors %}
+                    <div class="profile-edit-error" role="alert">
+                        {{ form.display_name.errors }}
+                    </div>
+                {% endif %}
+
+                <p class="profile-edit-help">
+                    グループや工程表などで表示される名前です。
+                </p>
+            </div>
+
+            <!-- 操作 -->
+            <div class="profile-edit-actions">
+
+                <a href="{% url 'accounts:profile' %}"
+                   class="profile-edit-cancel">
+                    キャンセル
+                </a>
+
+                <button type="submit" class="profile-edit-submit">
+                    変更を保存する
+                </button>
+
+            </div>
+
+        </section>
+
+    </form>
+
+
 {% endblock %}

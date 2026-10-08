@@ -19,33 +19,11 @@
                 <span>レシピを作る</span>
             </a>
         </div>
-        <!-- 並び替え -->
         <div class="recipe-toolbar">
 
             <p class="recipe-count">
                 {{ recipes|length }} 件のレシピ
             </p>
-
-            <div class="recipe-sort">
-                <label for="sort-select">並び順</label>
-
-                <select id="sort-select">
-                    <option value="new"
-                        {% if current_sort == 'new' %}selected{% endif %}>
-                        新しい順
-                    </option>
-
-                    <option value="old"
-                        {% if current_sort == 'old' %}selected{% endif %}>
-                        古い順
-                    </option>
-
-                    <option value="title"
-                        {% if current_sort == 'title' %}selected{% endif %}>
-                        タイトル順
-                    </option>
-                </select>
-            </div>
 
         </div>
     </section>
