@@ -1,23 +1,158 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}task_detail{% endblock %}
+{% block title %}タスクを編集{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/task_detail.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="task-detail-container">
-    <h2>タスク詳細・編集</h2>
 
-    <!-- フォームを使って全項目（タイトル、説明、数字など）を表示・編集できるようにする -->
-    <form method="post" action="{% url 'schedules:task_detail' project_pk=view.kwargs.project_pk task_pk=task.pk %}">
+    <!-- 戻る -->
+    <nav class="task-edit-breadcrumb">
+        <a href="{% url 'schedules:project_detail' task.project.pk %}">
+            ← 工程表に戻る
+        </a>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header class="task-edit-hero">
+        <div>
+            <span class="task-edit-eyebrow">
+                EDIT TASK
+            </span>
+
+            <h1>タスクを編集</h1>
+
+            <p>
+                {{ task.project.title }} の作業内容を編集します。
+            </p>
+        </div>
+
+    </header>
+
+    <!-- 編集フォーム -->
+    <form method="post"
+          action="{% url 'schedules:task_detail' project_pk=task.project.pk task_pk=task.pk %}"
+          class="task-edit-form">
         {% csrf_token %}
-        {{ task_form.as_p }}
-        <button type="submit" class="btn btn-primary">保存する</button>
-    </form>
-</div>
-{% endblock %}
 
-{% block extra_js %}
+        {% if task_form.non_field_errors %}
+            <div class="task-edit-error" role="alert">
+                {{ task_form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        <section class="task-edit-card">
+
+            <div class="task-edit-card-header">
+
+                <div>
+                    <h2>作業の基本情報</h2>
+                    <p>作業名や担当者、所要時間を設定してください。</p>
+                </div>
+            </div>
+
+            <!-- 作業名 -->
+            <div class="task-edit-field">
+                <label for="{{ task_form.title.id_for_label }}">
+                    作業名
+                </label>
+
+                {{ task_form.title }}
+
+                {% if task_form.title.errors %}
+                    <div class="task-edit-error" role="alert">
+                        {{ task_form.title.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- 説明 -->
+            <div class="task-edit-field">
+                <label for="{{ task_form.description.id_for_label }}">
+                    作業内容
+                </label>
+
+                {{ task_form.description }}
+
+                {% if task_form.description.errors %}
+                    <div class="task-edit-error" role="alert">
+                        {{ task_form.description.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="task-edit-field-row">
+
+                <!-- 担当者 -->
+                <div class="task-edit-field">
+                    <label for="{{ task_form.membership.id_for_label }}">
+                        担当者
+                    </label>
+
+                    {{ task_form.membership }}
+
+                    {% if task_form.membership.errors %}
+                        <div class="task-edit-error" role="alert">
+                            {{ task_form.membership.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- 所要時間 -->
+                <div class="task-edit-field">
+                    <label for="{{ task_form.duration.id_for_label }}">
+                        所要時間（分）
+                    </label>
+
+                    {{ task_form.duration }}
+
+                    {% if task_form.duration.errors %}
+                        <div class="task-edit-error" role="alert">
+                            {{ task_form.duration.errors }}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+
+            <!-- 手を離せるか -->
+            <div class="task-edit-leave">
+                <label for="{{ task_form.leave.id_for_label }}">
+                    {{ task_form.leave }}
+                    <span>この作業中は手を離せる</span>
+                </label>
+
+                <p>
+                    煮込みや待機など、ほかの作業を
+                    同時に進められる場合にチェックします。
+                </p>
+
+                {% if task_form.leave.errors %}
+                    <div class="task-edit-error" role="alert">
+                        {{ task_form.leave.errors }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- 保存 -->
+            <div class="task-edit-actions">
+
+                <a href="{% url 'schedules:project_detail' task.project.pk %}"
+                   class="task-edit-cancel">
+                    キャンセル
+                </a>
+
+                <button type="submit" class="task-edit-submit">
+                    変更を保存する
+                </button>
+
+            </div>
+
+        </section>
+    </form>
+
 {% endblock %}
