@@ -1,13 +1,133 @@
+
 {% extends 'base.html' %}
-{% block title %}レシピ一覧{% endblock %}
+{% load static %}
+
+{% block title %}工程表を作成{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/project_create.css' %}">
+{% endblock %}
+
 {% block content %}
-    <form method="post">
+
+    <!-- 戻る -->
+    <nav class="project-create-breadcrumb">
+        <a href="{% url 'schedules:project_list' %}">
+            ← 工程表一覧に戻る
+        </a>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header class="project-create-hero">
+        <h1>新しい工程表を作成</h1>
+
+    </header>
+
+    <!-- 作成フォーム -->
+    <form method="post" class="project-create-form">
         {% csrf_token %}
 
-        <!-- 1. 献立(Project)のフォーム -->
-        <h2>献立の作成</h2>
-        {{ form.as_p }}
+        {% if form.non_field_errors %}
+        <div class="project-create-error" role="alert">
+            {{ form.non_field_errors }}
+        </div>
+        {% endif %}
 
-        <button type="submit">保存する</button>
+        <section class="project-create-card">
+
+            <div class="project-create-card-header">
+
+                <div>
+                    <h2>工程表の基本情報</h2>
+                    <p>工程表名と調理予定日時を入力してください。</p>
+                </div>
+            </div>
+
+            <!-- 工程表名 -->
+            <div class="project-create-field">
+                <label for="{{ form.title.id_for_label }}">
+                    工程表名
+                </label>
+
+                {{ form.title }}
+
+                {% if form.title.errors %}
+                <div class="project-create-error" role="alert">
+                    {{ form.title.errors }}
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- 説明 -->
+            <div class="project-create-field">
+                <label for="{{ form.description.id_for_label }}">
+                    説明
+                </label>
+
+                {{ form.description }}
+
+                {% if form.description.errors %}
+                <div class="project-create-error" role="alert">
+                    {{ form.description.errors }}
+                </div>
+                {% endif %}
+
+                <p class="project-create-help">
+                    献立や調理内容などを入力できます。
+                </p>
+            </div>
+
+            <!-- 調理予定日時 -->
+            <div class="project-create-field">
+                <label for="{{ form.scheduled_at.id_for_label }}">
+                    調理予定日時
+                </label>
+
+                {{ form.scheduled_at }}
+
+                {% if form.scheduled_at.errors %}
+                <div class="project-create-error" role="alert">
+                    {{ form.scheduled_at.errors }}
+                </div>
+                {% endif %}
+
+                <p class="project-create-help">
+                    調理を開始する予定の日付と時刻を選択してください。
+                </p>
+            </div>
+
+            <!-- 操作 -->
+            <div class="project-create-actions">
+
+                <a href="{% url 'schedules:project_list' %}"
+                   class="project-create-cancel">
+                    キャンセル
+                </a>
+
+                <button type="submit"
+                        class="project-create-submit">
+                    工程表を作成する
+                    <span aria-hidden="true">→</span>
+                </button>
+
+            </div>
+
+        </section>
+
     </form>
+
+    <!-- 作成後の案内 -->
+    <aside class="project-create-notice">
+        <span aria-hidden="true">ⓘ</span>
+
+        <div>
+            <h3>作成後について</h3>
+            <p>
+                作成後はメンバーやレシピを追加して、
+                タイムライン上で工程を編集できます。
+            </p>
+        </div>
+    </aside>
+
+
 {% endblock %}
