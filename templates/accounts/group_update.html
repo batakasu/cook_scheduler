@@ -1,45 +1,222 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}group_update{% endblock %}
+{% block title %}グループ詳細・編集{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/group_update.css' %}">
 {% endblock %}
 
 {% block content %}
-<div class="task-detail-container">
-    <h2>グループ詳細・編集</h2>
 
-    <!-- フォームを使って全項目（タイトル、説明、数字など）を表示・編集できるようにする -->
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">グループ設定を保存する</button>
-    </form>
+<div class="group-update-page">
 
-    <form method="post" action="{% url 'accounts:add_member' group.pk %}">
-        {% csrf_token %}
-        {{ member_form.as_p }}
-        <button type="submit" class="btn btn-primary">このメンバーを追加する</button>
-    </form>
+    <!-- 戻る -->
+    <nav class="group-update-breadcrumb">
+        <a href="{% url 'accounts:profile' %}">
+            ← マイページに戻る
+        </a>
+    </nav>
 
-    <div>
-        <h2>メンバー一覧</h2>
+    <!-- ヘッダー -->
+    <header class="group-update-hero">
+        <div>
+            <span class="group-update-eyebrow">
+                GROUP SETTINGS
+            </span>
 
-        {% for m in group.members.all %}
-            <p>{{ m.display_name_or_username }}</p>
-            <form method="post" action="{% url 'accounts:remove_member' group.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="username" value="{{ m.username }}">
-                <button type="submit">削除</button>
-            </form>
-        {% empty %}
-            <p class="empty">メンバーが居ません</p>
-        {% endfor %}
-    </div>
+            <h1>グループ詳細・編集</h1>
+            <p>グループの情報と参加メンバーを管理します。</p>
+        </div>
+
+        <div class="group-update-hero-icon" aria-hidden="true">
+            👥
+        </div>
+    </header>
+
+    <!-- グループ設定 -->
+    <section class="group-update-section">
+
+        <div class="group-update-section-heading">
+            <span class="group-update-eyebrow">
+                BASIC INFORMATION
+            </span>
+            <h2>グループ設定</h2>
+        </div>
+
+        <form method="post" class="group-update-card">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="group-update-error" role="alert">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="group-update-fields">
+                {% for field in form %}
+                    <div class="group-update-field">
+
+                        {% if field.field.widget.input_type == "checkbox" %}
+                            <label class="group-update-checkbox"
+                                   for="{{ field.id_for_label }}">
+                                {{ field }}
+                                <span>{{ field.label }}</span>
+                            </label>
+                        {% else %}
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                        {% endif %}
+
+                        {% if field.help_text %}
+                            <p class="group-update-help">
+                                {{ field.help_text }}
+                            </p>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="group-update-error" role="alert">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="group-update-actions">
+                <button type="submit" class="group-update-save">
+                    グループ設定を保存する
+                </button>
+            </div>
+        </form>
+
+    </section>
+
+    <!-- メンバー追加 -->
+    <section class="group-update-section">
+
+        <div class="group-update-section-heading">
+            <span class="group-update-eyebrow">
+                ADD MEMBER
+            </span>
+            <h2>メンバーを追加</h2>
+            <p>グループに参加するユーザーを追加します。</p>
+        </div>
+
+        <form method="post"
+              action="{% url 'accounts:add_member' group.pk %}"
+              class="group-update-card">
+            {% csrf_token %}
+
+            {% if member_form.non_field_errors %}
+                <div class="group-update-error" role="alert">
+                    {{ member_form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <div class="group-update-fields">
+                {% for field in member_form %}
+                    <div class="group-update-field">
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <p class="group-update-help">
+                                {{ field.help_text }}
+                            </p>
+                        {% endif %}
+
+                        {% if field.errors %}
+                            <div class="group-update-error" role="alert">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="group-update-actions">
+                <button type="submit" class="group-update-save">
+                    ＋ メンバーを追加する
+                </button>
+            </div>
+        </form>
+
+    </section>
+
+    <!-- メンバー一覧 -->
+    <section class="group-update-section">
+
+        <div class="group-update-section-heading members-heading">
+            <div>
+                <span class="group-update-eyebrow">
+                    GROUP MEMBERS
+                </span>
+                <h2>参加メンバー</h2>
+            </div>
+
+            <span class="group-update-count">
+                {{ group.members.count }} 人
+            </span>
+        </div>
+
+        <div class="group-update-member-list">
+
+            {% for m in group.members.all %}
+
+                <article class="group-update-member-card">
+
+                    <div class="group-update-avatar"
+                         aria-hidden="true">
+                        👤
+                    </div>
+
+                    <div class="group-update-member-info">
+                        <h3>{{ m.display_name_or_username }}</h3>
+                        <p>@{{ m.username }}</p>
+                    </div>
+
+                    <form method="post"
+                          action="{% url 'accounts:remove_member' group.pk %}"
+                          class="group-update-remove-form">
+                        {% csrf_token %}
+
+                        <input type="hidden"
+                               name="username"
+                               value="{{ m.username }}">
+
+                        <button type="submit"
+                                class="group-update-remove-button"
+                                aria-label="{{ m.display_name_or_username }}をグループから削除">
+                            削除
+                        </button>
+                    </form>
+
+                </article>
+
+            {% empty %}
+
+                <div class="group-update-empty">
+                    <div aria-hidden="true">👥</div>
+                    <h3>まだメンバーがいません</h3>
+                    <p>
+                        上のフォームからメンバーを追加しましょう。
+                    </p>
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
 
 </div>
-{% endblock %}
 
-{% block extra_js %}
 {% endblock %}
