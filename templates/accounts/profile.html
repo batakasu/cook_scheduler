@@ -45,15 +45,6 @@
                     </span>
                 </div>
 
-                <div class="profile-info-row">
-                    <span class="profile-info-label">
-                        メールアドレス
-                    </span>
-                    <span class="profile-info-value">
-                        {{ user_info.email|default:"未登録" }}
-                    </span>
-                </div>
-
             </div>
 
             <a href="{% url 'accounts:profile_update' %}"
