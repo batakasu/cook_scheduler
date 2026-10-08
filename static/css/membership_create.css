@@ -1,0 +1,339 @@
+
+/* ======================================
+   MEMBER CREATE
+====================================== */
+
+.member-create-page {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 0 48px;
+}
+
+/* 戻る */
+
+.member-create-breadcrumb {
+    margin-bottom: 22px;
+}
+
+.member-create-breadcrumb a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    color: var(--color-muted, #687483);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.member-create-breadcrumb a:hover {
+    color: var(--color-primary, #c76a27);
+}
+
+/* ヘッダー */
+
+.member-create-hero {
+    margin-bottom: 28px;
+}
+
+.member-create-eyebrow {
+    color: var(--color-primary, #c76a27);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+.member-create-hero h1 {
+    margin: 8px 0 10px;
+
+    color: var(--color-text, #293443);
+    font-size: clamp(1.55rem, 4vw, 2.2rem);
+    line-height: 1.45;
+}
+
+.member-create-hero p {
+    margin: 0;
+    color: var(--color-muted, #687483);
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+}
+
+/* フォームカード */
+
+.member-create-card,
+.member-group-card {
+    padding: 28px;
+
+    border: 1px solid var(--color-border, #e9dfd8);
+    border-radius: 20px;
+
+    background: #fff;
+    box-shadow: var(
+        --shadow-card,
+        0 5px 22px rgba(75, 46, 26, 0.065)
+    );
+}
+
+.member-create-card {
+    margin-bottom: 22px;
+}
+
+.member-create-card-header,
+.member-group-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    margin-bottom: 26px;
+}
+
+.member-create-icon,
+.member-group-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+    background: #fff1e6;
+
+    font-size: 1.5rem;
+}
+
+.member-create-card-header h2,
+.member-group-heading h2 {
+    margin: 0 0 4px;
+
+    color: var(--color-text, #293443);
+    font-size: 1.1rem;
+}
+
+.member-create-card-header p,
+.member-group-heading p {
+    margin: 0;
+
+    color: var(--color-muted, #687483);
+    font-size: 0.85rem;
+}
+
+/* 入力フォーム */
+
+.member-create-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.member-form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.member-form-field label {
+    color: var(--color-text, #293443);
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.member-form-field input {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+
+    border: 1px solid #dcd4ce;
+    border-radius: 12px;
+
+    background: #fff;
+    color: var(--color-text, #293443);
+
+    font: inherit;
+    font-size: 1rem;
+
+    outline: none;
+
+    transition:
+        border-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.member-form-field input:focus {
+    border-color: var(--color-primary, #c76a27);
+    box-shadow: 0 0 0 3px rgba(199,106,39,.12);
+}
+
+.member-field-help {
+    margin: 0;
+
+    color: var(--color-muted, #687483);
+    font-size: 0.82rem;
+}
+
+/* 区切り線 */
+
+.member-form-divider {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    color: var(--color-muted, #687483);
+    font-size: 0.83rem;
+}
+
+.member-form-divider::before,
+.member-form-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--color-border, #e9dfd8);
+}
+
+/* 注意書き */
+
+.member-create-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+
+    margin: 0;
+    padding: 14px;
+
+    border-radius: 12px;
+    background: #fff5ea;
+
+    color: #975a29;
+    font-size: 0.85rem;
+}
+
+/* エラー */
+
+.member-form-error,
+.member-field-error {
+    padding: 12px 14px;
+
+    border: 1px solid #f0c8c1;
+    border-radius: 10px;
+
+    background: #fff2ee;
+    color: #a44b35;
+
+    font-size: 0.85rem;
+}
+
+.member-form-error ul,
+.member-field-error ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+/* 保存・キャンセル */
+
+.member-create-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+
+    margin-top: 8px;
+    padding-top: 22px;
+
+    border-top: 1px solid #f0e9e3;
+}
+
+.member-cancel-button,
+.member-save-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+    padding: 11px 20px;
+
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.member-cancel-button {
+    border: 1px solid var(--color-border, #e9dfd8);
+    background: #fff;
+    color: var(--color-text, #293443);
+}
+
+.member-save-button {
+    border: 1px solid var(--color-primary, #c76a27);
+    background: var(--color-primary, #c76a27);
+    color: #fff;
+
+    cursor: pointer;
+}
+
+.member-save-button:hover {
+    background: var(--color-primary-hover, #9f4c17);
+}
+
+/* グループから追加 */
+
+.member-group-heading {
+    margin-bottom: 18px;
+}
+
+.member-group-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 13px 16px;
+
+    border-radius: 12px;
+    background: #fff1e6;
+
+    color: #9f4c17;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.member-group-link:hover {
+    background: #f9e1cd;
+}
+
+/* スマートフォン */
+
+@media (max-width: 600px) {
+    .member-create-hero h1 {
+        font-size: 1.5rem;
+    }
+
+    .member-create-hero p {
+        font-size: 0.85rem;
+    }
+
+    .member-create-card,
+    .member-group-card {
+        padding: 18px;
+    }
+
+    .member-create-card-header,
+    .member-group-heading {
+        gap: 12px;
+    }
+
+    .member-create-card-header h2,
+    .member-group-heading h2 {
+        font-size: 1rem;
+    }
+
+    .member-create-actions {
+        flex-direction: column-reverse;
+    }
+
+    .member-cancel-button,
+    .member-save-button {
+        width: 100%;
+    }
+}

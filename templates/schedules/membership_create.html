@@ -1,13 +1,141 @@
+
 {% extends 'base.html' %}
-{% block title %}レシピ一覧{% endblock %}
+{% load static %}
+
+{% block title %}メンバーを追加{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/membership_create.css' %}">
+{% endblock %}
+
 {% block content %}
-    <form method="post">
-        {% csrf_token %}
-        <a href="{% url 'schedules:group_include' project.pk %}">グループからメンバーを追加</a>
+    <!-- 戻る -->
+    <nav class="member-create-breadcrumb">
+        <a href="{% url 'schedules:membership_list' project.pk %}">
+            ← メンバー一覧に戻る
+        </a>
+    </nav>
 
-        <h2>メンバーを追加</h2>
-        {{ form.as_p }}
+    <!-- ヘッダー -->
+    <header class="member-create-hero">
 
-        <button type="submit">保存する</button>
-    </form>
+        <h1>メンバーを追加</h1>
+
+        <p>
+            {{ project.title }} に参加するメンバーを登録します。
+        </p>
+    </header>
+
+    <!-- メンバー追加フォーム -->
+    <section class="member-create-card">
+
+        <div class="member-create-card-header">
+
+            <div>
+                <h2>メンバー情報</h2>
+                <p>追加するメンバーの情報を入力してください。</p>
+            </div>
+        </div>
+
+        <form method="post" class="member-create-form">
+            {% csrf_token %}
+
+            <!-- フォーム全体のエラー -->
+            {% if form.non_field_errors %}
+                <div class="member-form-error"
+                     role="alert">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <!-- ユーザーID -->
+            <div class="member-form-field">
+                <label for="{{ form.username.id_for_label }}">
+                    ユーザーID
+                </label>
+
+                {{ form.username }}
+
+                {% if form.username.errors %}
+                    <div class="member-field-error"
+                         role="alert">
+                        {{ form.username.errors }}
+                    </div>
+                {% endif %}
+
+                <p class="member-field-help">
+                    アカウントを持っている人を追加する場合に入力。
+                </p>
+            </div>
+
+            <div class="member-form-divider">
+                <span>または</span>
+            </div>
+
+            <!-- ゲスト名 -->
+            <div class="member-form-field">
+                <label for="{{ form.guest_name.id_for_label }}">
+                    ゲスト名
+                </label>
+
+                {{ form.guest_name }}
+
+                {% if form.guest_name.errors %}
+                    <div class="member-field-error"
+                         role="alert">
+                        {{ form.guest_name.errors }}
+                    </div>
+                {% endif %}
+
+                <p class="member-field-help">
+                    アカウントを持っていない人を追加する場合に入力。
+                </p>
+            </div>
+
+            <p class="member-create-notice">
+                <span aria-hidden="true">ⓘ</span>
+                ユーザーIDとゲスト名は、どちらか一方だけ入力してください。
+            </p>
+
+            <!-- 保存 -->
+            <div class="member-create-actions">
+
+                <a href="{% url 'schedules:membership_list' project.pk %}"
+                   class="member-cancel-button">
+                    キャンセル
+                </a>
+
+                <button type="submit"
+                        class="member-save-button">
+                    メンバーを保存
+                </button>
+
+            </div>
+
+        </form>
+
+    </section>
+
+    <!-- グループから追加 -->
+    <section class="member-group-card">
+
+        <div class="member-group-heading">
+
+            <div>
+                <h2>グループからまとめて追加</h2>
+
+                <p>
+                    登録済みのグループからメンバーを追加できます。
+                </p>
+            </div>
+        </div>
+
+        <a href="{% url 'schedules:group_include' project.pk %}"
+           class="member-group-link">
+            グループを選ぶ
+            <span aria-hidden="true">→</span>
+        </a>
+
+    </section>
+
 {% endblock %}

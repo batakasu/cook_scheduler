@@ -1,26 +1,116 @@
+
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}グループコピー{% endblock %}
+{% block title %}グループから追加{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/group_include.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="project_context">
-        <p>どれを追加しますか？</p>
+
+    <!-- 戻る -->
+    <nav class="group-include-breadcrumb">
+        <a href="{% url 'schedules:membership_create' project.pk %}">
+            ← メンバー追加に戻る
+        </a>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header class="group-include-hero">
+        <div>
+
+            <h1>グループから追加</h1>
+
+            <p>
+                {{ project.title }} に追加する
+                グループを選択してください。
+            </p>
+        </div>
+
+    </header>
+
+    <!-- グループ一覧 -->
+    <section class="group-include-section">
+
+        <div class="group-include-heading">
+            <div>
+                <span class="group-include-eyebrow">
+                    MY GROUPS
+                </span>
+                <h2>グループを選択</h2>
+            </div>
+        </div>
+
+        <div class="group-include-toolbar">
+            <p>
+                {{ groups|length }} 件のグループ
+            </p>
+        </div>
+
+        <div class="group-include-grid">
+
+            {% for g in groups %}
+
+            <form method="post"
+                  class="group-include-card">
+                {% csrf_token %}
+
+                <div class="group-include-card-body">
+                    <h3>{{ g.name }}</h3>
+
+                    <p>登録済みグループ</p>
+                </div>
+
+                <button type="submit"
+                        name="group_pk"
+                        value="{{ g.pk }}"
+                        class="group-include-button">
+                    追加する
+                    <span aria-hidden="true">→</span>
+                </button>
+
+            </form>
+
+            {% empty %}
+
+            <div class="group-include-empty">
+                <div class="group-include-empty-icon"
+                     aria-hidden="true">
+                    👥
+                </div>
+
+                <h3>グループがありません</h3>
+
+                <p>
+                    追加できるグループがまだありません。
+                    マイページからグループを作成してください。
+                </p>
+
+                <a href="{% url 'accounts:profile' %}"
+                   class="group-include-empty-link">
+                    マイページへ
+                    <span aria-hidden="true">→</span>
+                </a>
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <!-- 注意書き -->
+    {% if groups %}
+    <div class="group-include-notice">
+        <span aria-hidden="true">ⓘ</span>
+        <p>
+            「追加する」を押すと、
+            選択したグループのメンバーを工程表に追加します。
+        </p>
     </div>
+    {% endif %}
 
-    {% for g in groups %}
-        <form method="post">
-            {% csrf_token %}
 
-            {{ g.name }}
-            <button type='submit' name="group_pk" value="{{ g.pk }}">追加</button>
-    {% empty %}
-        <p>レシピがありません</p>
-    {% endfor %}
-{% endblock %}
-
-{% block extra_js %}
 {% endblock %}

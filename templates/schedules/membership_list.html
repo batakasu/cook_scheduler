@@ -1,30 +1,92 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}レシピ一覧{% endblock %}
+{% block title %}メンバー一覧{% endblock %}
 
 {% block extra_css %}
-    <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
-    <link rel="stylesheet" href="{% static 'css/list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/membership_list.css' %}">
 {% endblock %}
 
 {% block content %}
-    <div class="container">
-        <div class="top">
-            <a href="{% url 'schedules:project_detail' project.id %}">＜</a>
+
+    <!-- 戻る -->
+    <nav class="membership-breadcrumb">
+        <a href="{% url 'schedules:project_detail' project.pk %}">
+            <span aria-hidden="true">←</span>
+            工程表に戻る
+        </a>
+    </nav>
+
+    <!-- ヘッダー -->
+    <header class="membership-hero">
+        <div>
             <h1>メンバー一覧</h1>
-            <div></div>
         </div>
 
-        <ul class="list">
+    </header>
+
+    <!-- メンバー一覧 -->
+    <section class="membership-section">
+
+        <div class="membership-section-heading">
+            <div>
+
+                <h2>{{ project.title }} の参加メンバー</h2>
+            </div>
+
+            <a href="{% url 'schedules:membership_create' project.pk %}"
+               class="membership-add-button">
+                ＋ メンバー追加
+            </a>
+        </div>
+
+        <div class="membership-toolbar">
+            <p class="membership-count">
+                {{ membership_list|length }} 人のメンバー
+            </p>
+        </div>
+
+        <ul class="membership-grid">
+
             {% for membership in membership_list %}
-                <li class="item">
-                    <span class="title">{{ membership }}</span>
-                </li>
+
+            <li class="membership-card">
+
+
+                <div class="membership-card-content">
+
+                    {% if membership.user %}
+
+                        <h3>
+                            {{ membership.user.display_name|default:membership.user.username }}
+                        </h3>
+
+                        <span class="membership-type">
+                            登録ユーザー
+                        </span>
+
+                    {% else %}
+
+                        <h3>
+                            {{ membership.guest_name|default:"名前未設定" }}
+                        </h3>
+
+                        <span class="membership-type guest">
+                            ゲスト
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+            </li>
+
+            {% empty %}
+
+            <li class="membership-empty">
+                <h3>まだメンバーがいません</h3>
+            </li>
             {% endfor %}
         </ul>
-        
-        <a href="{% url 'schedules:membership_create' project.pk %}">メンバーを追加</a>
-    
-    </div>
+    </section>
 {% endblock %}
