@@ -11,52 +11,52 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // 2. タスクデータの取得
     let taskList = JSON.parse(taskDataElement.textContent);
-    if (typeof taskList === 'string')
-    {
+    if (typeof taskList === 'string') {
         taskList = JSON.parse(taskList);
     }
     let memberList = JSON.parse(memberDataElement.textContent);
-    if (typeof memberList == 'string')
-    {
-        memberList = JSON.parse(memberList)
+    if (typeof memberList === 'string') {
+        memberList = JSON.parse(memberList);
     }
 
-    // 3. タイムライン用のデータを生成（Djangoから来た start/end をそのまま使う）
+    // 3. タイムライン用のデータを生成
     const timelineItems = taskList.map(task => {
-        let name
-        if (task.conflicting) {
-            name = 'task-conflict'
-        } else {
-            name = ''
-        }
-
+        let name = task.conflicting ? 'task-conflict' : '';
         return {
             id: task.id,
-            content: task.content, // Django側から来ている 'content' を使用
+            content: task.content,
             group: task.group,
-            start: new Date(task.start), // 文字列をDate型に変換
-            end: new Date(task.end),     // 文字列をDate型に変換
+            start: new Date(task.start),
+            end: new Date(task.end),
             className: name
         };
     });
 
-    let defaultTime = startTimeElement ? new Date(JSON.parse(startTimeElement.textContent)) : new Date();
+
+    // タスクの有無に応じた全体制限範囲の設定 (min / max)
+    let firstTaskDate = null;
+    let lastTaskDate = null;
     let startDate, endDate;
 
-    // タスクの有無に応じた表示範囲の設定
     if (timelineItems.length > 0) {
-        const sortedByStart = [...timelineItems].sort((a, b) => a.start - b.start);
-        const firstTask = sortedByStart[0].start;
+        firstTaskDate = timelineItems[0].start;
+        lastTaskDate = timelineItems[0].end;
 
-        const sortedByEnd = [...timelineItems].sort((a, b) => a.end - b.end);
-        const lastTask = sortedByEnd[sortedByEnd.length - 1].end;
+        for (let i = 1; i < timelineItems.length; i++) {
+            if (timelineItems[i].start < firstTaskDate) firstTaskDate = timelineItems[i].start;
+            if (timelineItems[i].end > lastTaskDate) lastTaskDate = timelineItems[i].end;
+        }
 
-        startDate = new Date(firstTask.getFullYear(), firstTask.getMonth(), firstTask.getDate(), 0, 0, 0);
-        endDate = new Date(lastTask.getFullYear(), lastTask.getMonth(), lastTask.getDate() + 1, 0, 0, 0);
-    } else {
-        startDate = new Date(defaultTime.getFullYear(), defaultTime.getMonth(), defaultTime.getDate(), 0, 0, 0);
-        endDate = new Date(defaultTime.getFullYear(), defaultTime.getMonth(), defaultTime.getDate() + 1, 0, 0, 0);
+        startDate = new Date(firstTaskDate.getFullYear(), firstTaskDate.getMonth(), firstTaskDate.getDate(), 0, 0, 0);
+        endDate = new Date(lastTaskDate.getFullYear(), lastTaskDate.getMonth(), lastTaskDate.getDate() + 1, 0, 0, 0);
     }
+
+    // --- ★ localStorage から前回の表示範囲（ズーム・スクロール状態）を復元 ---
+    const savedStart = localStorage.getItem(`timeline_start_${projectId}`);
+    const savedEnd = localStorage.getItem(`timeline_end_${projectId}`);
+    
+    let initialStart = savedStart ? new Date(savedStart) : startDate;
+    let initialEnd = savedEnd ? new Date(savedEnd) : endDate;
 
     // 4. タイムラインのオプション設定
     const options = {
@@ -65,19 +65,21 @@ document.addEventListener("DOMContentLoaded", function() {
         moveable: true,
         stack: true,
         showCurrentTime: false,
-        orientation:'top',
+        orientation: 'top',
         editable: true,
-        // 一つのみ選択可
         selectable: true,
         multiselect: false,
+        start: initialStart, // 復元した開始位置
+        end: initialEnd,     // 復元した終了位置
 
         margin: {
             axis: 3,
             item: {horizontal: 0, vertical: 6}
         },
 
-        format: {minorLabels: {minute: 'HH:mm', hour: 'HH:mm'},
-                 majorLabels: {minute: 'M/D', hour: 'M/D'}
+        format: {
+            minorLabels: {minute: 'HH:mm', hour: 'HH:mm'},
+            majorLabels: {minute: 'M/D', hour: 'M/D'}
         },
 
         onMove: function(item, callback) {
@@ -96,15 +98,13 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .then(response => response.json())
             .then(data => {
-                if(data.success) {
-                    callback(item); // 成功したら変更を確定する
+                if (data.success) {
+                    callback(item);
                 } else {
-                    callback(null); // 失敗した場合は移動を元に戻す
+                    callback(null);
                 }
             })
-            .catch(error => {
-                callback(null); // エラー時も元に戻す
-            });
+            .catch(() => callback(null));
         },
 
         onAdd: function(item, callback) {
@@ -124,16 +124,14 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .then(response => response.json())
             .then(data => {
-                if(data.success) {
-                    callback(item); // 成功したら変更を確定する
+                if (data.success) {
+                    callback(item);
                     location.reload();
                 } else {
-                    callback(null); // 失敗した場合は移動を元に戻す
+                    callback(null);
                 }
             })
-            .catch(error => {
-                callback(null); // エラー時も元に戻す
-            });
+            .catch(() => callback(null));
         },
 
         onRemove: function(item, callback) {
@@ -145,44 +143,72 @@ document.addEventListener("DOMContentLoaded", function() {
             })
             .then(response => {
                 if (response.ok) {
-                    callback(item); // 成功した場合は callback(item) で確定
+                    callback(item);
                     location.reload();
                 } else {
-                    callback(null); // 失敗した場合は callback(null) で削除をキャンセル
+                    callback(null);
                 }
             })
-            .catch(error => {
-                callback(null); // エラー時も元に戻す
-            });
+            .catch(() => callback(null));
         },
         
-        zoomMin: 1000 * 60 * 45,    // ミリ秒 * 秒 * 分
-        zoomMax: 1000 * 60 * 60 * 24 * 2,   // ミリ秒 * 秒 * 分 * 時 * 日
-        // 
-        min: startDate, // これより過去にはスクロールできない
-        max: endDate,   // これより未来にはスクロールできない
+        zoomMin: 1000 * 60 * 45,
+        zoomMax: 1000 * 60 * 60 * 24 * 2,
+        min: startDate,
+        min: startDate,
+        max: endDate,
     };
 
-    // Taskをコピーするプログラム
-    const copyButton = document.getElementById('copy-button');
+    // 5. タイムラインを描画（ここで初めて timeline インスタンスが生成される）
+    const items = new vis.DataSet(timelineItems);
+    const groups = new vis.DataSet(memberList);
+    const timeline = new vis.Timeline(container, items, groups, options);
 
-    copyButton.addEventListener('click', () => {
-        const [selectedTaskId] = timeline.getSelection();
+    // 初期表示としてプロジェクトの詳細を表示
+    showProjectDetail();
 
-        if(selectedTaskId === undefined) 
-        {
-            return;
+    // --- ★ タイムライン生成後にイベントやボタン処理を記述 ---
+
+    // ズームやスクロール位置が変わったときに保存（プロジェクトごとに分けるためIDを付与）
+    timeline.on('rangechanged', function (properties) {
+        localStorage.setItem(`timeline_start_${projectId}`, properties.start.toISOString());
+        localStorage.setItem(`timeline_end_${projectId}`, properties.end.toISOString());
+    });
+
+    // 選択イベント
+    timeline.on('select', function(properties) {
+        if (properties.items.length > 0) {
+            const taskId = properties.items[0];
+            const task = taskList.find(t => t.id === taskId);
+            showTaskDetail(task, memberList);
+        } else {
+            showProjectDetail();
         }
+    });
 
-        fetch('/schedules/copy_task/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRFToken': getCookie('csrftoken')
-            },
-            body: JSON.stringify({
-                    task_id: selectedTaskId
-                })
+    // ダブルクリックイベント
+    timeline.on('doubleClick', function(properties) {
+        if (properties.item) {
+            const taskId = properties.item;
+            window.location.href = `/schedules/${projectId}/tasks/${taskId}/`;
+        }
+    });
+
+    // タスクコピーボタン
+    const copyButton = document.getElementById('copy-button');
+    if (copyButton) {
+        copyButton.addEventListener('click', () => {
+            const selectedItems = timeline.getSelection();
+            if (selectedItems.length === 0) return;
+            const selectedTaskId = selectedItems[0];
+
+            fetch('/schedules/copy_task/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: JSON.stringify({ task_id: selectedTaskId })
             })
             .then(response => response.json())
             .then(data => {
@@ -191,61 +217,32 @@ document.addEventListener("DOMContentLoaded", function() {
                 } else {
                     console.error(data.error);
                 }
-            })
-            .catch(error => {
             });
-    });
+        });
+    }
 
-    // 開始時刻に戻るボタンのプログラム
+    // 開始時刻に戻るボタン
     const goStartButton = document.getElementById('go-start-button');
+    if (goStartButton && taskList.length > 0) {
+        const firstTask = taskList.reduce((first, task) => {
+            return new Date(task.start) < new Date(first.start) ? task : first;
+        });
 
-    const firstTask = taskList.reduce((first, task) => {
-        return new Date(task.start) < new Date(first.start) ? task : first;
-    });
+        const firstStart = new Date(firstTask.start);
+        const firstEnd = new Date(firstTask.end);
 
-    const firstStart = new Date(firstTask.start);
-    const firstEnd = new Date(firstTask.end);
+        goStartButton.addEventListener('click', () => {
+            const viewStart = new Date(firstStart.getTime() - 5 * 60 * 1000);
+            const viewEnd = new Date(firstEnd.getTime() + 15 * 60 * 1000);
 
-    goStartButton.addEventListener('click', () => {
-        const viewStart = new Date(firstStart.getTime() - 5 * 60 * 1000);
-        const viewEnd = new Date(firstEnd.getTime() + 15 * 60 * 1000);
-
-        timeline.setWindow(viewStart, viewEnd,
-            {
-                animation: {
-                    duration: 500,
-                    easingFunction: 'easeInOutQuad'
-                }
-            }
-        );
-    });
-
-    // 5. タイムラインを描画
-    const items = new vis.DataSet(timelineItems)
-    const groups = new vis.DataSet(memberList)
-    const timeline = new vis.Timeline(container, items, groups, options);
-    showProjectDetail();
-
-    // 6. タイムライン上でのイベントの設定
-    timeline.on('select', function(properties) {
-        if (properties.items.length > 0) {
-            const taskId = properties.items[0];
-            const task = taskList.find(task => task.id === taskId);
-            showTaskDetail(task, memberList);
-
-        } else {
-            showProjectDetail();
-        }
-    });
-    timeline.on('doubleClick', function(properties) {
-        // タスクをダブルクリックすることでそのタスクのdetailへ
-        if (properties.item) {
-            const taskId = properties.item;
-            window.location.href = `/schedules/${projectId}/tasks/${taskId}/`;
-        }
-    });
+            timeline.setWindow(viewStart, viewEnd, {
+                animation: { duration: 500, easingFunction: 'easeInOutQuad' }
+            });
+        });
+    }
 
 }, false);
+
 
 function getCookie(name) {
     let cookieValue = null;
